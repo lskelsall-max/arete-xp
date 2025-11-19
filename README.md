@@ -9,7 +9,7 @@ Komorebi OS is a gamified daily protocol tracker and knowledge management tool. 
 
 ## 🎯 Core Features
 
-*   **Daily Alignment:** Rotates daily through 300+ Mental Models, Productivity Hacks, and Stoic Quotes.
+*   **Daily Alignment:** Rotates daily through 300+ Mental Models, Productivity Hacks, and Philosophical Quotes.
 *   **Investor of the Week:** A weekly rotating deep-dive into a specific Superinvestor (e.g., Buffett, Druckenmiller) and their core study resources.
 *   **Gamified Tracking:** Earn XP for completing protocols.
     *   **Health:** Supplements, Workouts, Aesthetics.
