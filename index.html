@@ -54,7 +54,7 @@
     .strong { background: rgba(37, 99, 235, 0.18); color: #93c5fd; border: 1px solid #2563eb; }
     .survival { background: rgba(234, 179, 8, 0.18); color: #fde68a; border: 1px solid #eab308; }
     .red { background: rgba(248, 113, 113, 0.2); color: #fecaca; border: 1px solid #ef4444; }
-    .summary-actions { display: flex; gap: 0.4rem; }
+    .summary-actions { display: flex; gap: 0.4rem; flex-wrap: wrap; }
     
     button { background: var(--accent-gold); color: #1f2933; border: none; border-radius: 999px; padding: 0.35rem 0.9rem; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
     button:hover { filter: brightness(1.1); transform: translateY(-1px); }
@@ -94,15 +94,15 @@
     .investor-meta { font-size: 0.75rem; background: rgba(255,255,255,0.1); padding: 0.1rem 0.4rem; border-radius: 4px; color: var(--accent-gold-strong); margin-top: 0.2rem; display: inline-block; }
 
     /* MODALS */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 50; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-    .modal-content { background: var(--card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--accent-gold); max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 50; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+    .modal-content { background: var(--card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--accent-gold); max-width: 800px; width: 95%; max-height: 90vh; overflow-y: auto; }
     .modal-header { display: flex; justify-content: space-between; margin-bottom: 1rem; color: var(--accent-gold); font-size: 1.2rem; font-weight: bold; }
     
     /* EDITOR STYLES */
     .editor-section { margin-bottom: 2rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 1rem; }
-    .editor-row { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; align-items: center; }
-    .editor-input { background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); color: var(--text-main); padding: 0.4rem; border-radius: 4px; flex: 1; }
-    .editor-input-sm { width: 80px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); color: var(--text-main); padding: 0.4rem; border-radius: 4px; }
+    .editor-row { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; align-items: center; flex-wrap: wrap;}
+    .editor-input { background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); color: var(--text-main); padding: 0.4rem; border-radius: 4px; flex: 1; min-width: 120px; }
+    .editor-input-sm { width: 60px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); color: var(--text-main); padding: 0.4rem; border-radius: 4px; }
     .editor-label { font-size: 0.8rem; color: var(--komorebi-mint); margin-bottom: 0.3rem; display: block; text-transform: uppercase; letter-spacing: 1px; }
 
     /* Library Styles */
@@ -150,11 +150,12 @@
         <span id="day-rating" class="badge red">Red Zone</span>
       </div>
       <div class="summary-actions">
-        <button id="save-day">Save</button>
-        <button id="editor-btn" class="secondary icon-btn" title="Customize App">✏️</button>
-        <button id="library-btn" class="secondary icon-btn" title="Library">📖</button>
-        <button id="stats-btn" class="secondary icon-btn" title="Stats">📊</button>
-        <button id="settings-btn" class="secondary icon-btn" title="Data">⚙️</button>
+        <button id="save-day" onclick="saveDay()">Save</button>
+        <button id="editor-btn" class="secondary icon-btn" title="Customize App" onclick="openEditor()">✏️</button>
+        <button id="library-btn" class="secondary icon-btn" title="Library" onclick="openLibrary()">📖</button>
+        <button id="stats-btn" class="secondary icon-btn" title="Stats" onclick="renderStats()">📊</button>
+        <button id="settings-btn" class="secondary icon-btn" title="Data" onclick="openSettings()">⚙️</button>
+        <button id="reset-day" class="secondary icon-btn" title="Clear" onclick="resetDay()">↺</button>
       </div>
     </section>
 
@@ -221,7 +222,7 @@
 
   <script>
     // ==========================================
-    // DEFAULT CONFIGURATION (Embedded)
+    // 1. DEFAULT CONFIGURATION
     // ==========================================
     const DEFAULT_CONFIG = {
         levels: { elite: 6500, strong: 5000, survival: 3500 },
@@ -676,6 +677,7 @@
     let APP_CONFIG = {};
     let currentLibTab = 'mentalModels';
     let currentEditorTab = 'protocols';
+    let previousXP = 0;
 
     // --- INITIALIZATION ---
     function init() {
@@ -687,36 +689,21 @@
             APP_CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG)); // Deep copy
         }
 
-        els.dateInput.value = new Date().toISOString().slice(0, 10);
+        document.getElementById('date-input').value = new Date().toISOString().slice(0, 10);
         renderApp();
         loadDay();
         
         // Listeners
-        els.dateInput.addEventListener('change', loadDay);
-        document.getElementById('save-day').addEventListener('click', saveDay);
-        document.getElementById('library-btn').addEventListener('click', () => { openModal('library-modal'); renderLibrary(); });
-        document.getElementById('stats-btn').addEventListener('click', renderStats);
-        document.getElementById('settings-btn').addEventListener('click', openSettings);
-        document.getElementById('reset-day').addEventListener('click', resetDay);
-        document.getElementById('editor-btn').addEventListener('click', openEditor);
+        document.getElementById('date-input').addEventListener('change', loadDay);
     }
 
     // --- LOGIC ENGINE ---
-    const els = {
-        content: document.getElementById('app-content'),
-        dateInput: document.getElementById('date-input'),
-        xpTotal: document.getElementById('total-xp'),
-        xpPill: document.getElementById('xp-pill-value'),
-        rating: document.getElementById('day-rating'),
-        libList: document.getElementById('library-list')
-    };
-
     // --- MAIN RENDERER ---
     function renderApp() {
         let html = '';
+        const seed = document.getElementById('date-input').value;
         
         // 1. Daily Alignment (Prompts)
-        const seed = els.dateInput.value;
         const model = getRandom(APP_CONFIG.library.mentalModels, seed + 'm');
         const prod = getRandom(APP_CONFIG.library.productivity, seed + 'p');
         const quote = getRandom(APP_CONFIG.library.quotes, seed + 'q');
@@ -769,10 +756,25 @@
             html += `</div></section>`;
         });
 
-        // 3. Daily Note
+        // 3. Workout of the Day (Full Width)
+        const dateObj = new Date(seed);
+        const dayIdx = dateObj.getDay();
+        const w = APP_CONFIG.workouts[dayIdx] || { t: "Rest", d: "Recover" };
+        html += `
+        <section class="section-block">
+            <div class="card workout-card">
+              <div class="card-header">
+                <div class="card-title">Workout of the Day</div>
+                <div style="font-size:0.8rem; color:var(--text-muted)">${w.t}</div>
+              </div>
+              <div class="items" style="font-size:0.85rem; color:var(--text-main)">${w.d}</div>
+            </div>
+        </section>`;
+
+        // 4. Daily Note
         html += `<section class="section-block"><div class="card"><div class="card-header"><div class="card-title">Daily Journal</div></div><textarea id="daily-note-area" placeholder="Wins, lessons, or thoughts..."></textarea></div></section>`;
 
-        els.content.innerHTML = html;
+        document.getElementById('app-content').innerHTML = html;
 
         // Re-attach listeners
         document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
@@ -889,7 +891,7 @@
             });
         });
         document.getElementById('total-xp').innerText = `Total: ${Math.round(totalXP)} / ${APP_CONFIG.maxXP}`;
-        document.getElementById('xp-pill-value').innerText = Math.round(totalXP);
+        document.querySelector('.xp-pill span').innerText = Math.round(totalXP);
         let label = "Red Zone", cls = "red";
         if (totalXP >= APP_CONFIG.levels.elite) { label = "Elite"; cls = "elite"; }
         else if (totalXP >= APP_CONFIG.levels.strong) { label = "Strong"; cls = "strong"; }
@@ -903,33 +905,32 @@
         const filter = document.getElementById('lib-search').value.toLowerCase();
         let data = APP_CONFIG.library[currentLibTab] || [];
         if(currentLibTab === 'quotes') data = data.map(q => ({ name: "Quote", desc: q }));
-        els.libList.innerHTML = data.filter(i => i.name.toLowerCase().includes(filter) || (i.desc && i.desc.toLowerCase().includes(filter)))
+        document.getElementById('library-list').innerHTML = data.filter(i => i.name.toLowerCase().includes(filter) || (i.desc && i.desc.toLowerCase().includes(filter)))
             .map(i => `<div class="lib-item"><div class="lib-title">${i.name} ${i.years ? `<span class="investor-meta">${i.years}</span>` : ''}</div><div class="lib-desc">${i.resource || i.desc}</div></div>`).join('');
     }
     function switchLibTab(tab) {
         currentLibTab = tab; document.querySelectorAll('#library-modal .lib-tab').forEach(t => t.classList.remove('active'));
         event.target.classList.add('active'); renderLibrary();
     }
+    function openLibrary() { openModal('library-modal'); renderLibrary(); }
 
     // --- HELPERS ---
     function readState() { const s = {}; document.querySelectorAll('input[type="checkbox"]').forEach(cb => s[cb.dataset.key] = cb.checked); return s; }
     function writeState(s) { document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = !!s[cb.dataset.key]); document.getElementById('daily-note-area').value = s.note || ""; }
-    function getFormatKey() { return `komorebi_${els.dateInput.value}`; }
+    function getFormatKey() { return `komorebi_${document.getElementById('date-input').value}`; }
     function saveDay() { const s = readState(); s.note = document.getElementById('daily-note-area').value; localStorage.setItem(getFormatKey(), JSON.stringify(s)); alert("Saved."); }
     function loadDay() { renderApp(); const raw = localStorage.getItem(getFormatKey()); if(raw) writeState(JSON.parse(raw)); updateVisuals(); }
     function resetDay() { writeState({}); updateVisuals(); }
     function showFloatingXP(e) { const div = document.createElement('div'); div.className = 'floating-xp'; div.innerText = `+${e.target.dataset.xp} XP`; div.style.left = e.clientX + 'px'; div.style.top = e.clientY + 'px'; document.body.appendChild(div); setTimeout(() => div.remove(), 1000); }
-    function fireConfetti() { /* Animation code */ }
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     function getRandom(arr, seed) { let hash = 0; for(let i=0; i<seed.length; i++) hash = ((hash << 5) - hash) + seed.charCodeAt(i); return arr[Math.abs(hash) % arr.length]; }
     function getInvestorOfTheWeek(dateStr) { const d = new Date(dateStr); const start = new Date(d.getFullYear(), 0, 1); const week = Math.ceil((((d - start) / 86400000) + start.getDay() + 1) / 7); return APP_CONFIG.library.investors[week % APP_CONFIG.library.investors.length]; }
     function openSettings() { document.getElementById('export-area').value = JSON.stringify({...localStorage}, null, 2); openModal('settings-modal'); }
     function restoreData() { try { const d = JSON.parse(document.getElementById('export-area').value); if(confirm("Overwrite?")) { localStorage.clear(); Object.keys(d).forEach(k => localStorage.setItem(k, d[k])); location.reload(); } } catch(e) { alert("Invalid JSON"); } }
-    function renderStats() { const container = document.getElementById('stats-chart'); container.innerHTML = ''; const today = new Date(); for (let i=6; i>=0; i--) { const d = new Date(today); d.setDate(d.getDate() - i); const iso = d.toISOString().slice(0,10); const key = `komorebi_${iso}`; const raw = localStorage.getItem(key); let xp = 0; if (raw) { xp = 1000; } const group = document.createElement('div'); group.className = 'bar-group'; group.innerHTML = `<div class="bar" style="height:${xp>0?50:2}%"></div><div class="bar-label">${iso.slice(5)}</div>`; container.appendChild(group); } openModal('stats-modal'); }
+    function renderStats() { const container = document.getElementById('stats-chart'); container.innerHTML = ''; const today = new Date(); for (let i=6; i>=0; i--) { const d = new Date(today); d.setDate(d.getDate() - i); const iso = d.toISOString().slice(0,10); const key = `komorebi_${iso}`; const raw = localStorage.getItem(key); let xp = 0; if (raw) { const s = JSON.parse(raw); xp = 1000; } const group = document.createElement('div'); group.className = 'bar-group'; group.innerHTML = `<div class="bar" style="height:${xp>0?50:2}%"></div><div class="bar-label">${iso.slice(5)}</div>`; container.appendChild(group); } openModal('stats-modal'); }
 
     init();
   </script>
 </body>
 </html>
-
