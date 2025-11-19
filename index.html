@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Komorebi OS — Daily Protocols</title>
+  <title>Komorebi OS — Investor Protocol</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
@@ -22,7 +22,6 @@
       --border-subtle: #1f3125;
       --danger: #f97373;
       --success: #4ade80;
-      --info: #38bdf8;
     }
 
     * { box-sizing: border-box; }
@@ -328,6 +327,35 @@
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       pointer-events: none; z-index: 100;
     }
+    
+    /* INVESTOR CARD SPECIFIC */
+    .investor-card-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+    .investor-name {
+        color: var(--komorebi-mint);
+        font-weight: 700;
+        font-size: 1rem;
+    }
+    .investor-resource {
+        color: var(--text-main);
+        font-style: italic;
+    }
+    .investor-stats {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-top: 0.2rem;
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+    .investor-stats span {
+        background: rgba(255,255,255,0.1);
+        padding: 0.1rem 0.4rem;
+        border-radius: 4px;
+    }
   </style>
 </head>
 <body>
@@ -339,7 +367,7 @@
       <div class="app-header-top">
         <div class="app-title-block">
           <div class="app-title">Komorebi OS</div>
-          <div class="app-subtitle">Daily Protocols &amp; Discipline</div>
+          <div class="app-subtitle">Productivity Game Protocols</div>
         </div>
         <div class="header-controls">
           <div class="date-block">
@@ -388,9 +416,21 @@
           <div class="card-header"><div class="card-title">Wisdom</div></div>
           <div class="prompt-body" id="prompt-quote">Loading...</div>
         </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">Focus</div></div>
-          <div class="prompt-body" id="prompt-investing">Loading...</div>
+        
+        <!-- INVESTOR OF THE WEEK CARD -->
+        <div class="card" style="border-color: var(--komorebi-mint-soft);">
+          <div class="card-header">
+              <div class="card-title-block">
+                <div class="card-title">Investor of the Week</div>
+                <div class="card-subtitle">Deep Dive Focus</div>
+              </div>
+              <div class="xp">Weekly</div>
+          </div>
+          <div class="prompt-body investor-card-content">
+              <div id="investor-name" class="investor-name">Loading...</div>
+              <div id="investor-resource" class="investor-resource">...</div>
+              <div id="investor-stats" class="investor-stats"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -567,12 +607,74 @@
       }
     };
 
+    // PROMPTS DATABASE - Extracted from "Productivity Game" PDF Summaries
     const PROMPTS = {
-      mentalModels: ["Inversion", "First Principles", "Circle of Competence", "Second-Order Thinking", "Pareto Principle", "Regret Minimization", "Hanlon's Razor"],
-      games: ["25-min Sprint", "Eat the Frog", "Two-Minute Rule", "Pomodoro", "Phone Fast", "Single Tab Browsing"],
-      quotes: ["“The score takes care of itself.” — Bill Walsh", "“Discipline is freedom.” — Jocko Willink", "“We suffer more in imagination than in reality.” — Seneca", "“Amateurs sit and wait for inspiration.” — Stephen King", "“How you do anything is how you do everything.”"],
-      investing: ["Read 10 pages of a 10-K.", "Review portfolio bear case.", "Read a classic investor letter.", "Analyze one new business model.", "Check checklist."]
+      mentalModels: [
+        "Inversion (Great Mental Models): Avoid stupidity rather than seeking brilliance.",
+        "Amor Fati (The Obstacle is the Way): Love whatever happens. Fuel for the fire.",
+        "Antifragile (Taleb): Gain from disorder. Cap downside, infinite upside.",
+        "First Principles (Great Mental Models): Break problems down to basic truths.",
+        "Growth Mindset (Dweck): The power of 'Yet'. Failure is data, not identity.",
+        "The Dip (Godin): Quit the wrong things fast so you can push through the right Dip.",
+        "Circle of Competence (Great Mental Models): Know what you know and stick to it.",
+        "Essentialism (McKeown): Less but better. The disciplined pursuit of less.",
+        "10-10-10 (Suzy Welch): How will I feel about this in 10 mins, 10 months, 10 years?",
+        "Compound Effect (Hardy): Small, smart choices + consistency + time = radical difference.",
+        "Praemeditatio Malorum (Stoicism): Rehearse the worst case to remove its power."
+      ],
+      games: [
+        "5 Second Rule (Robbins): Count 5-4-3-2-1-GO to bypass hesitation.",
+        "Eat That Frog (Tracy): Do the biggest, ugliest task first thing.",
+        "2-Minute Rule (Clear): If it takes < 2 mins, do it now. Start habits by doing just 2 mins.",
+        "Time Boxing (Indistractable): Schedule every minute of your day.",
+        "WOOP (Oettingen): Wish, Outcome, Obstacle, Plan.",
+        "Ivy Lee Method (Organize Tomorrow Today): Define your 3 & 1 priorities the night before.",
+        "Reversal of Desire (The Tools): Scream 'Bring it on!' when facing pain.",
+        "Intermittent Sobriety (Dopamine Nation): Abstain from high-dopamine inputs to reset.",
+        "Batching Buckets (GTD): Group similar tasks (calls, emails) to reduce context switching.",
+        "Pomodoro (Oakley): 25 min focus, 5 min diffuse mode to learn complex topics."
+      ],
+      quotes: [
+        "“Discipline equals freedom.” — Jocko Willink",
+        "“The impediment to action advances action.” — Marcus Aurelius",
+        "“You do not rise to the level of your goals. You fall to the level of your systems.” — James Clear",
+        "“The score takes care of itself.” — Bill Walsh",
+        "“He who has a why to live can bear almost any how.” — Nietzsche",
+        "“Be the person with embarrassing goals and impressive results.” — Stephen Guise",
+        "“Action isn't just the effect of motivation; it's also the cause of it.” — Mark Manson",
+        "“Give me a lever long enough and a fulcrum on which to place it, and I shall move the world.” — Archimedes",
+        "“What you do is what matters, not what you think or say or plan.” — Jason Fried",
+        "“It is the quality of time at work that counts and the quantity of time at home that matters.” — Brian Tracy"
+      ]
     };
+
+    // INVESTOR OF THE WEEK DATABASE
+    const INVESTOR_DB = [
+        { name: "Stanley Druckenmiller", resource: "The Genius of Stan Druckenmiller (MOI Global)", years: "30 Years" },
+        { name: "Mark Leonard", resource: "Constellation Shareholder Letters / Q&A", years: "25 Years" },
+        { name: "Warren Buffett", resource: "Berkshire Shareholder Letters (1965-2023)", years: "55 Years" },
+        { name: "Charlie Munger", resource: "Poor Charlie's Almanack & Transcripts", years: "15+ Years" },
+        { name: "Seth Klarman", resource: "Margin of Safety & Baupost Letters", years: "25 Years" },
+        { name: "Rakesh Jhunjhunwala", resource: "The Big Bull of India (Insights & PDFs)", years: "35 Years" },
+        { name: "Peter Lynch", resource: "One Up on Wall Street", years: "15 Years" },
+        { name: "Nick Sleep", resource: "Nomad Investment Partnership Letters", years: "13 Years" },
+        { name: "Li Lu", resource: "Himalayan Capital / Modernization", years: "20+ Years" },
+        { name: "Howard Marks", resource: "The Most Important Thing / Memos", years: "25+ Years" },
+        { name: "Joel Greenblatt", resource: "The Little Book that Beats the Market / Class Notes", years: "20 Years" },
+        { name: "George Soros", resource: "The Alchemy of Finance", years: "35 Years" },
+        { name: "Benjamin Graham", resource: "The Intelligent Investor / Security Analysis", years: "25 Years" },
+        { name: "Philip Fisher", resource: "Common Stocks and Uncommon Profits", years: "70 Years" },
+        { name: "Terry Smith", resource: "Investing for Growth / Fundsmith Letters", years: "20+ Years" },
+        { name: "Bill Ackman", resource: "Pershing Square Letters & Activist Campaigns", years: "20 Years" },
+        { name: "Chuck Akre", resource: "Akre Capital Management Letters (The Three-Legged Stool)", years: "30 Years" },
+        { name: "John Templeton", resource: "Templeton Growth Fund", years: "40 Years" },
+        { name: "Walter Schloss", resource: "Factors Needed to Make Money in the Stock Market", years: "50 Years" },
+        { name: "Mohnish Pabrai", resource: "The Dhandho Investor", years: "20 Years" },
+        { name: "Michael Mauboussin", resource: "More Than You Know / Consilient Observer", years: "Strategy" },
+        { name: "Ray Dalio", resource: "Principles / Bridgewater Daily Observations", years: "40 Years" },
+        { name: "Jamie Dimon", resource: "JPMorgan Chase Shareholder Letters", years: "20 Years" },
+        { name: "Bruce Greenwald", resource: "Class Notes & Value Investing: From Graham to Buffett", years: "Academic" }
+    ];
 
     const els = {
       dateInput: document.getElementById('date-input'),
@@ -590,8 +692,12 @@
       prompts: {
         model: document.getElementById('prompt-mental-model'),
         game: document.getElementById('prompt-productivity'),
-        quote: document.getElementById('prompt-quote'),
-        focus: document.getElementById('prompt-investing')
+        quote: document.getElementById('prompt-quote')
+      },
+      investorCard: {
+        name: document.getElementById('investor-name'),
+        resource: document.getElementById('investor-resource'),
+        stats: document.getElementById('investor-stats')
       },
       modals: {
         data: document.getElementById('data-modal'),
@@ -604,6 +710,8 @@
     // --- UTILITIES ---
     function getTodayISO() { return new Date().toISOString().slice(0, 10); }
     function formatDateKey(date) { return `arete_xp_${date}`; }
+    
+    // Random index based on day string (changes daily)
     function getPseudoRandomIndex(seedStr, len) {
       let hash = 0;
       for (let i = 0; i < seedStr.length; i++) {
@@ -611,6 +719,15 @@
         hash |= 0;
       }
       return Math.abs(hash) % len;
+    }
+
+    // Week number for Investor rotation (Changes weekly)
+    function getWeekNumber(d) {
+        d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+        d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+        var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+        var weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+        return weekNo;
     }
 
     // --- CORE LOGIC ---
@@ -685,15 +802,23 @@
       const idxModel = getPseudoRandomIndex(dateStr + 'model', PROMPTS.mentalModels.length);
       const idxGame = getPseudoRandomIndex(dateStr + 'game', PROMPTS.games.length);
       const idxQuote = getPseudoRandomIndex(dateStr + 'quote', PROMPTS.quotes.length);
-      const idxFocus = getPseudoRandomIndex(dateStr + 'focus', PROMPTS.investing.length);
-
+      
       els.prompts.model.textContent = PROMPTS.mentalModels[idxModel];
       els.prompts.game.textContent = PROMPTS.games[idxGame];
       els.prompts.quote.textContent = PROMPTS.quotes[idxQuote];
-      els.prompts.focus.textContent = PROMPTS.investing[idxFocus];
 
-      const date = new Date(dateStr);
-      const dayOfWeek = date.getDay(); 
+      // Update Investor of the Week (Based on Week Number, not Day)
+      const dateObj = new Date(dateStr);
+      const weekNum = getWeekNumber(dateObj);
+      const investorIdx = weekNum % INVESTOR_DB.length;
+      const investor = INVESTOR_DB[investorIdx];
+
+      els.investorCard.name.textContent = investor.name;
+      els.investorCard.resource.textContent = investor.resource;
+      els.investorCard.stats.innerHTML = `<span>${investor.years}</span>`;
+
+      // Workout Logic
+      const dayOfWeek = dateObj.getDay(); 
       const shiftDay = (dayOfWeek === 0) ? 6 : dayOfWeek - 1; 
       const cycle = ['Rehab', 'Strength', 'Cardio'];
       const type = (dayOfWeek === 0) ? 'Rehab' : cycle[shiftDay % 3];
