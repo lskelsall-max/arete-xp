@@ -732,11 +732,24 @@
       else if (fitnessCount >= 2) xp.fitness = 500;
 
       // Wisdom
-      const wisdomKeys = ['meditate', 'mentalModel', 'productivityGame', 'philosophy'];
-      const wisdomCount = wisdomKeys.filter(k => state[k]).length;
-      if (wisdomCount === 4) xp.wisdom = 1000;
-      else if (wisdomCount === 3) xp.wisdom = 500;
-      else if (wisdomCount === 2) xp.wisdom = 250;
+const wisdomKeys = [
+  'gratitude',
+  'journal',
+  'meditate',
+  'mentalModel',
+  'productivityGame',
+  'philosophy',
+];
+const wisdomCount = wisdomKeys.filter(k => state[k]).length;
+
+if (wisdomCount === wisdomKeys.length) {
+  // all 6
+  xp.wisdom = 1000;
+} else if (wisdomCount >= 4) {
+  xp.wisdom = 500;
+} else if (wisdomCount >= 3) {
+  xp.wisdom = 250;
+}
 
       // Mastery
       const masteryKeys = ['investingReading', 'researchMemo', 'investorInteraction'];
