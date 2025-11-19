@@ -4,7 +4,7 @@
 
 Komorebi OS is a gamified daily protocol tracker and knowledge management tool. It combines daily habit tracking with a dynamic database of mental models, productivity insights, and investment wisdom.
 
-🔗 **[CLICK HERE TO OPEN THE APP](https://yourusername.github.io/komorebi-os/)**
+🔗 **[CLICK HERE TO OPEN THE APP](https://arete.leekelsall.com/)**
 *(Note: Replace `yourusername` above with your actual GitHub username)*
 
 ## 🎯 Core Features
