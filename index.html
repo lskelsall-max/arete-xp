@@ -25,31 +25,26 @@
       --info: #38bdf8;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       margin: 0;
       padding: 0.75rem;
-      background: linear-gradient(
-        to bottom,
-        var(--komorebi-mint) 0,
-        var(--bg-forest) 140px,
-        var(--bg-deep) 100%
-      );
+      background: linear-gradient(to bottom, var(--komorebi-mint) 0, var(--bg-forest) 140px, var(--bg-deep) 100%);
       color: var(--text-main);
       min-height: 100vh;
+      position: relative;
     }
 
     .container {
       max-width: 1200px;
       margin: 0 auto;
+      position: relative;
+      z-index: 2;
     }
 
     /* HEADER */
-
     .app-header {
       margin-bottom: 0.4rem;
       padding-bottom: 0.2rem;
@@ -64,38 +59,22 @@
       flex-wrap: wrap;
     }
 
-    .app-title-block {
-      display: flex;
-      flex-direction: column;
-      gap: 0.1rem;
-    }
-
+    .app-title-block { display: flex; flex-direction: column; gap: 0.1rem; }
+    
     .app-title {
       font-size: 1.7rem;
       font-weight: 700;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       white-space: nowrap;
+      text-shadow: 0 2px 10px rgba(102, 197, 165, 0.3);
     }
 
-    .app-subtitle {
-      font-size: 0.85rem;
-      color: var(--text-main);
-      opacity: 0.9;
-    }
+    .app-subtitle { font-size: 0.85rem; color: var(--text-main); opacity: 0.9; }
 
-    .header-controls {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-    }
+    .header-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem; }
 
-    .date-block label {
-      font-size: 0.78rem;
-      color: var(--text-main);
-      opacity: 0.9;
-    }
+    .date-block label { font-size: 0.78rem; color: var(--text-main); opacity: 0.9; }
 
     #date-input {
       background: rgba(0, 0, 0, 0.25);
@@ -105,12 +84,9 @@
       color: var(--text-main);
       font-size: 0.9rem;
       min-width: 150px;
+      font-family: inherit;
     }
-
-    #date-input:focus {
-      outline: 1px solid var(--accent-gold);
-      border-color: var(--accent-gold);
-    }
+    #date-input:focus { outline: 1px solid var(--accent-gold); border-color: var(--accent-gold); }
 
     .xp-pill {
       background: var(--accent-gold-soft);
@@ -124,13 +100,9 @@
       gap: 0.25rem;
       white-space: nowrap;
     }
-
-    .xp-pill span {
-      font-weight: 600;
-    }
+    .xp-pill span { font-weight: 600; }
 
     /* SUMMARY BAR */
-
     .summary-bar {
       background: rgba(6, 19, 13, 0.9);
       border-radius: 12px;
@@ -142,79 +114,27 @@
       gap: 0.4rem;
       margin-bottom: 0.6rem;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
     }
 
     @media (max-width: 900px) {
-      .summary-bar {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      .summary-actions {
-        justify-content: flex-start;
-      }
+      .summary-bar { grid-template-columns: minmax(0, 1fr); }
+      .summary-actions { justify-content: flex-start; }
     }
 
-    .summary-main {
-      font-size: 0.9rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
-    }
+    .summary-main { font-size: 0.9rem; display: flex; flex-direction: column; gap: 0.15rem; }
+    .summary-main-top { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .summary-main strong { font-size: 1rem; }
+    #total-xp { font-weight: 500; }
+    .day-rating { font-size: 0.85rem; }
 
-    .summary-main-top {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
+    .badge { display: inline-block; padding: 0.1rem 0.6rem; border-radius: 999px; font-size: 0.78rem; margin-left: 0.2rem; }
+    .elite { background: rgba(22, 163, 74, 0.22); color: #6ee7b7; border: 1px solid #16a34a; }
+    .strong { background: rgba(37, 99, 235, 0.18); color: #93c5fd; border: 1px solid #2563eb; }
+    .survival { background: rgba(234, 179, 8, 0.18); color: #fde68a; border: 1px solid #eab308; }
+    .red { background: rgba(248, 113, 113, 0.2); color: #fecaca; border: 1px solid #ef4444; }
 
-    .summary-main strong {
-      font-size: 1rem;
-    }
-
-    #total-xp {
-      font-weight: 500;
-    }
-
-    .day-rating {
-      font-size: 0.85rem;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 0.1rem 0.6rem;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      margin-left: 0.2rem;
-    }
-
-    .elite {
-      background: rgba(22, 163, 74, 0.22);
-      color: #6ee7b7;
-      border: 1px solid #16a34a;
-    }
-    .strong {
-      background: rgba(37, 99, 235, 0.18);
-      color: #93c5fd;
-      border: 1px solid #2563eb;
-    }
-    .survival {
-      background: rgba(234, 179, 8, 0.18);
-      color: #fde68a;
-      border: 1px solid #eab308;
-    }
-    .red {
-      background: rgba(248, 113, 113, 0.2);
-      color: #fecaca;
-      border: 1px solid #ef4444;
-    }
-
-    .streak-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.3rem;
-      margin-top: 0.05rem;
-    }
-
+    .streak-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.05rem; }
     .streak-chip {
       background: rgba(10, 32, 22, 0.9);
       border-radius: 999px;
@@ -226,18 +146,9 @@
       align-items: center;
       gap: 0.25rem;
     }
+    .streak-chip strong { color: var(--accent-gold-strong); font-weight: 600; }
 
-    .streak-chip strong {
-      color: var(--accent-gold-strong);
-      font-weight: 600;
-    }
-
-    .summary-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.4rem;
-      flex-wrap: wrap;
-    }
+    .summary-actions { display: flex; justify-content: flex-end; gap: 0.4rem; flex-wrap: wrap; }
 
     button {
       background: var(--accent-gold);
@@ -252,277 +163,191 @@
       align-items: center;
       gap: 0.25rem;
       white-space: nowrap;
+      transition: all 0.15s;
     }
+    button:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    button:active { transform: scale(0.97); }
+    button.secondary { background: transparent; border: 1px solid rgba(148, 163, 184, 0.6); color: var(--text-main); }
+    button.icon-btn { padding: 0.35rem 0.5rem; min-width: 32px; justify-content: center;}
 
-    button.secondary {
-      background: transparent;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      color: var(--text-main);
-    }
-
-    button:active {
-      transform: scale(0.97);
-    }
-
-    /* MAIN GRID LAYOUT */
-
+    /* MAIN GRID */
     main {
       max-height: calc(100vh - 160px);
       overflow-y: auto;
       padding-right: 0.15rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-subtle) var(--bg-forest);
     }
+    main::-webkit-scrollbar { width: 6px; }
+    main::-webkit-scrollbar-track { background: var(--bg-forest); }
+    main::-webkit-scrollbar-thumb { background-color: var(--border-subtle); border-radius: 20px; }
 
-    .sections {
-      display: flex;
-      flex-direction: column;
-      gap: 0.55rem;
-      padding-bottom: 0.5rem;
-    }
-
-    .section-block {
-      background: transparent;
-    }
-
+    .sections { display: flex; flex-direction: column; gap: 0.55rem; padding-bottom: 0.5rem; }
+    .section-block { background: transparent; }
     .section-title {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: rgba(245, 247, 244, 0.8);
-      margin: 0 0 0.2rem;
+      font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.16em;
+      color: rgba(245, 247, 244, 0.8); margin: 0 0 0.2rem;
     }
 
-    .section-grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.45rem;
+    .section-grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.45rem; }
+    .section-grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.45rem; }
+    .section-grid-1 { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.45rem; }
+
+    @media (max-width: 1024px) { .section-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 768px) {
+      body { padding: 0.5rem; }
+      .container { max-width: 100%; }
+      main { max-height: none; overflow-y: visible; }
+      .section-grid-3, .section-grid-2 { grid-template-columns: minmax(0, 1fr); }
+      .card { padding: 0.55rem 0.6rem; min-height: auto; }
+      .items { grid-template-columns: minmax(0, 1fr); }
     }
-
-    .section-grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.45rem;
-    }
-
-    .section-grid-1 {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 0.45rem;
-    }
-
-    @media (max-width: 1024px) {
-      .section-grid-3 {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-@media (max-width: 768px) {
-  body {
-    padding: 0.5rem;
-  }
-
-  .container {
-    max-width: 100%;
-  }
-
-  .app-title {
-    font-size: 1.3rem;
-  }
-
-  .app-subtitle {
-    font-size: 0.75rem;
-  }
-
-  .summary-bar {
-    padding: 0.35rem 0.6rem;
-    margin-bottom: 0.4rem;
-  }
-
-  .summary-main strong {
-    font-size: 0.9rem;
-  }
-
-  .streak-chip {
-    font-size: 0.7rem;
-    padding: 0.08rem 0.45rem;
-  }
-
-  .prompt-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.4rem;
-  }
-
-  main {
-    max-height: none;
-    overflow-y: visible;
-  }
-
-  .section-grid-3,
-  .section-grid-2 {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .card {
-    padding: 0.55rem 0.6rem;
-    min-height: auto;
-  }
-
-  .card-title {
-    font-size: 0.95rem;
-  }
-
-  .xp {
-    font-size: 0.75rem;
-  }
-
-  .items {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
 
     /* CARDS */
-
     .card {
       background: var(--card);
       border-radius: 12px;
       padding: 0.6rem 0.7rem;
       border: 1px solid var(--border-subtle);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
+      display: flex; flex-direction: column; gap: 0.25rem;
       min-height: 130px;
+      transition: border-color 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover { border-color: rgba(255,255,255,0.1); }
+    .card[data-category="mastery"], .card[data-category="responsibility"] {
+      padding-top: 0.5rem; padding-bottom: 0.5rem; min-height: 115px;
     }
 
-    .card[data-category="mastery"],
-    .card[data-category="responsibility"] {
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
-      min-height: 115px;
+    .card-header { display: flex; justify-content: space-between; align-items: center; gap: 0.4rem; margin-bottom: 0.1rem; position: relative; z-index: 1; }
+    .card-title-block { display: flex; flex-direction: column; gap: 0.05rem; }
+    .card-title { font-size: 0.98rem; font-weight: 600; }
+    .card-subtitle { font-size: 0.78rem; color: var(--text-muted); }
+    .xp { font-weight: 600; font-size: 0.8rem; opacity: 0.95; color: var(--accent-gold-strong); white-space: nowrap; }
+
+    /* Progress Bar */
+    .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(0,0,0,0.3); }
+    .progress-fill {
+      height: 100%; background: var(--komorebi-mint); width: 0%;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease;
+    }
+    .progress-fill.maxed { background: var(--accent-gold); box-shadow: 0 0 10px var(--accent-gold); }
+
+    .prompt-body { font-size: 0.9rem; color: var(--text-muted); line-height: 1.4; font-style: italic; }
+
+    .items { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.18rem 0.7rem; font-size: 0.9rem; position: relative; z-index: 1; }
+    .items-wide { grid-template-columns: minmax(0, 1fr); }
+    @media (max-width: 640px) { .items { grid-template-columns: minmax(0, 1fr); } }
+
+    label { display: flex; align-items: center; gap: 0.3rem; cursor: pointer; font-size: 0.9rem; user-select: none; transition: color 0.2s; }
+    label:hover { color: var(--komorebi-mint-soft); }
+    input[type="checkbox"] { transform: scale(1.2); accent-color: var(--accent-gold); cursor: pointer; }
+
+    details.details-list { margin-top: 0.1rem; font-size: 0.8rem; color: var(--text-muted); }
+    details.details-list summary { cursor: pointer; list-style: none; outline: none; }
+    details.details-list summary::-webkit-details-marker { display: none; }
+    details.details-list summary::before { content: "▸"; display: inline-block; margin-right: 0.2rem; font-size: 0.7rem; transform: translateY(-1px); }
+    details.details-list[open] summary::before { content: "▾"; }
+    .sub-list { margin: 0.15rem 0 0; padding-left: 1.1rem; font-size: 0.8rem; color: var(--text-muted); max-height: 120px; overflow-y: auto; }
+    .sub-list li { margin: 0.05rem 0; }
+
+    /* NOTE AREA */
+    .note-area-container { margin-top: 0.5rem; }
+    .note-area {
+      width: 100%; height: 80px; background: rgba(0,0,0,0.2);
+      border: 1px solid var(--border-subtle); border-radius: 8px;
+      color: var(--text-main); font-family: inherit; padding: 0.5rem;
+      resize: vertical; font-size: 0.9rem;
+    }
+    .note-area:focus { outline: 1px solid var(--accent-gold); border-color: var(--accent-gold); }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8); z-index: 50;
+      display: none; justify-content: center; align-items: center;
+      backdrop-filter: blur(4px);
+    }
+    .modal-content {
+      background: var(--card); padding: 1.5rem; border-radius: 12px;
+      border: 1px solid var(--accent-gold); max-width: 500px; width: 90%;
+    }
+    .modal-title { font-size: 1.2rem; margin-bottom: 1rem; color: var(--accent-gold); display: flex; justify-content: space-between; align-items: center;}
+    .modal-actions { display: flex; gap: 0.5rem; margin-top: 1rem; justify-content: flex-end; }
+    textarea.data-area {
+      width: 100%; height: 100px; background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border-subtle); color: var(--text-muted);
+      font-family: monospace; font-size: 0.8rem; padding: 0.5rem;
+      border-radius: 6px;
     }
 
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.4rem;
-      margin-bottom: 0.1rem;
+    /* CHART STYLES */
+    .chart-container {
+        display: flex; align-items: flex-end; justify-content: space-between;
+        height: 200px; margin-top: 1rem; padding-bottom: 5px;
+        border-bottom: 1px solid var(--text-muted);
+        gap: 4px;
+    }
+    .bar-group {
+        display: flex; flex-direction: column; align-items: center;
+        flex: 1;
+    }
+    .bar {
+        width: 80%; background: var(--komorebi-mint);
+        border-radius: 4px 4px 0 0;
+        transition: height 0.5s ease;
+        min-height: 2px;
+        position: relative;
+    }
+    .bar.elite { background: #4ade80; box-shadow: 0 0 8px rgba(74, 222, 128, 0.4); }
+    .bar.strong { background: #60a5fa; }
+    .bar.survival { background: #fbbf24; }
+    .bar-label { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; }
+    .bar-value { font-size: 0.65rem; color: #fff; margin-bottom: 2px; }
+
+    /* GAMIFICATION ANIMATION */
+    .floating-xp {
+        position: fixed;
+        color: var(--accent-gold);
+        font-weight: bold;
+        font-size: 1rem;
+        pointer-events: none;
+        animation: floatUp 1s ease-out forwards;
+        z-index: 9999;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.8);
     }
 
-    .card-title-block {
-      display: flex;
-      flex-direction: column;
-      gap: 0.05rem;
+    @keyframes floatUp {
+        0% { opacity: 1; transform: translateY(0) scale(1); }
+        100% { opacity: 0; transform: translateY(-40px) scale(1.2); }
     }
 
-    .card-title {
-      font-size: 0.98rem;
-      font-weight: 600;
-    }
-
-    .card-subtitle {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .xp {
-      font-weight: 600;
-      font-size: 0.8rem;
-      opacity: 0.95;
-      color: var(--accent-gold-strong);
-      white-space: nowrap;
-    }
-
-    .items {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr)); /* max 2 columns per card */
-      gap: 0.18rem 0.7rem;
-      font-size: 0.9rem;
-    }
-
-    .items-wide {
-      grid-template-columns: minmax(0, 1fr); /* single column for long text cards */
-    }
-
-    @media (max-width: 640px) {
-      .items {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    label {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-
-    input[type="checkbox"] {
-      transform: scale(1.2);
-      accent-color: var(--accent-gold);
-    }
-
-    /* Details toggle for long lists */
-
-    details.details-list {
-      margin-top: 0.1rem;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    details.details-list summary {
-      cursor: pointer;
-      list-style: none;
-      user-select: none;
-      outline: none;
-    }
-
-    details.details-list summary::-webkit-details-marker {
-      display: none;
-    }
-
-    details.details-list summary::before {
-      content: "▸";
-      display: inline-block;
-      margin-right: 0.2rem;
-      font-size: 0.7rem;
-      transform: translateY(-1px);
-    }
-
-    details.details-list[open] summary::before {
-      content: "▾";
-    }
-
-    .sub-list {
-  margin: 0.15rem 0 0;
-  padding-left: 1.1rem;
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  max-height: 120px;        /* a bit more room on desktop */
-  overflow-y: auto;
-}
-
-    .sub-list li {
-      margin: 0.05rem 0;
+    #confetti-canvas {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 100;
     }
   </style>
 </head>
 <body>
+  <canvas id="confetti-canvas"></canvas>
+
   <div class="container">
     <!-- HEADER -->
     <header class="app-header">
       <div class="app-header-top">
         <div class="app-title-block">
-          <div class="app-title">Komorebi OS — Daily Protocols</div>
-          <div class="app-subtitle">Your daily discipline system</div>
+          <div class="app-title">Komorebi OS</div>
+          <div class="app-subtitle">Daily Protocols &amp; Discipline</div>
         </div>
         <div class="header-controls">
           <div class="date-block">
-            <label for="date-input">Day / Date</label><br />
+            <label for="date-input">Protocol Date</label><br />
             <input type="date" id="date-input" />
           </div>
           <div class="xp-pill">
-            <span id="xp-pill-value">0</span> XP today
+            <span id="xp-pill-value">0</span> XP
           </div>
         </div>
       </div>
@@ -541,64 +366,31 @@
       </div>
       <div class="summary-actions">
         <button id="save-day">Save Day</button>
-        <button id="reset-day" class="secondary">Reset Day</button>
+        <button id="stats-btn" class="secondary icon-btn" title="View Stats">📊</button>
+        <button id="settings-btn" class="secondary icon-btn" title="Data Settings">⚙️</button>
+        <button id="reset-day" class="secondary icon-btn" title="Clear today">↺</button>
       </div>
     </section>
 
     <!-- DAILY PROMPTS -->
     <section class="section-block">
-      <h2 class="section-title">Daily Prompts</h2>
+      <h2 class="section-title">Daily Alignment</h2>
       <div class="section-grid-2">
-        <!-- Mental Model -->
         <div class="card">
-          <div class="card-header">
-            <div class="card-title-block">
-              <div class="card-title">Mental Model of the Day</div>
-              <div class="card-subtitle">One lens to see today through</div>
-            </div>
-          </div>
-          <div class="prompt-body placeholder" id="prompt-mental-model">
-            (e.g. Inversion — define how to avoid a bad outcome)
-          </div>
+          <div class="card-header"><div class="card-title">Mental Model</div></div>
+          <div class="prompt-body" id="prompt-mental-model">Loading...</div>
         </div>
-
-        <!-- Productivity Game -->
         <div class="card">
-          <div class="card-header">
-            <div class="card-title-block">
-              <div class="card-title">Productivity Game</div>
-              <div class="card-subtitle">Small experiment, big leverage</div>
-            </div>
-          </div>
-          <div class="prompt-body placeholder" id="prompt-productivity">
-            (e.g. 25-minute deep work sprint on the single hardest task)
-          </div>
+          <div class="card-header"><div class="card-title">Productivity Game</div></div>
+          <div class="prompt-body" id="prompt-productivity">Loading...</div>
         </div>
-
-        <!-- Quote of the Day -->
         <div class="card">
-          <div class="card-header">
-            <div class="card-title-block">
-              <div class="card-title">Quote of the Day</div>
-              <div class="card-subtitle">A line to carry in your head</div>
-            </div>
-          </div>
-          <div class="prompt-body placeholder" id="prompt-quote">
-            (e.g. “The score takes care of itself.” — Bill Walsh)
-          </div>
+          <div class="card-header"><div class="card-title">Wisdom</div></div>
+          <div class="prompt-body" id="prompt-quote">Loading...</div>
         </div>
-
-        <!-- Investing Focus -->
         <div class="card">
-          <div class="card-header">
-            <div class="card-title-block">
-              <div class="card-title">Investing Focus</div>
-              <div class="card-subtitle">One idea to sharpen today</div>
-            </div>
-          </div>
-          <div class="prompt-body placeholder" id="prompt-investing">
-            (e.g. Read 10 pages of Kaspi 20-F or one section of BN letter)
-          </div>
+          <div class="card-header"><div class="card-title">Focus</div></div>
+          <div class="prompt-body" id="prompt-investing">Loading...</div>
         </div>
       </div>
     </section>
@@ -611,91 +403,47 @@
         <section class="section-block">
           <h2 class="section-title">Health</h2>
           <div class="section-grid-3">
-            <!-- Supplements -->
             <div class="card" data-category="supplements">
-              <div class="card-header">
-                <div class="card-title-block">
-                  <div class="card-title">Supplement Stack</div>
-                </div>
-                <div class="xp">0 / 500 XP</div>
-              </div>
+              <div class="card-header"><div class="card-title">Supplement Stack</div><div class="xp">0 / 500 XP</div></div>
+              <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items items-wide">
-                <label>
-                  <input type="checkbox" data-key="supplementStack" />
-                  Stack complete today
-                </label>
-                <details class="details-list">
-                  <summary>View stack details</summary>
-                  <ul class="sub-list">
-                    <li>Electrolyte mix</li>
-                    <li>Alpha GPC</li>
-                    <li>Omega 3/6</li>
-                    <li>Bone Revolution (Ca, Mg, Zn, Boron, D3, K2)</li>
-                    <li>Collagen peptides</li>
-                    <li>Tongkat Ali</li>
-                  </ul>
+                <label><input type="checkbox" data-key="supplementStack" />Stack complete</label>
+                <details class="details-list"><summary>View details</summary>
+                  <ul class="sub-list"><li>Electrolytes, Alpha GPC</li><li>Omega 3/6, Bone Complex</li><li>Collagen, Tongkat Ali</li></ul>
                 </details>
               </div>
             </div>
 
-            <!-- Supersmoothie -->
             <div class="card" data-category="smoothie">
-              <div class="card-header">
-                <div class="card-title-block">
-                  <div class="card-title">Supersmoothie</div>
-                </div>
-                <div class="xp">0 / 500 XP</div>
-              </div>
+              <div class="card-header"><div class="card-title">Supersmoothie</div><div class="xp">0 / 500 XP</div></div>
+              <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items items-wide">
-                <label>
-                  <input type="checkbox" data-key="smoothie" />
-                  Supersmoothie complete
-                </label>
-                <details class="details-list">
-                  <summary>View smoothie details</summary>
-                  <ul class="sub-list">
-                    <li>Protein 40g</li>
-                    <li>Creatine 5g</li>
-                    <li>Collagen 10g</li>
-                    <li>Greens active powder x1</li>
-                    <li>Ginger + turmeric (½ tsp each)</li>
-                    <li>Avocado + kale/spinach</li>
-                    <li>Berries + almond butter</li>
-                  </ul>
+                <label><input type="checkbox" data-key="smoothie" />Smoothie complete</label>
+                <details class="details-list"><summary>View recipe</summary>
+                  <ul class="sub-list"><li>Protein 40g, Creatine 5g</li><li>Greens, Ginger, Berries</li></ul>
                 </details>
               </div>
             </div>
 
-            <!-- Fitness & Recovery -->
             <div class="card" data-category="fitness">
-              <div class="card-header">
-                <div class="card-title-block">
-                  <div class="card-title">Fitness & Recovery</div>
-                </div>
-                <div class="xp">0 / 1000 XP</div>
-              </div>
+              <div class="card-header"><div class="card-title">Fitness & Recovery</div><div class="xp">0 / 1000 XP</div></div>
+              <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items">
                 <label><input type="checkbox" data-key="sunshine" />Sunshine</label>
-                <label><input type="checkbox" data-key="rollerYoga" />Roller / Yoga</label>
-                <label><input type="checkbox" data-key="protein120" />Protein ≥ 120g</label>
+                <label><input type="checkbox" data-key="rollerYoga" />Mobility</label>
+                <label><input type="checkbox" data-key="protein120" />Prot ≥ 120g</label>
                 <label><input type="checkbox" data-key="exercise" />Exercise</label>
-                <label><input type="checkbox" data-key="cold" />Cold / sauna</label>
+                <label><input type="checkbox" data-key="cold" />Cold/Heat</label>
               </div>
             </div>
           </div>
 
-          <!-- Workout of the Day (full-width row under health cards) -->
           <div class="section-grid-1" style="margin-top: 0.4rem;">
             <div class="card workout-card">
               <div class="card-header">
-                <div class="card-title-block">
-                  <div class="card-title">Workout of the Day</div>
-                  <div class="card-subtitle" id="wod-type">Loading…</div>
-                </div>
+                <div class="card-title-block"><div class="card-title">Workout of the Day</div><div class="card-subtitle" id="wod-type">Loading…</div></div>
               </div>
-              <div class="items items-wide">
-                <ul class="sub-list" id="wod-details"></ul>
-              </div>
+              <div class="items items-wide"><ul class="sub-list" id="wod-details"></ul></div>
             </div>
           </div>
         </section>
@@ -704,54 +452,38 @@
         <section class="section-block">
           <h2 class="section-title">Mind & Arete</h2>
           <div class="section-grid-3">
-            <!-- Wisdom & Clarity -->
             <div class="card" data-category="wisdom">
-              <div class="card-header">
-                <div class="card-title-block">
-                  <div class="card-title">Wisdom & Clarity</div>
-                </div>
-                <div class="xp">0 / 1000 XP</div>
-              </div>
+              <div class="card-header"><div class="card-title">Wisdom & Clarity</div><div class="xp">0 / 1000 XP</div></div>
+              <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items">
                 <label><input type="checkbox" data-key="gratitude" />Gratitude</label>
                 <label><input type="checkbox" data-key="journal" />Journal</label>
                 <label><input type="checkbox" data-key="meditate" />Meditate</label>
-                <label><input type="checkbox" data-key="mentalModel" />Mental model</label>
-                <label><input type="checkbox" data-key="productivityGame" />Productivity game</label>
+                <label><input type="checkbox" data-key="mentalModel" />Mental mdl</label>
+                <label><input type="checkbox" data-key="productivityGame" />Prod game</label>
                 <label><input type="checkbox" data-key="philosophy" />Philosophy</label>
               </div>
             </div>
 
-            <!-- Arete & Alignment -->
             <div class="card" data-category="arete">
-              <div class="card-header">
-                <div class="card-title-block">
-                  <div class="card-title">Arete & Alignment</div>
-                </div>
-                <div class="xp">0 / 1000 XP</div>
-              </div>
+              <div class="card-header"><div class="card-title">Arete & Alignment</div><div class="xp">0 / 1000 XP</div></div>
+              <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items">
-                <label><input type="checkbox" data-key="familyTime" />Family time</label>
-                <label><input type="checkbox" data-key="golf" />Hit balls / play 9</label>
-                <label><input type="checkbox" data-key="fiction" />Read sci-fi / fiction</label>
-                <label><input type="checkbox" data-key="lunchDinner" />Lunch or dinner out</label>
+                <label><input type="checkbox" data-key="familyTime" />Family</label>
+                <label><input type="checkbox" data-key="golf" />Golf/Skill</label>
+                <label><input type="checkbox" data-key="fiction" />Read Fiction</label>
+                <label><input type="checkbox" data-key="lunchDinner" />Social Meal</label>
                 <label><input type="checkbox" data-key="contribution" />Contribution</label>
               </div>
             </div>
 
-            <!-- Values -->
             <div class="card" data-category="values">
-              <div class="card-header">
-                <div class="card-title-block">
-                  <div class="card-title">Values</div>
-                  <div class="card-subtitle">Live the code today</div>
-                </div>
-                <div class="xp">0 / 1000 XP</div>
-              </div>
+              <div class="card-header"><div class="card-title">Values</div><div class="xp">0 / 1000 XP</div></div>
+              <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items">
                 <label><input type="checkbox" data-key="valueCourage" />Courage</label>
                 <label><input type="checkbox" data-key="valueAdventure" />Adventure</label>
-                <label><input type="checkbox" data-key="valueSelfImprovement" />Self-improvement</label>
+                <label><input type="checkbox" data-key="valueSelfImprovement" />Growth</label>
                 <label><input type="checkbox" data-key="valueIntegrity" />Integrity</label>
                 <label><input type="checkbox" data-key="valueDiscipline" />Discipline</label>
                 <label><input type="checkbox" data-key="valueKindness" />Kindness</label>
@@ -764,416 +496,371 @@
         <section class="section-block">
           <h2 class="section-title">Craft & Duty</h2>
           <div class="section-grid-2">
-            <!-- Mastery -->
             <div class="card" data-category="mastery">
-              <div class="card-header">
-                <div class="card-title-block">
-                  <div class="card-title">Mastery</div>
-                </div>
-                <div class="xp">0 / 2000 XP</div>
-              </div>
+              <div class="card-header"><div class="card-title">Mastery</div><div class="xp">0 / 2000 XP</div></div>
+              <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items">
-                <label><input type="checkbox" data-key="investingReading" />Investing reading list</label>
-                <label><input type="checkbox" data-key="researchMemo" />Research memo</label>
-                <label><input type="checkbox" data-key="investorInteraction" />Investor interaction</label>
+                <label><input type="checkbox" data-key="investingReading" />Deep Read</label>
+                <label><input type="checkbox" data-key="researchMemo" />Write Memo</label>
+                <label><input type="checkbox" data-key="investorInteraction" />Networking</label>
               </div>
             </div>
 
-            <!-- Responsibility -->
             <div class="card" data-category="responsibility">
-              <div class="card-header">
-                <div class="card-title-block">
-                  <div class="card-title">Responsibility</div>
-                </div>
-                <div class="xp">0 / 2000 XP</div>
-              </div>
+              <div class="card-header"><div class="card-title">Responsibility</div><div class="xp">0 / 2000 XP</div></div>
+              <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items">
-                <label><input type="checkbox" data-key="earnIncome" />Earn income</label>
-                <label><input type="checkbox" data-key="completeTaxes" />Complete taxes / admin</label>
-                <label><input type="checkbox" data-key="hectorBellaEducation" />Hector &amp; Bella education</label>
+                <label><input type="checkbox" data-key="earnIncome" />Earn Income</label>
+                <label><input type="checkbox" data-key="completeTaxes" />Admin/Tax</label>
+                <label><input type="checkbox" data-key="hectorBellaEducation" />Kids Edu</label>
               </div>
             </div>
           </div>
+        </section>
+
+        <!-- DAILY NOTE -->
+        <section class="section-block">
+            <div class="card">
+                <div class="card-header"><div class="card-title">Daily Note</div></div>
+                <div class="note-area-container">
+                    <textarea id="daily-note" class="note-area" placeholder="Key wins, lessons, or thoughts for the day..."></textarea>
+                </div>
+            </div>
         </section>
 
       </div>
     </main>
   </div>
 
+  <!-- DATA SETTINGS MODAL -->
+  <div class="modal-overlay" id="data-modal">
+    <div class="modal-content">
+      <h3 class="modal-title">Data Management <span id="close-data-modal" style="cursor:pointer">✕</span></h3>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.5rem;">
+        Backup your data or restore from a previous save.
+      </p>
+      <textarea id="export-area" class="data-area"></textarea>
+      <div class="modal-actions">
+        <button id="restore-btn">Restore</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS MODAL -->
+  <div class="modal-overlay" id="stats-modal">
+    <div class="modal-content" style="max-width: 600px;">
+      <h3 class="modal-title">Last 7 Days <span id="close-stats-modal" style="cursor:pointer">✕</span></h3>
+      <div class="chart-container" id="stats-chart">
+        <!-- Bars injected via JS -->
+      </div>
+    </div>
+  </div>
+
   <script>
-    const dateInput = document.getElementById('date-input');
-    const totalXpEl = document.getElementById('total-xp');
-    const dayRatingEl = document.getElementById('day-rating');
-    const saveBtn = document.getElementById('save-day');
-    const resetBtn = document.getElementById('reset-day');
-    const streakChipsEl = document.getElementById('streak-chips');
-    const xpPillValue = document.getElementById('xp-pill-value');
+    // --- DATA & CONFIG ---
+    const CONSTANTS = {
+      MAX_XP: 9000,
+      XP_LEVELS: { ELITE: 6500, STRONG: 5000, SURVIVAL: 3500 },
+      CATEGORY_MAX: {
+        supplements: 500, smoothie: 500, fitness: 1000, wisdom: 1000,
+        mastery: 2000, responsibility: 2000, arete: 1000, values: 1000
+      }
+    };
 
-    const wodTypeEl = document.getElementById('wod-type');
-    const wodDetailsEl = document.getElementById('wod-details');
+    const PROMPTS = {
+      mentalModels: ["Inversion", "First Principles", "Circle of Competence", "Second-Order Thinking", "Pareto Principle", "Regret Minimization", "Hanlon's Razor"],
+      games: ["25-min Sprint", "Eat the Frog", "Two-Minute Rule", "Pomodoro", "Phone Fast", "Single Tab Browsing"],
+      quotes: ["“The score takes care of itself.” — Bill Walsh", "“Discipline is freedom.” — Jocko Willink", "“We suffer more in imagination than in reality.” — Seneca", "“Amateurs sit and wait for inspiration.” — Stephen King", "“How you do anything is how you do everything.”"],
+      investing: ["Read 10 pages of a 10-K.", "Review portfolio bear case.", "Read a classic investor letter.", "Analyze one new business model.", "Check checklist."]
+    };
 
-    const MAX_XP = 9000;
+    const els = {
+      dateInput: document.getElementById('date-input'),
+      totalXp: document.getElementById('total-xp'),
+      dayRating: document.getElementById('day-rating'),
+      saveBtn: document.getElementById('save-day'),
+      resetBtn: document.getElementById('reset-day'),
+      settingsBtn: document.getElementById('settings-btn'),
+      statsBtn: document.getElementById('stats-btn'),
+      streakChips: document.getElementById('streak-chips'),
+      xpPillValue: document.getElementById('xp-pill-value'),
+      wodType: document.getElementById('wod-type'),
+      wodDetails: document.getElementById('wod-details'),
+      dailyNote: document.getElementById('daily-note'),
+      prompts: {
+        model: document.getElementById('prompt-mental-model'),
+        game: document.getElementById('prompt-productivity'),
+        quote: document.getElementById('prompt-quote'),
+        focus: document.getElementById('prompt-investing')
+      },
+      modals: {
+        data: document.getElementById('data-modal'),
+        stats: document.getElementById('stats-modal')
+      }
+    };
 
-    function todayISO() {
-      return new Date().toISOString().slice(0, 10);
+    let previousXP = 0; // Track for animation
+
+    // --- UTILITIES ---
+    function getTodayISO() { return new Date().toISOString().slice(0, 10); }
+    function formatDateKey(date) { return `arete_xp_${date}`; }
+    function getPseudoRandomIndex(seedStr, len) {
+      let hash = 0;
+      for (let i = 0; i < seedStr.length; i++) {
+        hash = ((hash << 5) - hash) + seedStr.charCodeAt(i);
+        hash |= 0;
+      }
+      return Math.abs(hash) % len;
     }
 
-    function parseISODate(str) {
-      const [y, m, d] = str.split('-').map(Number);
-      return new Date(y, m - 1, d);
-    }
+    // --- CORE LOGIC ---
+    function getCheckboxes() { return Array.from(document.querySelectorAll('input[type="checkbox"][data-key]')); }
 
-    function formatISODate(date) {
-      const y = date.getFullYear();
-      const m = String(date.getMonth() + 1).padStart(2, '0');
-      const d = String(date.getDate()).padStart(2, '0');
-      return `${y}-${m}-${d}`;
-    }
-
-    dateInput.value = todayISO();
-
-    function getKeyForDate(date) {
-      return `arete_xp_${date}`;
-    }
-
-    function getCheckboxes() {
-      return Array.from(
-        document.querySelectorAll('input[type="checkbox"][data-key]')
-      );
-    }
-
-    function readStateFromUI() {
+    function readState() {
       const state = {};
-      getCheckboxes().forEach(cb => {
-        state[cb.dataset.key] = cb.checked;
-      });
+      getCheckboxes().forEach(cb => state[cb.dataset.key] = cb.checked);
+      state.note = els.dailyNote.value; // Save note
       return state;
     }
 
-    function writeStateToUI(state) {
-      getCheckboxes().forEach(cb => {
-        cb.checked = !!state[cb.dataset.key];
-      });
+    function writeState(state) {
+      getCheckboxes().forEach(cb => cb.checked = !!state[cb.dataset.key]);
+      els.dailyNote.value = state.note || "";
     }
 
-    function computeCategoryXp(state) {
-      const xp = {
-        supplements: 0,
-        smoothie: 0,
-        fitness: 0,
-        wisdom: 0,
-        mastery: 0,
-        responsibility: 0,
-        arete: 0,
-        values: 0,
-      };
+    function calculateXP(state) {
+      const xp = { supplements: 0, smoothie: 0, fitness: 0, wisdom: 0, mastery: 0, responsibility: 0, arete: 0, values: 0 };
 
-      // Supplements
       if (state.supplementStack) xp.supplements = 500;
-
-      // Smoothie
       if (state.smoothie) xp.smoothie = 500;
 
-      // Fitness
-      const fitnessKeys = ['sunshine', 'rollerYoga', 'protein120', 'exercise', 'cold'];
-      const fitnessCount = fitnessKeys.filter(k => state[k]).length;
-      if (fitnessCount >= 4) xp.fitness = 1000;
-      else if (fitnessCount >= 2) xp.fitness = 500;
+      const fKeys = ['sunshine', 'rollerYoga', 'protein120', 'exercise', 'cold'];
+      const fCount = fKeys.filter(k => state[k]).length;
+      if (fCount >= 4) xp.fitness = 1000; else if (fCount >= 2) xp.fitness = 500;
 
-      // Wisdom (6 items including gratitude + journal)
-      const wisdomKeys = [
-        'gratitude',
-        'journal',
-        'meditate',
-        'mentalModel',
-        'productivityGame',
-        'philosophy',
-      ];
-      const wisdomCount = wisdomKeys.filter(k => state[k]).length;
-      if (wisdomCount >= 4) xp.wisdom = 1000;
-      else if (wisdomCount === 3) xp.wisdom = 500;
-      else if (wisdomCount === 2) xp.wisdom = 250;
+      const wKeys = ['gratitude', 'journal', 'meditate', 'mentalModel', 'productivityGame', 'philosophy'];
+      const wCount = wKeys.filter(k => state[k]).length;
+      if (wCount >= 4) xp.wisdom = 1000; else if (wCount >= 2) xp.wisdom = (wCount === 3) ? 500 : 250;
 
-      // Mastery
-      const masteryKeys = ['investingReading', 'researchMemo', 'investorInteraction'];
-      const masteryCount = masteryKeys.filter(k => state[k]).length;
-      if (state.researchMemo || state.investorInteraction || masteryCount >= 2) {
-        if (masteryCount > 0) xp.mastery = 2000;
-      }
+      const mCount = ['investingReading', 'researchMemo', 'investorInteraction'].filter(k => state[k]).length;
+      if (mCount > 0) xp.mastery = Math.min(2000, mCount === 3 ? 2000 : mCount * 650);
 
-      // Responsibility
-      const respPrimary = state.earnIncome || state.completeTaxes;
-      const respCount = ['earnIncome', 'completeTaxes', 'hectorBellaEducation']
-        .filter(k => state[k]).length;
-      if (respPrimary || (state.hectorBellaEducation && respCount >= 2)) {
-        if (respCount > 0) xp.responsibility = 2000;
-      }
+      const rCount = ['earnIncome', 'completeTaxes', 'hectorBellaEducation'].filter(k => state[k]).length;
+      if (rCount > 0) xp.responsibility = Math.min(2000, rCount === 3 ? 2000 : rCount * 650);
 
-      // Arete (behaviours only)
-      const areteKeys = ['familyTime', 'golf', 'fiction', 'lunchDinner', 'contribution'];
-      const areteCount = areteKeys.filter(k => state[k]).length;
-      if (areteCount >= 1) xp.arete = 1000;
+      const aCount = ['familyTime', 'golf', 'fiction', 'lunchDinner', 'contribution'].filter(k => state[k]).length;
+      if (aCount >= 1) xp.arete = 1000;
 
-      // Values (base + bonus)
-      // 1+ value ticked  = 500 XP
-      // 3+ values ticked = 1000 XP total
-      const valuesKeys = [
-        'valueCourage',
-        'valueAdventure',
-        'valueSelfImprovement',
-        'valueIntegrity',
-        'valueDiscipline',
-        'valueKindness',
-      ];
-      const valuesCount = valuesKeys.filter(k => state[k]).length;
-      if (valuesCount >= 1) xp.values = 500;
-      if (valuesCount >= 3) xp.values = 1000;
+      const vCount = ['valueCourage', 'valueAdventure', 'valueSelfImprovement', 'valueIntegrity', 'valueDiscipline', 'valueKindness'].filter(k => state[k]).length;
+      if (vCount >= 3) xp.values = 1000; else if (vCount >= 1) xp.values = 500;
 
       return xp;
     }
 
-    function computeTotalXp(xp) {
-      return Object.values(xp).reduce((a, b) => a + b, 0);
+    // --- UI & ANIMATION ---
+    function showFloatingXP(x, y, amount) {
+        if (amount <= 0) return;
+        const el = document.createElement('div');
+        el.classList.add('floating-xp');
+        el.innerText = `+${amount} XP`;
+        el.style.left = `${x}px`;
+        el.style.top = `${y}px`;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1000);
     }
 
-    function ratingForTotal(total) {
-      if (total >= 6500) return { label: 'Elite Day', cls: 'elite' };
-      if (total >= 5000) return { label: 'Strong Day', cls: 'strong' };
-      if (total >= 3500) return { label: 'Survival Day', cls: 'survival' };
-      return { label: 'Red Zone', cls: 'red' };
-    }
-
-    function getDayState(dateStr) {
-      const key = getKeyForDate(dateStr);
-      const raw = localStorage.getItem(key);
-      if (!raw) return null;
-      try {
-        return JSON.parse(raw);
-      } catch {
-        return null;
-      }
-    }
-
-    function updateStreaks(currentDateStr) {
-      const LIMIT_DAYS = 365;
-      let fitnessStreak = 0;
-      let wisdomStreak = 0;
-      let masteryStreak = 0;
-      let meditationStreak = 0;
-      let valuesStreak = 0;
-
-      // Fitness streak
-      (function () {
-        let date = parseISODate(currentDateStr);
-        for (let i = 0; i < LIMIT_DAYS; i++) {
-          const ds = formatISODate(date);
-          const state = getDayState(ds);
-          if (!state) break;
-          const xp = computeCategoryXp(state);
-          if (xp.fitness > 0) fitnessStreak++;
-          else break;
-          date.setDate(date.getDate() - 1);
+    function handleCheck(e) {
+        // Calculate diff
+        const state = readState();
+        const currentXPObj = calculateXP(state);
+        const currentTotal = Object.values(currentXPObj).reduce((a, b) => a + b, 0);
+        
+        if (e.target.checked && currentTotal > previousXP) {
+            showFloatingXP(e.clientX, e.clientY, currentTotal - previousXP);
         }
-      })();
-
-      // Wisdom streak
-      (function () {
-        let date = parseISODate(currentDateStr);
-        for (let i = 0; i < LIMIT_DAYS; i++) {
-          const ds = formatISODate(date);
-          const state = getDayState(ds);
-          if (!state) break;
-          const xp = computeCategoryXp(state);
-          if (xp.wisdom > 0) wisdomStreak++;
-          else break;
-          date.setDate(date.getDate() - 1);
-        }
-      })();
-
-      // Mastery streak
-      (function () {
-        let date = parseISODate(currentDateStr);
-        for (let i = 0; i < LIMIT_DAYS; i++) {
-          const ds = formatISODate(date);
-          const state = getDayState(ds);
-          if (!state) break;
-          const xp = computeCategoryXp(state);
-          if (xp.mastery > 0) masteryStreak++;
-          else break;
-          date.setDate(date.getDate() - 1);
-        }
-      })();
-
-      // Meditation streak
-      (function () {
-        let date = parseISODate(currentDateStr);
-        for (let i = 0; i < LIMIT_DAYS; i++) {
-          const ds = formatISODate(date);
-          const state = getDayState(ds);
-          if (!state) break;
-          if (state.meditate) meditationStreak++;
-          else break;
-          date.setDate(date.getDate() - 1);
-        }
-      })();
-
-      // Values streak (any values ticked)
-      (function () {
-        let date = parseISODate(currentDateStr);
-        for (let i = 0; i < LIMIT_DAYS; i++) {
-          const ds = formatISODate(date);
-          const state = getDayState(ds);
-          if (!state) break;
-          const xp = computeCategoryXp(state);
-          if (xp.values > 0) valuesStreak++;
-          else break;
-          date.setDate(date.getDate() - 1);
-        }
-      })();
-
-      const chips = [
-        { label: 'Fitness', icon: '💪', value: fitnessStreak },
-        { label: 'Wisdom', icon: '📚', value: wisdomStreak },
-        { label: 'Mastery', icon: '🛠️', value: masteryStreak },
-        { label: 'Meditation', icon: '🧘', value: meditationStreak },
-        { label: 'Values', icon: '🔥', value: valuesStreak },
-      ];
-
-      streakChipsEl.innerHTML = chips
-        .map(
-          c =>
-            `<span class="streak-chip">${c.icon} ${c.label}: <strong>${c.value}d</strong></span>`
-        )
-        .join('');
+        updateVisuals();
     }
 
-    /* WORKOUT OF THE DAY LOGIC */
+    function updateDynamicContent(dateStr) {
+      const idxModel = getPseudoRandomIndex(dateStr + 'model', PROMPTS.mentalModels.length);
+      const idxGame = getPseudoRandomIndex(dateStr + 'game', PROMPTS.games.length);
+      const idxQuote = getPseudoRandomIndex(dateStr + 'quote', PROMPTS.quotes.length);
+      const idxFocus = getPseudoRandomIndex(dateStr + 'focus', PROMPTS.investing.length);
 
-    function getWorkoutDataForDate(date) {
-      const dow = date.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
+      els.prompts.model.textContent = PROMPTS.mentalModels[idxModel];
+      els.prompts.game.textContent = PROMPTS.games[idxGame];
+      els.prompts.quote.textContent = PROMPTS.quotes[idxQuote];
+      els.prompts.focus.textContent = PROMPTS.investing[idxFocus];
 
-      // 3-day loop starting Monday: Rehab (0), Strength (1), Cardio (2)
-      let index;
-      if (dow === 0) index = 0;           // Sunday treated as Rehab day
-      else index = (dow - 1) % 3;        // Mon->0, Tue->1, Wed->2, Thu->0, ...
+      const date = new Date(dateStr);
+      const dayOfWeek = date.getDay(); 
+      const shiftDay = (dayOfWeek === 0) ? 6 : dayOfWeek - 1; 
+      const cycle = ['Rehab', 'Strength', 'Cardio'];
+      const type = (dayOfWeek === 0) ? 'Rehab' : cycle[shiftDay % 3];
+      
+      let details = [];
+      if (type === 'Rehab') details = ['Yoga / mobility 30m', 'Foam Roll', 'Hip openers'];
+      else if (type === 'Strength') details = ['Push/Pull/Hinge', 'Compound lifts 3x5', 'Core 10m'];
+      else details = ['Zone 2 Run 45m', 'Intervals', 'Ruck / Hike'];
 
-      const types = ['Rehab', 'Strength', 'Cardio'];
-      const type = types[index];
-
-      const rehabOptions = [
-        ['Yoga / mobility 30–40 mins', 'Spine & hip opener focus'],
-        ['Foam roller + hip capsule 20 mins', 'Psoas release + decompression lie-back'],
-        ['Resistance bands activation 25 mins', 'Glutes, scapula, core stability'],
-      ];
-
-      const strengthOptions = [
-        ['Blueprint strength circuit 30–40 mins', 'Push / pull / hinge with perfect form'],
-        ['Heavy strength (Huberman-style)', '3–5 sets of 5 reps on big lifts only'],
-      ];
-
-      const cardioOptions = [
-        ['Trail hike 45–75 mins', 'Keep nasal breathing where possible'],
-        ['Waterfall run loop 25–35 mins', 'Easy–moderate pace, smooth strides'],
-        ['Swim 20–30 mins', 'Continuous or intervals, relaxed breathing'],
-      ];
-
-      let options;
-      if (type === 'Rehab') options = rehabOptions;
-      else if (type === 'Strength') options = strengthOptions;
-      else options = cardioOptions;
-
-      // deterministic selection based on day-of-year
-      const startOfYear = new Date(date.getFullYear(), 0, 0);
-      const dayOfYear = Math.floor((date - startOfYear) / 86400000);
-      const idx = dayOfYear % options.length;
-      const detailLines = options[idx];
-
-      return { type, detailLines };
+      els.wodType.textContent = `${type} Focus`;
+      els.wodDetails.innerHTML = details.map(d => `<li>${d}</li>`).join('');
     }
 
-    function updateWorkoutOfDay(currentDateStr) {
-      if (!wodTypeEl || !wodDetailsEl) return;
-      const date = parseISODate(currentDateStr);
-      const workout = getWorkoutDataForDate(date);
-      wodTypeEl.textContent = `${workout.type} day`;
-      wodDetailsEl.innerHTML = workout.detailLines
-        .map(line => `<li>${line}</li>`)
-        .join('');
-    }
+    function updateVisuals() {
+      const state = readState();
+      const xp = calculateXP(state);
+      const total = Object.values(xp).reduce((a, b) => a + b, 0);
+      previousXP = total; // sync for next interaction
 
-    function updateUI() {
-      const state = readStateFromUI();
-      const xp = computeCategoryXp(state);
-      const total = computeTotalXp(xp);
-
-      const catMax = {
-        supplements: 500,
-        smoothie: 500,
-        fitness: 1000,
-        wisdom: 1000,
-        mastery: 2000,
-        responsibility: 2000,
-        arete: 1000,
-        values: 1000,
-      };
-
+      // Cards
       document.querySelectorAll('.card').forEach(card => {
         const cat = card.dataset.category;
+        if (!cat || !CONSTANTS.CATEGORY_MAX[cat]) return;
+        const current = xp[cat];
+        const max = CONSTANTS.CATEGORY_MAX[cat];
+        
         const xpEl = card.querySelector('.xp');
-        if (!cat || !xpEl || !(cat in catMax)) return;
-        xpEl.textContent = `${xp[cat]} / ${catMax[cat]} XP`;
+        if (xpEl) xpEl.textContent = `${current} / ${max} XP`;
+        const fillEl = card.querySelector('.progress-fill');
+        if (fillEl) {
+            const pct = Math.min(100, (current / max) * 100);
+            fillEl.style.width = `${pct}%`;
+            if (pct >= 100) fillEl.classList.add('maxed'); else fillEl.classList.remove('maxed');
+        }
       });
 
-      totalXpEl.textContent = `Total XP: ${total} / ${MAX_XP}`;
-      xpPillValue.textContent = total;
+      // Totals
+      els.totalXp.textContent = `Total XP: ${total} / ${CONSTANTS.MAX_XP}`;
+      els.xpPillValue.textContent = total;
+      
+      let rLabel = 'Red Zone', rClass = 'red';
+      if (total >= CONSTANTS.XP_LEVELS.ELITE) { rLabel = 'Elite Day'; rClass = 'elite'; }
+      else if (total >= CONSTANTS.XP_LEVELS.STRONG) { rLabel = 'Strong Day'; rClass = 'strong'; }
+      else if (total >= CONSTANTS.XP_LEVELS.SURVIVAL) { rLabel = 'Survival Day'; rClass = 'survival'; }
+      
+      els.dayRating.innerHTML = `Day Rating: <span class="badge ${rClass}">${rLabel}</span>`;
+      return total;
+    }
 
-      const rating = ratingForTotal(total);
-      dayRatingEl.innerHTML = `Day Rating: <span class="badge ${rating.cls}">${rating.label}</span>`;
+    function fireConfetti() {
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        const pieces = Array.from({length: 100}).map(() => ({
+            x: Math.random()*canvas.width, y: Math.random()*canvas.height-canvas.height,
+            c: ['#66c5a5', '#f5c15c', '#ffffff'][Math.floor(Math.random()*3)], s: Math.random()*5+2, d: Math.random()*5+2
+        }));
+        let frame = 0;
+        function loop() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            let active = false;
+            pieces.forEach(p => {
+                p.y += p.d; p.x += Math.sin(frame/20);
+                if (p.y < canvas.height) active = true;
+                ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, p.s, p.s);
+            });
+            frame++;
+            if (active) requestAnimationFrame(loop); else ctx.clearRect(0,0,canvas.width, canvas.height);
+        }
+        loop();
+    }
 
-      const currentDateStr = dateInput.value || todayISO();
-      updateStreaks(currentDateStr);
-      updateWorkoutOfDay(currentDateStr);
+    // --- STATS LOGIC ---
+    function renderStats() {
+        const container = document.getElementById('stats-chart');
+        container.innerHTML = '';
+        const today = new Date();
+        
+        // Generate last 7 days
+        for (let i=6; i>=0; i--) {
+            const d = new Date(today);
+            d.setDate(d.getDate() - i);
+            const iso = d.toISOString().slice(0,10);
+            const key = formatDateKey(iso);
+            const raw = localStorage.getItem(key);
+            let xp = 0;
+            if (raw) {
+                const state = JSON.parse(raw);
+                const calculated = calculateXP(state);
+                xp = Object.values(calculated).reduce((a,b)=>a+b,0);
+            }
+
+            // Visual logic
+            const pct = Math.min(100, (xp / CONSTANTS.MAX_XP) * 100);
+            let cls = 'red';
+            if (xp >= CONSTANTS.XP_LEVELS.ELITE) cls = 'elite';
+            else if (xp >= CONSTANTS.XP_LEVELS.STRONG) cls = 'strong';
+            else if (xp >= CONSTANTS.XP_LEVELS.SURVIVAL) cls = 'survival';
+
+            const group = document.createElement('div');
+            group.className = 'bar-group';
+            group.innerHTML = `
+                <div class="bar-value">${xp > 0 ? (xp/1000).toFixed(1)+'k' : ''}</div>
+                <div class="bar ${cls}" style="height:${pct}%"></div>
+                <div class="bar-label">${iso.slice(5)}</div>
+            `;
+            container.appendChild(group);
+        }
+        els.modals.stats.style.display = 'flex';
+    }
+
+    // --- APP FLOW ---
+    function loadDay() {
+      const date = els.dateInput.value || getTodayISO();
+      updateDynamicContent(date);
+      const raw = localStorage.getItem(formatDateKey(date));
+      writeState(raw ? JSON.parse(raw) : {});
+      updateVisuals();
     }
 
     function saveDay() {
-      const date = dateInput.value || todayISO();
-      const key = getKeyForDate(date);
-      const state = readStateFromUI();
-      localStorage.setItem(key, JSON.stringify(state));
-      updateUI();
-      alert('Day saved');
-    }
-
-    function loadDay(date) {
-      const key = getKeyForDate(date);
-      const raw = localStorage.getItem(key);
-      if (raw) {
-        const state = JSON.parse(raw);
-        writeStateToUI(state);
+      const date = els.dateInput.value || getTodayISO();
+      const state = readState();
+      localStorage.setItem(formatDateKey(date), JSON.stringify(state));
+      const total = updateVisuals();
+      if (total >= CONSTANTS.XP_LEVELS.ELITE) {
+        fireConfetti();
+        setTimeout(() => alert('ELITE DAY SAVED. Excellent work.'), 100);
       } else {
-        writeStateToUI({});
+        alert('Day progress saved.');
       }
-      updateUI();
     }
 
-    function resetDay() {
-      writeStateToUI({});
-      updateUI();
-    }
-
-    getCheckboxes().forEach(cb => {
-      cb.addEventListener('change', updateUI);
+    // Event Listeners
+    getCheckboxes().forEach(cb => cb.addEventListener('change', handleCheck));
+    els.dateInput.addEventListener('change', loadDay);
+    els.saveBtn.addEventListener('click', saveDay);
+    els.resetBtn.addEventListener('click', () => { 
+        if(confirm("Clear all progress for this date?")) { writeState({}); updateVisuals(); }
     });
-
-    dateInput.addEventListener('change', () => {
-      loadDay(dateInput.value || todayISO());
+    
+    // Modals
+    els.settingsBtn.addEventListener('click', () => {
+        els.modal = els.modals.data;
+        document.getElementById('export-area').value = JSON.stringify({...localStorage}, null, 2);
+        els.modal.style.display = 'flex';
     });
-
-    saveBtn.addEventListener('click', saveDay);
-    resetBtn.addEventListener('click', resetDay);
+    els.statsBtn.addEventListener('click', renderStats);
+    
+    document.getElementById('close-data-modal').onclick = () => els.modals.data.style.display = 'none';
+    document.getElementById('close-stats-modal').onclick = () => els.modals.stats.style.display = 'none';
+    document.getElementById('restore-btn').onclick = () => {
+        try {
+            const data = JSON.parse(document.getElementById('export-area').value);
+            if (confirm("Overwrite data?")) {
+                localStorage.clear();
+                Object.keys(data).forEach(k => localStorage.setItem(k, data[k]));
+                els.modals.data.style.display = 'none';
+                loadDay();
+            }
+        } catch(e) { alert("Invalid JSON"); }
+    };
 
     // Init
-    loadDay(dateInput.value);
+    els.dateInput.value = getTodayISO();
+    loadDay();
+
   </script>
 </body>
 </html>
