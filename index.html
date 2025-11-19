@@ -388,13 +388,19 @@
 
     .items {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr)); /* max 2 columns per card */
       gap: 0.18rem 0.7rem;
       font-size: 0.9rem;
     }
 
     .items-wide {
-      grid-template-columns: minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr); /* single column for long text cards */
+    }
+
+    @media (max-width: 640px) {
+      .items {
+        grid-template-columns: minmax(0, 1fr);
+      }
     }
 
     label {
@@ -462,7 +468,7 @@
       <div class="app-header-top">
         <div class="app-title-block">
           <div class="app-title">Komorebi OS — Daily Protocols</div>
-          <div class="app-subtitle">Your operator discipline system</div>
+          <div class="app-subtitle">Your daily discipline system</div>
         </div>
         <div class="header-controls">
           <div class="date-block">
@@ -562,7 +568,7 @@
             <div class="card" data-category="fitness">
               <div class="card-header">
                 <div class="card-title-block">
-                  <div class="card-label">Body · Engine</div>
+                  <div class="card-label">Health · Body</div>
                   <div class="card-title">Fitness & Recovery</div>
                 </div>
                 <div class="xp">0 / 1000 XP</div>
@@ -619,16 +625,16 @@
           </div>
         </section>
 
-        <!-- CRAFT / MASTERY -->
+        <!-- CRAFT & DUTY -->
         <section class="section-block">
-          <h2 class="section-title">Craft · Mastery</h2>
-          <div class="section-grid-1">
+          <h2 class="section-title">Craft & Duty</h2>
+          <div class="section-grid-2">
+            <!-- Mastery -->
             <div class="card" data-category="mastery">
               <div class="card-header">
                 <div class="card-title-block">
                   <div class="card-label">Craft · Mastery</div>
                   <div class="card-title">Mastery</div>
-                  <div class="card-subtitle">Sharpening the craft</div>
                 </div>
                 <div class="xp">0 / 2000 XP</div>
               </div>
@@ -638,19 +644,13 @@
                 <label><input type="checkbox" data-key="investorInteraction" />Investor interaction</label>
               </div>
             </div>
-          </div>
-        </section>
 
-        <!-- RESPONSIBILITY -->
-        <section class="section-block">
-          <h2 class="section-title">Duty · Stewardship</h2>
-          <div class="section-grid-1">
+            <!-- Responsibility -->
             <div class="card" data-category="responsibility">
               <div class="card-header">
                 <div class="card-title-block">
                   <div class="card-label">Duty · Stewardship</div>
                   <div class="card-title">Responsibility</div>
-                  <div class="card-subtitle">Protecting the castle</div>
                 </div>
                 <div class="xp">0 / 2000 XP</div>
               </div>
