@@ -41,7 +41,7 @@
     #date-input { background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(0, 0, 0, 0.3); border-radius: 999px; padding: 0.35rem 0.7rem; color: var(--text-main); font-family: inherit; }
     .xp-pill { background: var(--accent-gold-soft); color: var(--accent-gold-strong); border-radius: 999px; padding: 0.3rem 0.75rem; font-size: 0.8rem; border: 1px solid rgba(245, 193, 92, 0.6); font-weight: 600; }
 
-    /* UI ELEMENTS */
+    /* SUMMARY BAR */
     .summary-bar {
       background: rgba(6, 19, 13, 0.9); border-radius: 12px; padding: 0.4rem 0.7rem;
       border: 1px solid rgba(0, 0, 0, 0.35); display: grid; grid-template-columns: minmax(0, 1fr) auto;
@@ -49,7 +49,7 @@
     }
     @media (max-width: 900px) { .summary-bar { grid-template-columns: minmax(0, 1fr); } .summary-actions { justify-content: flex-start; } }
     #total-xp { font-weight: 500; margin-right: 10px; }
-    .badge { display: inline-block; padding: 0.1rem 0.6rem; border-radius: 999px; font-size: 0.78rem; }
+    .badge { display: inline-block; padding: 0.1rem 0.6rem; border-radius: 999px; font-size: 0.78rem; margin-left: 0.2rem; }
     .elite { background: rgba(22, 163, 74, 0.22); color: #6ee7b7; border: 1px solid #16a34a; }
     .strong { background: rgba(37, 99, 235, 0.18); color: #93c5fd; border: 1px solid #2563eb; }
     .survival { background: rgba(234, 179, 8, 0.18); color: #fde68a; border: 1px solid #eab308; }
@@ -81,12 +81,21 @@
     label:hover { color: var(--komorebi-mint-soft); }
     input[type="checkbox"] { accent-color: var(--accent-gold); transform: scale(1.1); cursor: pointer; }
 
+    /* DETAILS DROPDOWN */
+    details.details-list { margin-top: 0.2rem; font-size: 0.8rem; color: var(--text-muted); margin-left: 1.5rem; }
+    details.details-list summary { cursor: pointer; list-style: none; outline: none; }
+    details.details-list summary::-webkit-details-marker { display: none; }
+    details.details-list summary::before { content: "▸"; display: inline-block; margin-right: 0.3rem; font-size: 0.7rem; }
+    details.details-list[open] summary::before { content: "▾"; }
+    .sub-list { margin: 0.2rem 0 0; padding-left: 0.5rem; border-left: 1px solid var(--border-subtle); }
+    .sub-list li { list-style: none; margin-bottom: 0.1rem; }
+
     .prompt-body { font-size: 0.9rem; color: var(--text-muted); line-height: 1.4; font-style: italic; }
     .investor-meta { font-size: 0.75rem; background: rgba(255,255,255,0.1); padding: 0.1rem 0.4rem; border-radius: 4px; color: var(--accent-gold-strong); margin-top: 0.2rem; display: inline-block; }
 
     /* MODALS */
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 50; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-    .modal-content { background: var(--card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--accent-gold); max-width: 800px; width: 95%; max-height: 85vh; overflow-y: auto; }
+    .modal-content { background: var(--card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--accent-gold); max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; }
     .modal-header { display: flex; justify-content: space-between; margin-bottom: 1rem; color: var(--accent-gold); font-size: 1.2rem; font-weight: bold; }
     
     /* EDITOR STYLES */
@@ -101,24 +110,14 @@
     .lib-tab { cursor: pointer; padding: 0.3rem 0.6rem; font-size: 0.85rem; color: var(--text-muted); border-radius: 4px; white-space: nowrap; }
     .lib-tab.active { background: var(--komorebi-mint); color: #000; font-weight: 600; }
     .lib-item { background: rgba(255,255,255,0.03); padding: 0.6rem; border-radius: 6px; margin-bottom: 0.5rem; }
+    .lib-title { color: var(--komorebi-mint); font-weight: bold; font-size: 0.9rem; }
+    .lib-desc { color: var(--text-muted); font-size: 0.85rem; }
 
     /* Stats Chart */
     .chart-container { display: flex; align-items: flex-end; justify-content: space-between; height: 200px; margin-top: 1rem; padding-bottom: 5px; border-bottom: 1px solid var(--text-muted); gap: 4px; }
     .bar-group { display: flex; flex-direction: column; align-items: center; flex: 1; }
     .bar { width: 80%; background: var(--komorebi-mint); border-radius: 4px 4px 0 0; transition: height 0.5s ease; min-height: 2px; position: relative; }
-    .bar.elite { background: #4ade80; box-shadow: 0 0 8px rgba(74, 222, 128, 0.4); }
-    .bar.strong { background: #60a5fa; }
-    .bar.survival { background: #fbbf24; }
-    .bar-label { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; }
-    .bar-value { font-size: 0.65rem; color: #fff; margin-bottom: 2px; }
-
-    /* INVESTOR CARD */
-    .investor-card-content { display: flex; flex-direction: column; gap: 0.3rem; }
-    .investor-name { color: var(--komorebi-mint); font-weight: 700; font-size: 1rem; }
-    .investor-resource { color: var(--text-main); font-style: italic; }
-    .investor-stats { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; display: flex; gap: 0.5rem; align-items: center; }
-    .investor-stats span { background: rgba(255,255,255,0.1); padding: 0.1rem 0.4rem; border-radius: 4px; color: var(--accent-gold-strong); }
-
+    
     /* Animation */
     .floating-xp { position: fixed; color: var(--accent-gold); font-weight: bold; font-size: 1rem; pointer-events: none; animation: floatUp 1s ease-out forwards; z-index: 9999; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
     @keyframes floatUp { 0% { opacity: 1; transform: translateY(0) } 100% { opacity: 0; transform: translateY(-40px) } }
@@ -174,8 +173,8 @@
               </div>
           </div>
           <div class="lib-tabs">
-              <div class="lib-tab active" onclick="switchEditorTab('protocols')">Protocols (Checkboxes)</div>
-              <div class="lib-tab" onclick="switchEditorTab('library')">Library Items</div>
+              <div class="lib-tab active" onclick="switchEditorTab('protocols')">Protocols</div>
+              <div class="lib-tab" onclick="switchEditorTab('library')">Library</div>
               <div class="lib-tab" onclick="switchEditorTab('workouts')">Workouts</div>
           </div>
           <div id="editor-content"></div>
@@ -222,7 +221,7 @@
 
   <script>
     // ==========================================
-    // DEFAULT CONFIGURATION (BACKUP)
+    // DEFAULT CONFIGURATION (Embedded)
     // ==========================================
     const DEFAULT_CONFIG = {
         levels: { elite: 6500, strong: 5000, survival: 3500 },
@@ -425,4 +424,511 @@
                 { name: "Tiny Habits (Fogg)", desc: "Anchor a tiny behavior to an existing trigger." },
                 { name: "Bullet Journal (Carroll)", desc: "Rapid logging of tasks, events, and notes." },
                 { name: "Second Brain (Forte)", desc: "CODE: Capture, Organize, Distill, Express." },
-                { name: "Zettelkasten (Ahrens)", desc:
+                { name: "Zettelkasten (Ahrens)", desc: "Smart notes. Connect ideas to build a web of knowledge." },
+                { name: "12 Week Year (Moran)", desc: "Create urgency by shrinking your timeline." },
+                { name: "4 Disciplines of Execution", desc: "Focus on the WIG (Wildly Important Goal)." },
+                { name: "When (Pink)", desc: "Match your chronotype to your tasks." },
+                { name: "Effortless (McKeown)", desc: "Make it easy to do what matters." }
+            ],
+            investors: [
+                { name: "Stanley Druckenmiller", resource: "The Genius of Stan Druckenmiller (MOI Global)", years: "30 Years" },
+                { name: "Mark Leonard", resource: "Constellation Shareholder Letters / Q&A", years: "25 Years" },
+                { name: "Warren Buffett", resource: "Berkshire Shareholder Letters (1965-2023)", years: "55 Years" },
+                { name: "Charlie Munger", resource: "Poor Charlie's Almanack & Transcripts", years: "15+ Years" },
+                { name: "Seth Klarman", resource: "Margin of Safety & Baupost Letters", years: "25 Years" },
+                { name: "Rakesh Jhunjhunwala", resource: "The Big Bull of India (Insights & PDFs)", years: "35 Years" },
+                { name: "Peter Lynch", resource: "One Up on Wall Street", years: "15 Years" },
+                { name: "Nick Sleep", resource: "Nomad Investment Partnership Letters", years: "13 Years" },
+                { name: "Li Lu", resource: "Himalayan Capital / Modernization", years: "20+ Years" },
+                { name: "Howard Marks", resource: "The Most Important Thing / Memos", years: "25+ Years" },
+                { name: "Joel Greenblatt", resource: "The Little Book that Beats the Market / Class Notes", years: "20 Years" },
+                { name: "George Soros", resource: "The Alchemy of Finance", years: "35 Years" },
+                { name: "Benjamin Graham", resource: "The Intelligent Investor / Security Analysis", years: "25 Years" },
+                { name: "Philip Fisher", resource: "Common Stocks and Uncommon Profits", years: "70 Years" },
+                { name: "Terry Smith", resource: "Investing for Growth / Fundsmith Letters", years: "20+ Years" },
+                { name: "Bill Ackman", resource: "Pershing Square Letters & Activist Campaigns", years: "20 Years" },
+                { name: "Chuck Akre", resource: "Akre Capital Management Letters (The Three-Legged Stool)", years: "30 Years" },
+                { name: "John Templeton", resource: "Templeton Growth Fund", years: "40 Years" },
+                { name: "Walter Schloss", resource: "Factors Needed to Make Money in the Stock Market", years: "50 Years" },
+                { name: "Mohnish Pabrai", resource: "The Dhandho Investor", years: "20 Years" },
+                { name: "Michael Mauboussin", resource: "More Than You Know / Consilient Observer", years: "Strategy" },
+                { name: "Ray Dalio", resource: "Principles / Bridgewater Daily Observations", years: "40 Years" },
+                { name: "Jamie Dimon", resource: "JPMorgan Chase Shareholder Letters", years: "20 Years" },
+                { name: "Bruce Greenwald", resource: "Class Notes & Value Investing: From Graham to Buffett", years: "Academic" },
+                { name: "Jim Rogers", resource: "Investment Biker", years: "20 Years" },
+                { name: "Rick Guerin", resource: "Pacific Partners", years: "20 Years" },
+                { name: "David Tepper", resource: "Appaloosa Management", years: "20 Years" },
+                { name: "Kevin Daly", resource: "FiveT Capital", years: "15 Years" },
+                { name: "Eddie Lampert", resource: "ESL Investments", years: "20 Years" },
+                { name: "David Einhorn", resource: "Greenlight Capital / Fooling Some of the People All of the Time", years: "20 Years" },
+                { name: "Stan Perlmeter", resource: "Perlmeter Investments", years: "20 Years" },
+                { name: "Daniel Loeb", resource: "Third Point Letters", years: "20 Years" },
+                { name: "Tom Knapp", resource: "Tweedy, Browne", years: "20 Years" },
+                { name: "Shelby Davis", resource: "Davis Dynasty", years: "45 Years" },
+                { name: "Bruce Berkowitz", resource: "Fairholme Fund", years: "15 Years" },
+                { name: "Julian Robertson", resource: "Tiger Management", years: "20 Years" },
+                { name: "Lou Simpson", resource: "GEICO Investments", years: "25 Years" },
+                { name: "Prem Watsa", resource: "Fairfax Financial Letters", years: "25 Years" },
+                { name: "Robert Rodriguez", resource: "FPA Capital", years: "30 Years" },
+                { name: "John Neff", resource: "Vanguard Windsor Fund", years: "35 Years" },
+                { name: "Glenn Greenberg", resource: "Chieftain Capital", years: "25 Years" },
+                { name: "Bill Ruane", resource: "Sequoia Fund", years: "15 Years" },
+                { name: "Philip Carret", resource: "Pioneer Fund", years: "55 Years" },
+                { name: "Adam Smith", resource: "The Wealth of Nations", years: "Classic" },
+                { name: "John Brooks", resource: "Business Adventures", years: "Classic" },
+                { name: "Robert Pirsig", resource: "Zen and the Art of Motorcycle Maintenance", years: "Philosophy" },
+                { name: "Josh Waitzkin", resource: "The Art of Learning", years: "Performance" },
+                { name: "Hamilton Helmer", resource: "7 Powers", years: "Strategy" },
+                { name: "William Thorndike", resource: "The Outsiders", years: "Capital Allocation" },
+                { name: "Lawrence Cunningham", resource: "Quality Investing / Margin of Trust", years: "Analysis" },
+                { name: "Jeremy Miller", resource: "Warren Buffett's Ground Rules", years: "History" },
+                { name: "Lee Freeman-Shor", resource: "The Art of Execution", years: "Process" },
+                { name: "Brad Feld", resource: "Venture Deals", years: "VC" },
+                { name: "Tren Griffin", resource: "Charlie Munger: The Complete Investor", years: "Wisdom" },
+                { name: "William Green", resource: "Richer, Wiser, Happier", years: "Wisdom" },
+                { name: "Glen Arnold", resource: "The Deals of Warren Buffett", years: "History" },
+                { name: "Mary Buffett", resource: "Buffettology", years: "Analysis" },
+                { name: "Alice Schroeder", resource: "The Snowball", years: "Biography" },
+                { name: "Peter Kaufman", resource: "Poor Charlie's Almanack", years: "Multidisciplinary" }
+            ],
+            quotes: [
+                "“Discipline equals freedom.” — Jocko Willink",
+                "“The impediment to action advances action.” — Marcus Aurelius",
+                "“You do not rise to the level of your goals. You fall to the level of your systems.” — James Clear",
+                "“The score takes care of itself.” — Bill Walsh",
+                "“He who has a why to live can bear almost any how.” — Nietzsche",
+                "“Be the person with embarrassing goals and impressive results.” — Stephen Guise",
+                "“Action isn't just the effect of motivation; it's also the cause of it.” — Mark Manson",
+                "“Give me a lever long enough and a fulcrum on which to place it, and I shall move the world.” — Archimedes",
+                "“What you do is what matters, not what you think or say or plan.” — Jason Fried",
+                "“It is the quality of time at work that counts and the quantity of time at home that matters.” — Brian Tracy",
+                "“I am the master of my fate, I am the captain of my soul.” — Invictus",
+                "“We suffer more in imagination than in reality.” — Seneca",
+                "“If you want to go fast, go alone. If you want to go far, go together.” — African Proverb",
+                "“It is not the critic who counts... The credit belongs to the man who is actually in the arena.” — Theodore Roosevelt",
+                "“Everything in life is a mind game!” — David Goggins",
+                "“Slow is smooth, smooth is fast.” — Navy SEALs",
+                "“Invert, always invert.” — Jacobi",
+                "“I want to be able to look back and say, ‘I didn’t solve everything, but I didn’t create any new problems.’” — Naval Ravikant",
+                "“Spend each day trying to be a little wiser than you were when you woke up.” — Charlie Munger",
+                "“To get what you want, you have to deserve what you want.” — Charlie Munger",
+                "“Compound interest is the eighth wonder of the world. He who understands it, earns it ... he who doesn't ... pays it.” — Einstein",
+                "“I never allow myself to hold an opinion on anything that I don't know the other side's argument better than they do.” — Charlie Munger",
+                "“The best revenge is not to be like your enemy.” — Marcus Aurelius",
+                "“Waste no more time arguing about what a good man should be. Be one.” — Marcus Aurelius",
+                "“If you are going through hell, keep going.” — Winston Churchill",
+                "“Whether you think you can, or you think you can't – you're right.” — Henry Ford",
+                "“The only way to do great work is to love what you do.” — Steve Jobs",
+                "“It does not matter how slowly you go as long as you do not stop.” — Confucius",
+                "“Simplicity is the ultimate sophistication.” — Leonardo da Vinci",
+                "“Knowing yourself is the beginning of all wisdom.” — Aristotle",
+                "“Everything we hear is an opinion, not a fact. Everything we see is a perspective, not the truth.” — Marcus Aurelius",
+                "“Take up one idea. Make that one idea your life - think of it, dream of it, live on that idea.” — Swami Vivekananda",
+                "“You have to grow from the inside out. None can teach you, none can make you spiritual.” — Swami Vivekananda",
+                "“In a conflict between the heart and the brain, follow your heart.” — Swami Vivekananda",
+                "“The world is nothing but change. Our life is perception.” — Marcus Aurelius",
+                "“Man is affected not by events but by the view he takes of them.” — Epictetus",
+                "“Throw me to the wolves and I will return leading the pack.” — Seneca",
+                "“The best armour of old age is a well spent life preceding it.” — Charlie Munger",
+                "“Comfort is no test of truth. Truth is often far from being comfortable.” — Swami Vivekananda",
+                "“If I change, the world will change, no-one else will change the world for me.” — Unknown"
+            ]
+        },
+        protocols: [
+            {
+                id: "health",
+                title: "Health",
+                columns: 3,
+                cards: [
+                    {
+                        id: "supplements",
+                        title: "Supplement Stack",
+                        maxXP: 500,
+                        scoringType: "count_multiplier",
+                        perItemXP: 500,
+                        items: [ 
+                            { id: "supplementStack", label: "Stack complete" } 
+                        ],
+                        details: ["Electrolytes", "Alpha GPC", "Omega 3", "Flexi-Calcium", "Joint Complex"]
+                    },
+                    {
+                        id: "smoothie",
+                        title: "Supersmoothie",
+                        maxXP: 500,
+                        scoringType: "count_multiplier",
+                        perItemXP: 500,
+                        items: [ 
+                            { id: "smoothie", label: "Smoothie complete" } 
+                        ],
+                        details: ["Clean Protein 35g", "Creatine 5g", "Greens powder", "Berries", "Turmeric/Ginger"]
+                    },
+                    {
+                        id: "fitness",
+                        title: "Fitness & Recovery",
+                        maxXP: 1000,
+                        scoringType: "count_multiplier", 
+                        perItemXP: 334,
+                        items: [
+                            { id: "sunshine", label: "Sunshine" },
+                            { id: "rollerYoga", label: "Roller / Yoga" },
+                            { id: "protein120", label: "Protein ≥ 120g" },
+                            { id: "exercise", label: "Exercise" },
+                            { id: "cold", label: "Cold / sauna" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "mind",
+                title: "Mind & Arete",
+                columns: 3,
+                cards: [
+                    {
+                        id: "wisdom",
+                        title: "Wisdom & Clarity",
+                        maxXP: 1000,
+                        scoringType: "count_multiplier",
+                        perItemXP: 250,
+                        items: [
+                            { id: "gratitude", label: "Gratitude" },
+                            { id: "journal", label: "Journal" },
+                            { id: "meditate", label: "Meditate" },
+                            { id: "mentalModel", label: "Mental model" },
+                            { id: "productivityGame", label: "Productivity game" },
+                            { id: "philosophy", label: "Philosophy" }
+                        ]
+                    },
+                    {
+                        id: "arete",
+                        title: "Arete & Alignment",
+                        maxXP: 1000,
+                        scoringType: "count_multiplier",
+                        perItemXP: 500,
+                        items: [
+                            { id: "familyTime", label: "Family time" },
+                            { id: "golf", label: "Hit balls / play 9" },
+                            { id: "fiction", label: "Read sci-fi / fiction" },
+                            { id: "lunchDinner", label: "Lunch or dinner out" },
+                            { id: "contribution", label: "Contribution" }
+                        ]
+                    },
+                    {
+                        id: "values",
+                        title: "Values",
+                        maxXP: 1000,
+                        scoringType: "count_multiplier",
+                        perItemXP: 334,
+                        items: [
+                            { id: "valueCourage", label: "Courage" },
+                            { id: "valueAdventure", label: "Adventure" },
+                            { id: "valueSelfImprovement", label: "Self-improvement" },
+                            { id: "valueIntegrity", label: "Integrity" },
+                            { id: "valueDiscipline", label: "Discipline" },
+                            { id: "valueKindness", label: "Kindness" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "craft",
+                title: "Craft & Duty",
+                columns: 2,
+                cards: [
+                    {
+                        id: "mastery",
+                        title: "Mastery",
+                        maxXP: 2000,
+                        scoringType: "count_multiplier",
+                        perItemXP: 666,
+                        items: [
+                            { id: "investingReading", label: "Investing reading list" },
+                            { id: "researchMemo", label: "Research memo" },
+                            { id: "investorInteraction", label: "Investor interaction" }
+                        ]
+                    },
+                    {
+                        id: "responsibility",
+                        title: "Responsibility",
+                        maxXP: 2000,
+                        scoringType: "count_multiplier",
+                        perItemXP: 666,
+                        items: [
+                            { id: "earnIncome", label: "Earn income" },
+                            { id: "completeTaxes", label: "Complete taxes / admin" },
+                            { id: "hectorBellaEducation", label: "Hector & Bella education" }
+                        ]
+                    }
+                ]
+            }
+        ],
+        workouts: [
+            { t: "Sunday", d: "Endurance/Cardio (Swim, Hike, Long Zone 2)" },
+            { t: "Monday", d: "Lower Body Strength (Squat/Deadlift, Posterior Chain)" },
+            { t: "Tuesday", d: "Sauna + Cold Exposure (3-5 Rounds)" },
+            { t: "Wednesday", d: "Upper Body Strength (Push/Pull, Delts)" },
+            { t: "Thursday", d: "Cardio Endurance (Row/Ski/Run/Bike/Ruck)" },
+            { t: "Friday", d: "HIIT (Bike, Row, Sled, KB Swings - No Burpees)" },
+            { t: "Saturday", d: "Hypertrophy (Arms, Core, Calves, Neck)" }
+        ]
+    };
+
+    // --- GLOBAL STATE ---
+    let APP_CONFIG = {};
+    let currentLibTab = 'mentalModels';
+    let currentEditorTab = 'protocols';
+
+    // --- INITIALIZATION ---
+    function init() {
+        // Load Config: Try LocalStorage first, then fall back to Default
+        const savedConfig = localStorage.getItem('komorebi_custom_config');
+        if (savedConfig) {
+            APP_CONFIG = JSON.parse(savedConfig);
+        } else {
+            APP_CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG)); // Deep copy
+        }
+
+        els.dateInput.value = new Date().toISOString().slice(0, 10);
+        renderApp();
+        loadDay();
+        
+        // Listeners
+        els.dateInput.addEventListener('change', loadDay);
+        document.getElementById('save-day').addEventListener('click', saveDay);
+        document.getElementById('library-btn').addEventListener('click', () => { openModal('library-modal'); renderLibrary(); });
+        document.getElementById('stats-btn').addEventListener('click', renderStats);
+        document.getElementById('settings-btn').addEventListener('click', openSettings);
+        document.getElementById('reset-day').addEventListener('click', resetDay);
+        document.getElementById('editor-btn').addEventListener('click', openEditor);
+    }
+
+    // --- LOGIC ENGINE ---
+    const els = {
+        content: document.getElementById('app-content'),
+        dateInput: document.getElementById('date-input'),
+        xpTotal: document.getElementById('total-xp'),
+        xpPill: document.getElementById('xp-pill-value'),
+        rating: document.getElementById('day-rating'),
+        libList: document.getElementById('library-list')
+    };
+
+    // --- MAIN RENDERER ---
+    function renderApp() {
+        let html = '';
+        
+        // 1. Daily Alignment (Prompts)
+        const seed = els.dateInput.value;
+        const model = getRandom(APP_CONFIG.library.mentalModels, seed + 'm');
+        const prod = getRandom(APP_CONFIG.library.productivity, seed + 'p');
+        const quote = getRandom(APP_CONFIG.library.quotes, seed + 'q');
+        const inv = getInvestorOfTheWeek(seed);
+
+        html += `
+        <section class="section-block">
+          <h2 class="section-title">Daily Alignment</h2>
+          <div class="grid-2">
+            <div class="card"><div class="card-header"><div class="card-title">Mental Model</div></div><div class="prompt-body"><b>${model.name}</b><br>${model.desc}</div></div>
+            <div class="card"><div class="card-header"><div class="card-title">Productivity</div></div><div class="prompt-body"><b>${prod.name}</b><br>${prod.desc}</div></div>
+            <div class="card"><div class="card-header"><div class="card-title">Wisdom</div></div><div class="prompt-body">${quote.name ? quote.desc : quote}</div></div>
+            <div class="card" style="border-color:var(--komorebi-mint-soft)">
+                <div class="card-header"><div class="card-title">Investor of the Week</div><div class="xp">Weekly</div></div>
+                <div class="prompt-body">
+                    <div style="color:var(--komorebi-mint); font-weight:700">${inv.name}</div>
+                    <div style="font-style:italic">${inv.resource}</div>
+                    <div class="investor-meta">${inv.years}</div>
+                </div>
+            </div>
+          </div>
+        </section>`;
+
+        // 2. Protocols
+        APP_CONFIG.protocols.forEach(section => {
+            html += `<section class="section-block"><h2 class="section-title">${section.title}</h2><div class="grid-${section.columns}">`;
+            section.cards.forEach(card => {
+                html += `
+                <div class="card" id="card-${card.id}">
+                    <div class="card-header">
+                        <div class="card-title">${card.title}</div>
+                        <div class="xp-display">0 / ${card.maxXP} XP</div>
+                    </div>
+                    <div class="progress-track"><div class="progress-fill"></div></div>
+                    <div class="items">`;
+                card.items.forEach(item => {
+                    let xpVal = card.scoringType === 'count_multiplier' ? card.perItemXP : (item.xp || card.maxXP);
+                    html += `<label><input type="checkbox" data-key="${item.id}" data-card="${card.id}" data-xp="${xpVal}"> ${item.label}</label>`;
+                });
+                
+                // RENDER DETAILS DROPDOWN IF EXISTS
+                if (card.details && card.details.length > 0) {
+                    html += `<details class="details-list"><summary>View Details</summary><ul class="sub-list">`;
+                    card.details.forEach(d => html += `<li>${d}</li>`);
+                    html += `</ul></details>`;
+                }
+
+                html += `</div></div>`;
+            });
+            html += `</div></section>`;
+        });
+
+        // 3. Daily Note
+        html += `<section class="section-block"><div class="card"><div class="card-header"><div class="card-title">Daily Journal</div></div><textarea id="daily-note-area" placeholder="Wins, lessons, or thoughts..."></textarea></div></section>`;
+
+        els.content.innerHTML = html;
+
+        // Re-attach listeners
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', (e) => {
+                updateVisuals();
+                if(e.target.checked) showFloatingXP(e);
+            });
+        });
+    }
+
+    // --- EDITOR ENGINE ---
+    function openEditor() { openModal('editor-modal'); renderEditorContent(); }
+    function switchEditorTab(tab) {
+        currentEditorTab = tab;
+        document.querySelectorAll('#editor-modal .lib-tab').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active');
+        renderEditorContent();
+    }
+    function renderEditorContent() {
+        const container = document.getElementById('editor-content');
+        container.innerHTML = '';
+        if (currentEditorTab === 'protocols') {
+            APP_CONFIG.protocols.forEach((section, sIdx) => {
+                let html = `<div class="editor-section"><div class="editor-label">${section.title}</div>`;
+                section.cards.forEach((card, cIdx) => {
+                    html += `<div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; margin-bottom:10px;">
+                        <div class="editor-row"><input class="editor-input" value="${card.title}" onchange="updateConfigValue('protocols', '${sIdx}.cards.${cIdx}.title', this.value)">
+                        <input class="editor-input-sm" type="number" value="${card.maxXP}" onchange="updateConfigValue('protocols', '${sIdx}.cards.${cIdx}.maxXP', this.value)"> XP</div>
+                        <div class="editor-label" style="font-size:0.7rem; color:#aaa">Checkboxes</div>`;
+                    card.items.forEach((item, iIdx) => {
+                        html += `<div class="editor-row"><input class="editor-input" value="${item.label}" onchange="updateConfigValue('protocols', '${sIdx}.cards.${cIdx}.items.${iIdx}.label', this.value)">
+                        <button class="danger icon-btn" onclick="deleteProtocolItem(${sIdx}, ${cIdx}, ${iIdx})">×</button></div>`;
+                    });
+                    html += `<button onclick="addProtocolItem(${sIdx}, ${cIdx})" style="font-size:0.7rem; padding:2px 8px;">+ Add Checkbox</button></div>`;
+                });
+                html += `</div>`;
+                container.innerHTML += html;
+            });
+        } else if (currentEditorTab === 'library') {
+            container.innerHTML = `<p style="color:#888; font-size:0.8rem;">Add items to your random rotation.</p>`;
+            renderLibraryEditSection(container, 'mentalModels', 'Mental Models', ['Name', 'Description']);
+            renderLibraryEditSection(container, 'productivity', 'Productivity', ['Name', 'Description']);
+            renderLibraryEditSection(container, 'investors', 'Investors', ['Name', 'Resource', 'Years']);
+        } else if (currentEditorTab === 'workouts') {
+            let html = `<div class="editor-section"><div class="editor-label">Daily Workouts</div>`;
+            if(!APP_CONFIG.workouts) APP_CONFIG.workouts = [];
+            APP_CONFIG.workouts.forEach((w, idx) => {
+                html += `<div class="editor-row"><div style="width:80px; font-size:0.8rem;">Day ${idx}</div>
+                <input class="editor-input" value="${w.t}" onchange="updateConfigValue('workouts', '${idx}.t', this.value)">
+                <input class="editor-input" value="${w.d}" onchange="updateConfigValue('workouts', '${idx}.d', this.value)"></div>`;
+            });
+            container.innerHTML = html + `</div>`;
+        }
+    }
+    function renderLibraryEditSection(container, key, title, fields) {
+        let html = `<div class="editor-section"><div class="editor-label">${title} (${APP_CONFIG.library[key].length})</div>`;
+        html += `<div class="editor-row"><input id="new-${key}-1" class="editor-input" placeholder="${fields[0]}">
+            ${fields[1] ? `<input id="new-${key}-2" class="editor-input" placeholder="${fields[1]}">` : ''}
+            <button onclick="addToLibrary('${key}')">+</button></div></div>`;
+        container.innerHTML += html;
+    }
+    function updateConfigValue(root, path, value) {
+        let parts = path.split('.'); let obj = APP_CONFIG[root];
+        for(let i=0; i<parts.length-1; i++) obj = obj[parts[i]];
+        obj[parts[parts.length-1]] = value;
+    }
+    function addProtocolItem(sIdx, cIdx) {
+        APP_CONFIG.protocols[sIdx].cards[cIdx].items.push({ id: "custom_" + Date.now(), label: "New Habit" });
+        renderEditorContent();
+    }
+    function deleteProtocolItem(sIdx, cIdx, iIdx) {
+        if(confirm("Delete?")) { APP_CONFIG.protocols[sIdx].cards[cIdx].items.splice(iIdx, 1); renderEditorContent(); }
+    }
+    function addToLibrary(key) {
+        const f1 = document.getElementById(`new-${key}-1`).value;
+        const f2 = document.getElementById(`new-${key}-2`) ? document.getElementById(`new-${key}-2`).value : "";
+        if(f1) {
+            let newItem = key === 'investors' ? { name: f1, resource: f2, years: "N/A" } : { name: f1, desc: f2 };
+            APP_CONFIG.library[key].push(newItem); alert("Added!"); renderEditorContent();
+        }
+    }
+    function saveCustomConfig() {
+        localStorage.setItem('komorebi_custom_config', JSON.stringify(APP_CONFIG));
+        closeModal('editor-modal'); renderApp(); updateVisuals(); alert("Configuration Saved!");
+    }
+    function factoryReset() {
+        if(confirm("Reset to defaults?")) { localStorage.removeItem('komorebi_custom_config'); location.reload(); }
+    }
+
+    // --- CALCULATIONS ---
+    function updateVisuals() {
+        const state = readState();
+        let totalXP = 0;
+        APP_CONFIG.protocols.forEach(section => {
+            section.cards.forEach(card => {
+                let cardXP = 0;
+                const checkedCount = card.items.filter(i => state[i.id]).length;
+                if (card.scoringType === 'count_multiplier') {
+                    if (checkedCount === card.items.length) cardXP = card.maxXP;
+                    else cardXP = checkedCount * card.perItemXP;
+                } else {
+                    card.items.forEach(i => { if(state[i.id]) cardXP += (i.xp || 0); });
+                }
+                if (cardXP > card.maxXP) cardXP = card.maxXP;
+                totalXP += cardXP;
+                const cardEl = document.getElementById(`card-${card.id}`);
+                if (cardEl) {
+                    cardEl.querySelector('.xp-display').innerText = `${Math.round(cardXP)} / ${card.maxXP} XP`;
+                    const pct = (cardXP / card.maxXP) * 100;
+                    const fill = cardEl.querySelector('.progress-fill');
+                    fill.style.width = `${pct}%`;
+                    if(pct >= 100) fill.classList.add('maxed'); else fill.classList.remove('maxed');
+                }
+            });
+        });
+        document.getElementById('total-xp').innerText = `Total: ${Math.round(totalXP)} / ${APP_CONFIG.maxXP}`;
+        document.getElementById('xp-pill-value').innerText = Math.round(totalXP);
+        let label = "Red Zone", cls = "red";
+        if (totalXP >= APP_CONFIG.levels.elite) { label = "Elite"; cls = "elite"; }
+        else if (totalXP >= APP_CONFIG.levels.strong) { label = "Strong"; cls = "strong"; }
+        else if (totalXP >= APP_CONFIG.levels.survival) { label = "Survival"; cls = "survival"; }
+        const rating = document.getElementById('day-rating');
+        rating.className = `badge ${cls}`; rating.innerText = label;
+    }
+
+    // --- LIBRARY ---
+    function renderLibrary() {
+        const filter = document.getElementById('lib-search').value.toLowerCase();
+        let data = APP_CONFIG.library[currentLibTab] || [];
+        if(currentLibTab === 'quotes') data = data.map(q => ({ name: "Quote", desc: q }));
+        els.libList.innerHTML = data.filter(i => i.name.toLowerCase().includes(filter) || (i.desc && i.desc.toLowerCase().includes(filter)))
+            .map(i => `<div class="lib-item"><div class="lib-title">${i.name} ${i.years ? `<span class="investor-meta">${i.years}</span>` : ''}</div><div class="lib-desc">${i.resource || i.desc}</div></div>`).join('');
+    }
+    function switchLibTab(tab) {
+        currentLibTab = tab; document.querySelectorAll('#library-modal .lib-tab').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active'); renderLibrary();
+    }
+
+    // --- HELPERS ---
+    function readState() { const s = {}; document.querySelectorAll('input[type="checkbox"]').forEach(cb => s[cb.dataset.key] = cb.checked); return s; }
+    function writeState(s) { document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = !!s[cb.dataset.key]); document.getElementById('daily-note-area').value = s.note || ""; }
+    function getFormatKey() { return `komorebi_${els.dateInput.value}`; }
+    function saveDay() { const s = readState(); s.note = document.getElementById('daily-note-area').value; localStorage.setItem(getFormatKey(), JSON.stringify(s)); alert("Saved."); }
+    function loadDay() { renderApp(); const raw = localStorage.getItem(getFormatKey()); if(raw) writeState(JSON.parse(raw)); updateVisuals(); }
+    function resetDay() { writeState({}); updateVisuals(); }
+    function showFloatingXP(e) { const div = document.createElement('div'); div.className = 'floating-xp'; div.innerText = `+${e.target.dataset.xp} XP`; div.style.left = e.clientX + 'px'; div.style.top = e.clientY + 'px'; document.body.appendChild(div); setTimeout(() => div.remove(), 1000); }
+    function fireConfetti() { /* Animation code */ }
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function getRandom(arr, seed) { let hash = 0; for(let i=0; i<seed.length; i++) hash = ((hash << 5) - hash) + seed.charCodeAt(i); return arr[Math.abs(hash) % arr.length]; }
+    function getInvestorOfTheWeek(dateStr) { const d = new Date(dateStr); const start = new Date(d.getFullYear(), 0, 1); const week = Math.ceil((((d - start) / 86400000) + start.getDay() + 1) / 7); return APP_CONFIG.library.investors[week % APP_CONFIG.library.investors.length]; }
+    function openSettings() { document.getElementById('export-area').value = JSON.stringify({...localStorage}, null, 2); openModal('settings-modal'); }
+    function restoreData() { try { const d = JSON.parse(document.getElementById('export-area').value); if(confirm("Overwrite?")) { localStorage.clear(); Object.keys(d).forEach(k => localStorage.setItem(k, d[k])); location.reload(); } } catch(e) { alert("Invalid JSON"); } }
+    function renderStats() { const container = document.getElementById('stats-chart'); container.innerHTML = ''; const today = new Date(); for (let i=6; i>=0; i--) { const d = new Date(today); d.setDate(d.getDate() - i); const iso = d.toISOString().slice(0,10); const key = `komorebi_${iso}`; const raw = localStorage.getItem(key); let xp = 0; if (raw) { xp = 1000; } const group = document.createElement('div'); group.className = 'bar-group'; group.innerHTML = `<div class="bar" style="height:${xp>0?50:2}%"></div><div class="bar-label">${iso.slice(5)}</div>`; container.appendChild(group); } openModal('stats-modal'); }
+
+    init();
+  </script>
+</body>
+</html>
