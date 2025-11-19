@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Komorebi OS — Investor Protocol</title>
+  <title>Komorebi OS — Master Protocol</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
@@ -262,16 +262,17 @@
     }
     .note-area:focus { outline: 1px solid var(--accent-gold); border-color: var(--accent-gold); }
 
-    /* MODAL */
+    /* MODAL GENERAL */
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8); z-index: 50;
+      background: rgba(0,0,0,0.85); z-index: 50;
       display: none; justify-content: center; align-items: center;
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(6px);
     }
     .modal-content {
       background: var(--card); padding: 1.5rem; border-radius: 12px;
       border: 1px solid var(--accent-gold); max-width: 500px; width: 90%;
+      max-height: 80vh; overflow-y: auto;
     }
     .modal-title { font-size: 1.2rem; margin-bottom: 1rem; color: var(--accent-gold); display: flex; justify-content: space-between; align-items: center;}
     .modal-actions { display: flex; gap: 0.5rem; margin-top: 1rem; justify-content: flex-end; }
@@ -282,6 +283,19 @@
       border-radius: 6px;
     }
 
+    /* LIBRARY MODAL STYLES */
+    .library-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.5rem; }
+    .library-tab { cursor: pointer; padding: 0.3rem 0.6rem; border-radius: 4px; font-size: 0.85rem; color: var(--text-muted); }
+    .library-tab.active { background: var(--komorebi-mint); color: #000; font-weight: 600; }
+    
+    .search-bar { width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid var(--border-subtle); background: rgba(0,0,0,0.3); color: var(--text-main); margin-bottom: 1rem; }
+    
+    .library-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .library-item { background: rgba(255,255,255,0.03); padding: 0.6rem; border-radius: 6px; border: 1px solid transparent; }
+    .library-item:hover { border-color: var(--komorebi-mint-soft); }
+    .lib-title { font-weight: 600; color: var(--komorebi-mint); font-size: 0.9rem; margin-bottom: 0.2rem; }
+    .lib-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.3; }
+
     /* CHART STYLES */
     .chart-container {
         display: flex; align-items: flex-end; justify-content: space-between;
@@ -289,73 +303,30 @@
         border-bottom: 1px solid var(--text-muted);
         gap: 4px;
     }
-    .bar-group {
-        display: flex; flex-direction: column; align-items: center;
-        flex: 1;
-    }
-    .bar {
-        width: 80%; background: var(--komorebi-mint);
-        border-radius: 4px 4px 0 0;
-        transition: height 0.5s ease;
-        min-height: 2px;
-        position: relative;
-    }
+    .bar-group { display: flex; flex-direction: column; align-items: center; flex: 1; }
+    .bar { width: 80%; background: var(--komorebi-mint); border-radius: 4px 4px 0 0; transition: height 0.5s ease; min-height: 2px; position: relative; }
     .bar.elite { background: #4ade80; box-shadow: 0 0 8px rgba(74, 222, 128, 0.4); }
     .bar.strong { background: #60a5fa; }
     .bar.survival { background: #fbbf24; }
     .bar-label { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; }
     .bar-value { font-size: 0.65rem; color: #fff; margin-bottom: 2px; }
 
+    /* INVESTOR CARD */
+    .investor-card-content { display: flex; flex-direction: column; gap: 0.2rem; }
+    .investor-name { color: var(--komorebi-mint); font-weight: 700; font-size: 1rem; }
+    .investor-resource { color: var(--text-main); font-style: italic; }
+    .investor-stats { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; display: flex; gap: 0.5rem; align-items: center; }
+    .investor-stats span { background: rgba(255,255,255,0.1); padding: 0.1rem 0.4rem; border-radius: 4px; }
+
     /* GAMIFICATION ANIMATION */
     .floating-xp {
-        position: fixed;
-        color: var(--accent-gold);
-        font-weight: bold;
-        font-size: 1rem;
-        pointer-events: none;
-        animation: floatUp 1s ease-out forwards;
-        z-index: 9999;
+        position: fixed; color: var(--accent-gold); font-weight: bold; font-size: 1rem;
+        pointer-events: none; animation: floatUp 1s ease-out forwards; z-index: 9999;
         text-shadow: 0 2px 4px rgba(0,0,0,0.8);
     }
+    @keyframes floatUp { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-40px) scale(1.2); } }
 
-    @keyframes floatUp {
-        0% { opacity: 1; transform: translateY(0) scale(1); }
-        100% { opacity: 0; transform: translateY(-40px) scale(1.2); }
-    }
-
-    #confetti-canvas {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 100;
-    }
-    
-    /* INVESTOR CARD SPECIFIC */
-    .investor-card-content {
-        display: flex;
-        flex-direction: column;
-        gap: 0.2rem;
-    }
-    .investor-name {
-        color: var(--komorebi-mint);
-        font-weight: 700;
-        font-size: 1rem;
-    }
-    .investor-resource {
-        color: var(--text-main);
-        font-style: italic;
-    }
-    .investor-stats {
-        font-size: 0.75rem;
-        color: var(--text-muted);
-        margin-top: 0.2rem;
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-    }
-    .investor-stats span {
-        background: rgba(255,255,255,0.1);
-        padding: 0.1rem 0.4rem;
-        border-radius: 4px;
-    }
+    #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; }
   </style>
 </head>
 <body>
@@ -367,7 +338,7 @@
       <div class="app-header-top">
         <div class="app-title-block">
           <div class="app-title">Komorebi OS</div>
-          <div class="app-subtitle">Productivity Game Protocols</div>
+          <div class="app-subtitle">Master Protocol (Mind + Body + Legacy)</div>
         </div>
         <div class="header-controls">
           <div class="date-block">
@@ -386,14 +357,13 @@
       <div class="summary-main">
         <div class="summary-main-top">
           <div id="total-xp">Total XP: 0 / 9000</div>
-          <div class="day-rating" id="day-rating">
-            Day Rating: <span class="badge red">Red Zone</span>
-          </div>
+          <div class="day-rating" id="day-rating">Day Rating: <span class="badge red">Red Zone</span></div>
         </div>
         <div class="streak-chips" id="streak-chips"></div>
       </div>
       <div class="summary-actions">
         <button id="save-day">Save Day</button>
+        <button id="library-btn" class="secondary icon-btn" title="Knowledge Library">📖</button>
         <button id="stats-btn" class="secondary icon-btn" title="View Stats">📊</button>
         <button id="settings-btn" class="secondary icon-btn" title="Data Settings">⚙️</button>
         <button id="reset-day" class="secondary icon-btn" title="Clear today">↺</button>
@@ -417,12 +387,12 @@
           <div class="prompt-body" id="prompt-quote">Loading...</div>
         </div>
         
-        <!-- INVESTOR OF THE WEEK CARD -->
+        <!-- INVESTOR OF THE WEEK -->
         <div class="card" style="border-color: var(--komorebi-mint-soft);">
           <div class="card-header">
               <div class="card-title-block">
                 <div class="card-title">Investor of the Week</div>
-                <div class="card-subtitle">Deep Dive Focus</div>
+                <div class="card-subtitle">Weekly Deep Dive</div>
               </div>
               <div class="xp">Weekly</div>
           </div>
@@ -441,39 +411,40 @@
 
         <!-- HEALTH -->
         <section class="section-block">
-          <h2 class="section-title">Health</h2>
+          <h2 class="section-title">Health (Body Fat &lt; 16%)</h2>
           <div class="section-grid-3">
             <div class="card" data-category="supplements">
-              <div class="card-header"><div class="card-title">Supplement Stack</div><div class="xp">0 / 500 XP</div></div>
+              <div class="card-header"><div class="card-title">Jaguar Fuel</div><div class="xp">0 / 500 XP</div></div>
               <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items items-wide">
-                <label><input type="checkbox" data-key="supplementStack" />Stack complete</label>
-                <details class="details-list"><summary>View details</summary>
-                  <ul class="sub-list"><li>Electrolytes, Alpha GPC</li><li>Omega 3/6, Bone Complex</li><li>Collagen, Tongkat Ali</li></ul>
-                </details>
-              </div>
-            </div>
-
-            <div class="card" data-category="smoothie">
-              <div class="card-header"><div class="card-title">Supersmoothie</div><div class="xp">0 / 500 XP</div></div>
-              <div class="progress-track"><div class="progress-fill"></div></div>
-              <div class="items items-wide">
-                <label><input type="checkbox" data-key="smoothie" />Smoothie complete</label>
-                <details class="details-list"><summary>View recipe</summary>
-                  <ul class="sub-list"><li>Protein 40g, Creatine 5g</li><li>Greens, Ginger, Berries</li></ul>
+                <label><input type="checkbox" data-key="supplementStack" />Smoothie & Supps</label>
+                <details class="details-list"><summary>Stack Details</summary>
+                  <ul class="sub-list">
+                      <li>Clean Protein 35g, Creatine, Greens</li>
+                      <li>Alpha GPC, Omega 3, Flexi-Calcium</li>
+                      <li>Dutasteride/Minoxidil, Joint Complex</li>
+                      <li>Hydration: 2L + Slow-Mag/Electrolytes</li>
+                  </ul>
                 </details>
               </div>
             </div>
 
             <div class="card" data-category="fitness">
-              <div class="card-header"><div class="card-title">Fitness & Recovery</div><div class="xp">0 / 1000 XP</div></div>
+              <div class="card-header"><div class="card-title">Jaguar Physique</div><div class="xp">0 / 1000 XP</div></div>
               <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items">
-                <label><input type="checkbox" data-key="sunshine" />Sunshine</label>
-                <label><input type="checkbox" data-key="rollerYoga" />Mobility</label>
-                <label><input type="checkbox" data-key="protein120" />Prot ≥ 120g</label>
-                <label><input type="checkbox" data-key="exercise" />Exercise</label>
-                <label><input type="checkbox" data-key="cold" />Cold/Heat</label>
+                <label><input type="checkbox" data-key="workout" />Workout (Huberman/Johnson)</label>
+                <label><input type="checkbox" data-key="corrective" />Corrective/Postural (10m)</label>
+                <label><input type="checkbox" data-key="zone2" />Zone 2 / Ruck</label>
+              </div>
+            </div>
+             <div class="card" data-category="aesthetics">
+              <div class="card-header"><div class="card-title">Aesthetics</div><div class="xp">0 / 500 XP</div></div>
+              <div class="progress-track"><div class="progress-fill"></div></div>
+              <div class="items">
+                <label><input type="checkbox" data-key="grooming" />Grooming/Skin</label>
+                <label><input type="checkbox" data-key="posture" />Posture Wall Sits</label>
+                <label><input type="checkbox" data-key="guaSha" />Gua Sha / Ice Roll</label>
               </div>
             </div>
           </div>
@@ -481,78 +452,71 @@
           <div class="section-grid-1" style="margin-top: 0.4rem;">
             <div class="card workout-card">
               <div class="card-header">
-                <div class="card-title-block"><div class="card-title">Workout of the Day</div><div class="card-subtitle" id="wod-type">Loading…</div></div>
+                <div class="card-title-block"><div class="card-title">Workout Focus</div><div class="card-subtitle" id="wod-type">Loading…</div></div>
               </div>
               <div class="items items-wide"><ul class="sub-list" id="wod-details"></ul></div>
             </div>
           </div>
         </section>
 
-        <!-- MIND & ARETE -->
+        <!-- MIND & MEANING -->
         <section class="section-block">
-          <h2 class="section-title">Mind & Arete</h2>
+          <h2 class="section-title">Mind & Meaning</h2>
           <div class="section-grid-3">
             <div class="card" data-category="wisdom">
-              <div class="card-header"><div class="card-title">Wisdom & Clarity</div><div class="xp">0 / 1000 XP</div></div>
+              <div class="card-header"><div class="card-title">Mental Resilience</div><div class="xp">0 / 1000 XP</div></div>
               <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items">
-                <label><input type="checkbox" data-key="gratitude" />Gratitude</label>
-                <label><input type="checkbox" data-key="journal" />Journal</label>
-                <label><input type="checkbox" data-key="meditate" />Meditate</label>
-                <label><input type="checkbox" data-key="mentalModel" />Mental mdl</label>
-                <label><input type="checkbox" data-key="productivityGame" />Prod game</label>
-                <label><input type="checkbox" data-key="philosophy" />Philosophy</label>
-              </div>
-            </div>
-
-            <div class="card" data-category="arete">
-              <div class="card-header"><div class="card-title">Arete & Alignment</div><div class="xp">0 / 1000 XP</div></div>
-              <div class="progress-track"><div class="progress-fill"></div></div>
-              <div class="items">
-                <label><input type="checkbox" data-key="familyTime" />Family</label>
-                <label><input type="checkbox" data-key="golf" />Golf/Skill</label>
-                <label><input type="checkbox" data-key="fiction" />Read Fiction</label>
-                <label><input type="checkbox" data-key="lunchDinner" />Social Meal</label>
-                <label><input type="checkbox" data-key="contribution" />Contribution</label>
+                <label><input type="checkbox" data-key="meditate" />FitMind / Meditation</label>
+                <label><input type="checkbox" data-key="slowThink" />Slow Thinking (10m Solitude)</label>
+                <label><input type="checkbox" data-key="gratitude" />Evening Gratitude</label>
+                <label><input type="checkbox" data-key="stoicReflect" />Stoic Reflection</label>
               </div>
             </div>
 
             <div class="card" data-category="values">
-              <div class="card-header"><div class="card-title">Values</div><div class="xp">0 / 1000 XP</div></div>
+              <div class="card-header"><div class="card-title">Core Values</div><div class="xp">0 / 1000 XP</div></div>
               <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items">
-                <label><input type="checkbox" data-key="valueCourage" />Courage</label>
-                <label><input type="checkbox" data-key="valueAdventure" />Adventure</label>
-                <label><input type="checkbox" data-key="valueSelfImprovement" />Growth</label>
-                <label><input type="checkbox" data-key="valueIntegrity" />Integrity</label>
-                <label><input type="checkbox" data-key="valueDiscipline" />Discipline</label>
-                <label><input type="checkbox" data-key="valueKindness" />Kindness</label>
+                <label><input type="checkbox" data-key="valStrength" />Strength</label>
+                <label><input type="checkbox" data-key="valBeauty" />Beauty</label>
+                <label><input type="checkbox" data-key="valService" />Service</label>
+                <label><input type="checkbox" data-key="valFamily" />Family</label>
+                <label><input type="checkbox" data-key="valWisdom" />Wisdom</label>
+              </div>
+            </div>
+             <div class="card" data-category="arete">
+              <div class="card-header"><div class="card-title">Anti-Mimetic</div><div class="xp">0 / 500 XP</div></div>
+              <div class="progress-track"><div class="progress-fill"></div></div>
+              <div class="items items-wide">
+                 <label><input type="checkbox" data-key="antiMimetic" />Avoided "The Crowd"</label>
+                 <label><input type="checkbox" data-key="legacy" />Legacy Action (Build for future)</label>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- CRAFT & DUTY -->
+        <!-- LEARNING & SYSTEM -->
         <section class="section-block">
-          <h2 class="section-title">Craft & Duty</h2>
+          <h2 class="section-title">Learning & Productivity</h2>
           <div class="section-grid-2">
             <div class="card" data-category="mastery">
-              <div class="card-header"><div class="card-title">Mastery</div><div class="xp">0 / 2000 XP</div></div>
+              <div class="card-header"><div class="card-title">Ultralearning</div><div class="xp">0 / 2000 XP</div></div>
               <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items">
-                <label><input type="checkbox" data-key="investingReading" />Deep Read</label>
-                <label><input type="checkbox" data-key="researchMemo" />Write Memo</label>
-                <label><input type="checkbox" data-key="investorInteraction" />Networking</label>
+                <label><input type="checkbox" data-key="metalearning" />Metalearning Map</label>
+                <label><input type="checkbox" data-key="drill" />Drill Weaknesses</label>
+                <label><input type="checkbox" data-key="overlearn" />Overlearn/Teach</label>
               </div>
             </div>
 
             <div class="card" data-category="responsibility">
-              <div class="card-header"><div class="card-title">Responsibility</div><div class="xp">0 / 2000 XP</div></div>
+              <div class="card-header"><div class="card-title">Second Brain</div><div class="xp">0 / 2000 XP</div></div>
               <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items">
-                <label><input type="checkbox" data-key="earnIncome" />Earn Income</label>
-                <label><input type="checkbox" data-key="completeTaxes" />Admin/Tax</label>
-                <label><input type="checkbox" data-key="hectorBellaEducation" />Kids Edu</label>
+                <label><input type="checkbox" data-key="sbCapture" />Capture (Notes/Ideas)</label>
+                <label><input type="checkbox" data-key="sbOrganize" />Organize (PARA)</label>
+                <label><input type="checkbox" data-key="sbDistill" />Distill (Progressive Sum.)</label>
               </div>
             </div>
           </div>
@@ -561,15 +525,35 @@
         <!-- DAILY NOTE -->
         <section class="section-block">
             <div class="card">
-                <div class="card-header"><div class="card-title">Daily Note</div></div>
+                <div class="card-header"><div class="card-title">Daily Journal</div></div>
                 <div class="note-area-container">
-                    <textarea id="daily-note" class="note-area" placeholder="Key wins, lessons, or thoughts for the day..."></textarea>
+                    <textarea id="daily-note" class="note-area" placeholder="Wins, lessons, or 'One thing I learned'..."></textarea>
                 </div>
             </div>
         </section>
 
       </div>
     </main>
+  </div>
+
+  <!-- LIBRARY MODAL -->
+  <div class="modal-overlay" id="library-modal">
+      <div class="modal-content" style="max-width: 700px;">
+          <h3 class="modal-title">Knowledge Library <span id="close-lib-modal" style="cursor:pointer">✕</span></h3>
+          
+          <div class="library-tabs">
+              <div class="library-tab active" onclick="switchLibTab('models')">Mental Models</div>
+              <div class="library-tab" onclick="switchLibTab('productivity')">Productivity</div>
+              <div class="library-tab" onclick="switchLibTab('investors')">Investors</div>
+              <div class="library-tab" onclick="switchLibTab('quotes')">Quotes</div>
+          </div>
+
+          <input type="text" id="lib-search" class="search-bar" placeholder="Search the archives..." onkeyup="filterLibrary()">
+          
+          <div class="library-list" id="library-content">
+              <!-- Content injected via JS -->
+          </div>
+      </div>
   </div>
 
   <!-- DATA SETTINGS MODAL -->
@@ -602,54 +586,72 @@
       MAX_XP: 9000,
       XP_LEVELS: { ELITE: 6500, STRONG: 5000, SURVIVAL: 3500 },
       CATEGORY_MAX: {
-        supplements: 500, smoothie: 500, fitness: 1000, wisdom: 1000,
-        mastery: 2000, responsibility: 2000, arete: 1000, values: 1000
+        supplements: 500, smoothie: 500, fitness: 1000, wisdom: 1000, aesthetics: 500,
+        mastery: 2000, responsibility: 2000, arete: 500, values: 1000
       }
     };
 
-    // PROMPTS DATABASE - Extracted from "Productivity Game" PDF Summaries
-    const PROMPTS = {
-      mentalModels: [
-        "Inversion (Great Mental Models): Avoid stupidity rather than seeking brilliance.",
-        "Amor Fati (The Obstacle is the Way): Love whatever happens. Fuel for the fire.",
-        "Antifragile (Taleb): Gain from disorder. Cap downside, infinite upside.",
-        "First Principles (Great Mental Models): Break problems down to basic truths.",
-        "Growth Mindset (Dweck): The power of 'Yet'. Failure is data, not identity.",
-        "The Dip (Godin): Quit the wrong things fast so you can push through the right Dip.",
-        "Circle of Competence (Great Mental Models): Know what you know and stick to it.",
-        "Essentialism (McKeown): Less but better. The disciplined pursuit of less.",
-        "10-10-10 (Suzy Welch): How will I feel about this in 10 mins, 10 months, 10 years?",
-        "Compound Effect (Hardy): Small, smart choices + consistency + time = radical difference.",
-        "Praemeditatio Malorum (Stoicism): Rehearse the worst case to remove its power."
-      ],
-      games: [
-        "5 Second Rule (Robbins): Count 5-4-3-2-1-GO to bypass hesitation.",
-        "Eat That Frog (Tracy): Do the biggest, ugliest task first thing.",
-        "2-Minute Rule (Clear): If it takes < 2 mins, do it now. Start habits by doing just 2 mins.",
-        "Time Boxing (Indistractable): Schedule every minute of your day.",
-        "WOOP (Oettingen): Wish, Outcome, Obstacle, Plan.",
-        "Ivy Lee Method (Organize Tomorrow Today): Define your 3 & 1 priorities the night before.",
-        "Reversal of Desire (The Tools): Scream 'Bring it on!' when facing pain.",
-        "Intermittent Sobriety (Dopamine Nation): Abstain from high-dopamine inputs to reset.",
-        "Batching Buckets (GTD): Group similar tasks (calls, emails) to reduce context switching.",
-        "Pomodoro (Oakley): 25 min focus, 5 min diffuse mode to learn complex topics."
-      ],
-      quotes: [
-        "“Discipline equals freedom.” — Jocko Willink",
-        "“The impediment to action advances action.” — Marcus Aurelius",
-        "“You do not rise to the level of your goals. You fall to the level of your systems.” — James Clear",
-        "“The score takes care of itself.” — Bill Walsh",
-        "“He who has a why to live can bear almost any how.” — Nietzsche",
-        "“Be the person with embarrassing goals and impressive results.” — Stephen Guise",
-        "“Action isn't just the effect of motivation; it's also the cause of it.” — Mark Manson",
-        "“Give me a lever long enough and a fulcrum on which to place it, and I shall move the world.” — Archimedes",
-        "“What you do is what matters, not what you think or say or plan.” — Jason Fried",
-        "“It is the quality of time at work that counts and the quantity of time at home that matters.” — Brian Tracy"
-      ]
-    };
+    // --- LARGE DATABASES ---
 
-    // INVESTOR OF THE WEEK DATABASE
-    const INVESTOR_DB = [
+    const DB_MODELS = [
+        { name: "First Principles", desc: "Reduce problems to fundamental truths, build upward." },
+        { name: "Second-Order Thinking", desc: "Consider consequences beyond the immediate." },
+        { name: "Inversion", desc: "Think backward: how could this fail? Then avoid it." },
+        { name: "Probabilistic Thinking", desc: "Evaluate decisions using likelihoods, not certainties." },
+        { name: "Bayesian Updating", desc: "Adjust beliefs in light of new evidence." },
+        { name: "Expected Value", desc: "Quantify decisions: outcomes × probabilities." },
+        { name: "Circle of Competence", desc: "Operate within your area of true knowledge." },
+        { name: "Falsifiability (Popper)", desc: "If it cannot be proven wrong, it’s not knowledge." },
+        { name: "Map ≠ Territory", desc: "Symbols are not reality." },
+        { name: "Occam’s Razor", desc: "Prefer the simplest explanation that fits the data." },
+        { name: "Hanlon’s Razor", desc: "Never attribute to malice what can be explained by stupidity." },
+        { name: "Necessity & Sufficiency", desc: "Distinguish causes from catalysts." },
+        { name: "Thought Experiments", desc: "Simulate reality to explore principles." },
+        { name: "Decision Trees", desc: "Branching paths for multi-stage decisions." },
+        { name: "Sensitivity Analysis", desc: "Test assumptions to see what breaks the model." },
+        { name: "Kelly Criterion", desc: "Optimal bet sizing under uncertainty." },
+        { name: "Barbell Strategy", desc: "Pair extreme safety with high-upside risk." },
+        { name: "Anti-fragility (Taleb)", desc: "Seek systems that benefit from disorder." },
+        { name: "Via Negativa", desc: "What not to do is often more important than what to do." },
+        { name: "Mimetic Desire (Girard)", desc: "We imitate others' desires; conflict follows." },
+        { name: "Status Games", desc: "Most ambition is about pecking order. Avoid them." },
+        { name: "Envy & Jealousy", desc: "Underrated forces behind irrational decisions." },
+        { name: "Social Proof", desc: "We copy others, especially under uncertainty." },
+        { name: "Confirmation Bias", desc: "We seek agreement, not truth." },
+        { name: "Survivorship Bias", desc: "We forget the invisible failures." },
+        { name: "Do-Something Syndrome", desc: "Action bias overrides logic." },
+        { name: "Pavlovian Association", desc: "Emotionally charged cues override reason." },
+        { name: "Availability Heuristic", desc: "Recent, vivid = true (but not really)." },
+        { name: "OODA Loop (Boyd)", desc: "Observe, Orient, Decide, Act." },
+        { name: "Asymmetric Warfare", desc: "Win by not fighting on equal terms." },
+        { name: "Concentration of Force", desc: "Overwhelm by focus." },
+        { name: "The Lindy Effect", desc: "What survives ages, survives longer." },
+        { name: "Pareto Principle", desc: "80% of effects come from 20% of causes." }
+    ];
+
+    const DB_PRODUCTIVITY = [
+        { name: "5 Second Rule (Mel Robbins)", desc: "Count 5-4-3-2-1-GO to bypass hesitation." },
+        { name: "Eat That Frog (Brian Tracy)", desc: "Do the biggest, ugliest task first thing." },
+        { name: "2-Minute Rule (James Clear)", desc: "If it takes < 2 mins, do it now. Start habits by doing just 2 mins." },
+        { name: "Time Boxing (Nir Eyal)", desc: "Schedule every minute of your day. 'Indistractable'." },
+        { name: "WOOP (Gabriele Oettingen)", desc: "Wish, Outcome, Obstacle, Plan." },
+        { name: "Ivy Lee Method", desc: "Define your 3 & 1 priorities the night before." },
+        { name: "Reversal of Desire (The Tools)", desc: "Scream 'Bring it on!' when facing pain." },
+        { name: "Intermittent Sobriety", desc: "Abstain from high-dopamine inputs to reset (Dopamine Nation)." },
+        { name: "Batching Buckets (GTD)", desc: "Group similar tasks (calls, emails) to reduce context switching." },
+        { name: "Pomodoro Technique", desc: "25 min focus, 5 min diffuse mode to learn complex topics." },
+        { name: "Checklist Manifesto", desc: "Use checklists to prevent stupid mistakes." },
+        { name: "Deep Work (Cal Newport)", desc: "Dedicate blocks of time to distraction-free cognitive work." },
+        { name: "Flow (Csikszentmihalyi)", desc: "Balance challenge and skill to enter the zone." },
+        { name: "The One Thing", desc: "What is the one thing such that by doing it, everything else is easier or unnecessary?" },
+        { name: "Essentialism", desc: "Less but better. The disciplined pursuit of less." },
+        { name: "Tiny Habits (BJ Fogg)", desc: "Anchor a tiny behavior to an existing trigger." },
+        { name: "Bullet Journal", desc: "Rapid logging of tasks, events, and notes." },
+        { name: "Blue Ocean Strategy", desc: "Don't compete. Create a new market." },
+        { name: "Minimum Viable Product (Ries)", desc: "Build the smallest thing to test assumptions." }
+    ];
+
+    const DB_INVESTORS = [
         { name: "Stanley Druckenmiller", resource: "The Genius of Stan Druckenmiller (MOI Global)", years: "30 Years" },
         { name: "Mark Leonard", resource: "Constellation Shareholder Letters / Q&A", years: "25 Years" },
         { name: "Warren Buffett", resource: "Berkshire Shareholder Letters (1965-2023)", years: "55 Years" },
@@ -676,6 +678,27 @@
         { name: "Bruce Greenwald", resource: "Class Notes & Value Investing: From Graham to Buffett", years: "Academic" }
     ];
 
+    const DB_QUOTES = [
+        "“Discipline equals freedom.” — Jocko Willink",
+        "“The impediment to action advances action.” — Marcus Aurelius",
+        "“You do not rise to the level of your goals. You fall to the level of your systems.” — James Clear",
+        "“The score takes care of itself.” — Bill Walsh",
+        "“He who has a why to live can bear almost any how.” — Nietzsche",
+        "“Be the person with embarrassing goals and impressive results.” — Stephen Guise",
+        "“Action isn't just the effect of motivation; it's also the cause of it.” — Mark Manson",
+        "“Give me a lever long enough and a fulcrum on which to place it, and I shall move the world.” — Archimedes",
+        "“What you do is what matters, not what you think or say or plan.” — Jason Fried",
+        "“It is the quality of time at work that counts and the quantity of time at home that matters.” — Brian Tracy",
+        "“I am the master of my fate, I am the captain of my soul.” — Invictus",
+        "“We suffer more in imagination than in reality.” — Seneca",
+        "“If you want to go fast, go alone. If you want to go far, go together.” — African Proverb",
+        "“It is not the critic who counts... The credit belongs to the man who is actually in the arena.” — Theodore Roosevelt",
+        "“Everything in life is a mind game!” — David Goggins",
+        "“Slow is smooth, smooth is fast.” — Navy SEALs",
+        "“Invert, always invert.” — Jacobi",
+        "“I want to be able to look back and say, ‘I didn’t solve everything, but I didn’t create any new problems.’” — Naval Ravikant"
+    ];
+
     const els = {
       dateInput: document.getElementById('date-input'),
       totalXp: document.getElementById('total-xp'),
@@ -684,6 +707,7 @@
       resetBtn: document.getElementById('reset-day'),
       settingsBtn: document.getElementById('settings-btn'),
       statsBtn: document.getElementById('stats-btn'),
+      libraryBtn: document.getElementById('library-btn'),
       streakChips: document.getElementById('streak-chips'),
       xpPillValue: document.getElementById('xp-pill-value'),
       wodType: document.getElementById('wod-type'),
@@ -701,11 +725,13 @@
       },
       modals: {
         data: document.getElementById('data-modal'),
-        stats: document.getElementById('stats-modal')
+        stats: document.getElementById('stats-modal'),
+        library: document.getElementById('library-modal')
       }
     };
 
     let previousXP = 0; // Track for animation
+    let currentLibTab = 'models'; // For library viewing
 
     // --- UTILITIES ---
     function getTodayISO() { return new Date().toISOString().slice(0, 10); }
@@ -746,30 +772,44 @@
     }
 
     function calculateXP(state) {
-      const xp = { supplements: 0, smoothie: 0, fitness: 0, wisdom: 0, mastery: 0, responsibility: 0, arete: 0, values: 0 };
+      const xp = { supplements: 0, smoothie: 0, fitness: 0, wisdom: 0, aesthetics: 0, mastery: 0, responsibility: 0, arete: 0, values: 0 };
 
       if (state.supplementStack) xp.supplements = 500;
       if (state.smoothie) xp.smoothie = 500;
 
-      const fKeys = ['sunshine', 'rollerYoga', 'protein120', 'exercise', 'cold'];
+      // Fitness
+      const fKeys = ['workout', 'corrective', 'zone2'];
       const fCount = fKeys.filter(k => state[k]).length;
-      if (fCount >= 4) xp.fitness = 1000; else if (fCount >= 2) xp.fitness = 500;
+      if (fCount === 3) xp.fitness = 1000; else if (fCount >= 1) xp.fitness = 333 * fCount;
 
-      const wKeys = ['gratitude', 'journal', 'meditate', 'mentalModel', 'productivityGame', 'philosophy'];
+      // Aesthetics
+      const aeKeys = ['grooming', 'posture', 'guaSha'];
+      const aeCount = aeKeys.filter(k => state[k]).length;
+      if(aeCount === 3) xp.aesthetics = 500; else if (aeCount > 0) xp.aesthetics = 150 * aeCount;
+
+      // Wisdom
+      const wKeys = ['meditate', 'slowThink', 'gratitude', 'stoicReflect'];
       const wCount = wKeys.filter(k => state[k]).length;
-      if (wCount >= 4) xp.wisdom = 1000; else if (wCount >= 2) xp.wisdom = (wCount === 3) ? 500 : 250;
+      if (wCount === 4) xp.wisdom = 1000; else if (wCount > 0) xp.wisdom = 250 * wCount;
 
-      const mCount = ['investingReading', 'researchMemo', 'investorInteraction'].filter(k => state[k]).length;
-      if (mCount > 0) xp.mastery = Math.min(2000, mCount === 3 ? 2000 : mCount * 650);
+      // Mastery
+      const mKeys = ['metalearning', 'drill', 'overlearn'];
+      const mCount = mKeys.filter(k => state[k]).length;
+      if (mCount === 3) xp.mastery = 2000; else if (mCount > 0) xp.mastery = 650 * mCount;
+      
+      // Responsibility
+      const rKeys = ['sbCapture', 'sbOrganize', 'sbDistill'];
+      const rCount = rKeys.filter(k => state[k]).length;
+      if (rCount === 3) xp.responsibility = 2000; else if (rCount > 0) xp.responsibility = 650 * rCount;
 
-      const rCount = ['earnIncome', 'completeTaxes', 'hectorBellaEducation'].filter(k => state[k]).length;
-      if (rCount > 0) xp.responsibility = Math.min(2000, rCount === 3 ? 2000 : rCount * 650);
+      // Arete
+      const aKeys = ['antiMimetic', 'legacy'];
+      const aCount = aKeys.filter(k => state[k]).length;
+      if (aCount > 0) xp.arete = 250 * aCount;
 
-      const aCount = ['familyTime', 'golf', 'fiction', 'lunchDinner', 'contribution'].filter(k => state[k]).length;
-      if (aCount >= 1) xp.arete = 1000;
-
-      const vCount = ['valueCourage', 'valueAdventure', 'valueSelfImprovement', 'valueIntegrity', 'valueDiscipline', 'valueKindness'].filter(k => state[k]).length;
-      if (vCount >= 3) xp.values = 1000; else if (vCount >= 1) xp.values = 500;
+      // Values
+      const vCount = ['valStrength', 'valBeauty', 'valService', 'valFamily', 'valWisdom'].filter(k => state[k]).length;
+      if (vCount >= 5) xp.values = 1000; else if (vCount > 0) xp.values = 200 * vCount;
 
       return xp;
     }
@@ -787,7 +827,6 @@
     }
 
     function handleCheck(e) {
-        // Calculate diff
         const state = readState();
         const currentXPObj = calculateXP(state);
         const currentTotal = Object.values(currentXPObj).reduce((a, b) => a + b, 0);
@@ -799,46 +838,47 @@
     }
 
     function updateDynamicContent(dateStr) {
-      const idxModel = getPseudoRandomIndex(dateStr + 'model', PROMPTS.mentalModels.length);
-      const idxGame = getPseudoRandomIndex(dateStr + 'game', PROMPTS.games.length);
-      const idxQuote = getPseudoRandomIndex(dateStr + 'quote', PROMPTS.quotes.length);
+      const idxModel = getPseudoRandomIndex(dateStr + 'model', DB_MODELS.length);
+      const idxGame = getPseudoRandomIndex(dateStr + 'game', DB_PRODUCTIVITY.length);
+      const idxQuote = getPseudoRandomIndex(dateStr + 'quote', DB_QUOTES.length);
       
-      els.prompts.model.textContent = PROMPTS.mentalModels[idxModel];
-      els.prompts.game.textContent = PROMPTS.games[idxGame];
-      els.prompts.quote.textContent = PROMPTS.quotes[idxQuote];
+      els.prompts.model.textContent = DB_MODELS[idxModel].name + ": " + DB_MODELS[idxModel].desc;
+      els.prompts.game.textContent = DB_PRODUCTIVITY[idxGame].name + ": " + DB_PRODUCTIVITY[idxGame].desc;
+      els.prompts.quote.textContent = DB_QUOTES[idxQuote];
 
-      // Update Investor of the Week (Based on Week Number, not Day)
+      // Update Investor of the Week (Based on Week Number)
       const dateObj = new Date(dateStr);
       const weekNum = getWeekNumber(dateObj);
-      const investorIdx = weekNum % INVESTOR_DB.length;
-      const investor = INVESTOR_DB[investorIdx];
+      const investorIdx = weekNum % DB_INVESTORS.length;
+      const investor = DB_INVESTORS[investorIdx];
 
       els.investorCard.name.textContent = investor.name;
       els.investorCard.resource.textContent = investor.resource;
       els.investorCard.stats.innerHTML = `<span>${investor.years}</span>`;
 
-      // Workout Logic
-      const dayOfWeek = dateObj.getDay(); 
-      const shiftDay = (dayOfWeek === 0) ? 6 : dayOfWeek - 1; 
-      const cycle = ['Rehab', 'Strength', 'Cardio'];
-      const type = (dayOfWeek === 0) ? 'Rehab' : cycle[shiftDay % 3];
+      // Workout Logic (Jaguar Protocol)
+      const dayOfWeek = dateObj.getDay(); // 0=Sun, 1=Mon
+      const workouts = [
+          { t: "Endurance/Cardio", d: ["Swim, Hike, or Long Zone 2", "Recovery stretch"] }, // Sun
+          { t: "Lower Body Strength", d: ["Squat/Deadlift alternatives", "Posterior chain", "Calves"] }, // Mon
+          { t: "Sauna + Cold Exposure", d: ["3-5 rounds", "20 min sauna + 5 min cold"] }, // Tue
+          { t: "Upper Body Strength", d: ["Push/pull", "Delts, Rhomboids, Neck"] }, // Wed
+          { t: "Cardio Endurance", d: ["Row/Ski/Run/Bike circuit", "Or Ruck"] }, // Thu
+          { t: "HIIT", d: ["Bike, Row, Sled, KB Swings", "No burpees"] }, // Fri
+          { t: "Hypertrophy Circuits", d: ["Arms", "Core", "Calves", "Neck"] } // Sat
+      ];
       
-      let details = [];
-      if (type === 'Rehab') details = ['Yoga / mobility 30m', 'Foam Roll', 'Hip openers'];
-      else if (type === 'Strength') details = ['Push/Pull/Hinge', 'Compound lifts 3x5', 'Core 10m'];
-      else details = ['Zone 2 Run 45m', 'Intervals', 'Ruck / Hike'];
-
-      els.wodType.textContent = `${type} Focus`;
-      els.wodDetails.innerHTML = details.map(d => `<li>${d}</li>`).join('');
+      const w = workouts[dayOfWeek];
+      els.wodType.textContent = w.t;
+      els.wodDetails.innerHTML = w.d.map(d => `<li>${d}</li>`).join('');
     }
 
     function updateVisuals() {
       const state = readState();
       const xp = calculateXP(state);
       const total = Object.values(xp).reduce((a, b) => a + b, 0);
-      previousXP = total; // sync for next interaction
+      previousXP = total;
 
-      // Cards
       document.querySelectorAll('.card').forEach(card => {
         const cat = card.dataset.category;
         if (!cat || !CONSTANTS.CATEGORY_MAX[cat]) return;
@@ -855,14 +895,13 @@
         }
       });
 
-      // Totals
       els.totalXp.textContent = `Total XP: ${total} / ${CONSTANTS.MAX_XP}`;
       els.xpPillValue.textContent = total;
       
       let rLabel = 'Red Zone', rClass = 'red';
-      if (total >= CONSTANTS.XP_LEVELS.ELITE) { rLabel = 'Elite Day'; rClass = 'elite'; }
-      else if (total >= CONSTANTS.XP_LEVELS.STRONG) { rLabel = 'Strong Day'; rClass = 'strong'; }
-      else if (total >= CONSTANTS.XP_LEVELS.SURVIVAL) { rLabel = 'Survival Day'; rClass = 'survival'; }
+      if (total >= CONSTANTS.XP_LEVELS.ELITE) { rLabel = 'Jaguar King'; rClass = 'elite'; }
+      else if (total >= CONSTANTS.XP_LEVELS.STRONG) { rLabel = 'Warrior'; rClass = 'strong'; }
+      else if (total >= CONSTANTS.XP_LEVELS.SURVIVAL) { rLabel = 'Survival'; rClass = 'survival'; }
       
       els.dayRating.innerHTML = `Day Rating: <span class="badge ${rClass}">${rLabel}</span>`;
       return total;
@@ -891,13 +930,50 @@
         loop();
     }
 
+    // --- LIBRARY FEATURE ---
+    function switchLibTab(tab) {
+        currentLibTab = tab;
+        document.querySelectorAll('.library-tab').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active');
+        renderLibrary();
+    }
+
+    function renderLibrary(filterText = "") {
+        const container = document.getElementById('library-content');
+        container.innerHTML = "";
+        
+        let sourceData = [];
+        if(currentLibTab === 'models') sourceData = DB_MODELS;
+        else if(currentLibTab === 'productivity') sourceData = DB_PRODUCTIVITY;
+        else if(currentLibTab === 'investors') sourceData = DB_INVESTORS;
+        else if(currentLibTab === 'quotes') sourceData = DB_QUOTES.map(q => ({ name: "Quote", desc: q }));
+
+        sourceData.forEach(item => {
+            // Simple search filtering
+            if(filterText && !item.name.toLowerCase().includes(filterText.toLowerCase()) && !item.desc.toLowerCase().includes(filterText.toLowerCase())) return;
+            
+            const div = document.createElement('div');
+            div.className = 'library-item';
+            if (currentLibTab === 'investors') {
+                div.innerHTML = `<div class="lib-title">${item.name} (${item.years})</div><div class="lib-desc">${item.resource}</div>`;
+            } else {
+                div.innerHTML = `<div class="lib-title">${item.name}</div><div class="lib-desc">${item.desc}</div>`;
+            }
+            container.appendChild(div);
+        });
+    }
+    
+    function filterLibrary() {
+        const txt = document.getElementById('lib-search').value;
+        renderLibrary(txt);
+    }
+
     // --- STATS LOGIC ---
     function renderStats() {
         const container = document.getElementById('stats-chart');
         container.innerHTML = '';
         const today = new Date();
         
-        // Generate last 7 days
         for (let i=6; i>=0; i--) {
             const d = new Date(today);
             d.setDate(d.getDate() - i);
@@ -911,7 +987,6 @@
                 xp = Object.values(calculated).reduce((a,b)=>a+b,0);
             }
 
-            // Visual logic
             const pct = Math.min(100, (xp / CONSTANTS.MAX_XP) * 100);
             let cls = 'red';
             if (xp >= CONSTANTS.XP_LEVELS.ELITE) cls = 'elite';
@@ -946,7 +1021,7 @@
       const total = updateVisuals();
       if (total >= CONSTANTS.XP_LEVELS.ELITE) {
         fireConfetti();
-        setTimeout(() => alert('ELITE DAY SAVED. Excellent work.'), 100);
+        setTimeout(() => alert('JAGUAR STATUS ACHIEVED. Legacy building in progress.'), 100);
       } else {
         alert('Day progress saved.');
       }
@@ -962,14 +1037,19 @@
     
     // Modals
     els.settingsBtn.addEventListener('click', () => {
-        els.modal = els.modals.data;
         document.getElementById('export-area').value = JSON.stringify({...localStorage}, null, 2);
-        els.modal.style.display = 'flex';
+        els.modals.data.style.display = 'flex';
     });
     els.statsBtn.addEventListener('click', renderStats);
+    els.libraryBtn.addEventListener('click', () => {
+        renderLibrary();
+        els.modals.library.style.display = 'flex';
+    });
     
     document.getElementById('close-data-modal').onclick = () => els.modals.data.style.display = 'none';
     document.getElementById('close-stats-modal').onclick = () => els.modals.stats.style.display = 'none';
+    document.getElementById('close-lib-modal').onclick = () => els.modals.library.style.display = 'none';
+    
     document.getElementById('restore-btn').onclick = () => {
         try {
             const data = JSON.parse(document.getElementById('export-area').value);
