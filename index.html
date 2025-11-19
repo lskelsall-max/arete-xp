@@ -144,6 +144,12 @@
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
     }
 
+    .summary-bar.prompts-bar {
+      margin-top: 0.2rem;
+      margin-bottom: 0.6rem;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
     @media (max-width: 900px) {
       .summary-bar {
         grid-template-columns: minmax(0, 1fr);
@@ -267,7 +273,7 @@
     /* MAIN GRID LAYOUT */
 
     main {
-      max-height: calc(100vh - 160px);
+      max-height: calc(100vh - 200px);
       overflow-y: auto;
       padding-right: 0.15rem;
     }
@@ -360,7 +366,7 @@
       flex-direction: column;
       gap: 0.05rem;
     }
-    
+
     .card-title {
       font-size: 0.98rem;
       font-weight: 600;
@@ -452,6 +458,15 @@
     .sub-list li {
       margin: 0.05rem 0;
     }
+
+    .prompt-row {
+      font-size: 0.82rem;
+    }
+
+    .prompt-label {
+      font-weight: 600;
+      color: var(--accent-gold-strong);
+    }
   </style>
 </head>
 <body>
@@ -492,13 +507,40 @@
       </div>
     </section>
 
+    <!-- DAILY PROMPTS -->
+    <section class="summary-bar prompts-bar">
+      <div class="summary-main">
+        <div class="summary-main-top">
+          <strong>Today’s prompts</strong>
+        </div>
+        <div style="display: grid; gap: 0.15rem; margin-top: 0.05rem;">
+          <div class="prompt-row">
+            <span class="prompt-label">Mental model:</span>
+            <span id="prompt-mental-model"></span>
+          </div>
+          <div class="prompt-row">
+            <span class="prompt-label">Game:</span>
+            <span id="prompt-game"></span>
+          </div>
+          <div class="prompt-row">
+            <span class="prompt-label">Investing read:</span>
+            <span id="prompt-reading"></span>
+          </div>
+          <div class="prompt-row">
+            <span class="prompt-label">Quote:</span>
+            <span id="prompt-quote"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- MAIN GRID -->
     <main>
       <div class="sections">
 
-        <!-- HEALTH & FITNESS-->
+        <!-- HEALTH -->
         <section class="section-block">
-          <h2 class="section-title">Health & Fitness</h2>
+          <h2 class="section-title">Health</h2>
           <div class="section-grid-3">
             <!-- Supplements -->
             <div class="card" data-category="supplements">
@@ -574,7 +616,7 @@
           </div>
         </section>
 
-        <!-- MIND & ARETE-->
+        <!-- MIND & ARETE -->
         <section class="section-block">
           <h2 class="section-title">Mind & Arete</h2>
           <div class="section-grid-2">
@@ -596,7 +638,7 @@
               </div>
             </div>
 
-            <!-- Arete -->
+            <!-- Arete & Alignment -->
             <div class="card" data-category="arete">
               <div class="card-header">
                 <div class="card-title-block">
@@ -612,28 +654,28 @@
                 <label><input type="checkbox" data-key="contribution" />Contribution</label>
               </div>
             </div>
+
+            <!-- Values -->
+            <div class="card" data-category="arete">
+              <div class="card-header">
+                <div class="card-title-block">
+                  <div class="card-title">Values</div>
+                  <div class="card-subtitle">Live the code today</div>
+                </div>
+                <div class="xp">0 / 1000 XP</div>
+              </div>
+              <div class="items">
+                <label><input type="checkbox" data-key="valueDiscipline" />Discipline</label>
+                <label><input type="checkbox" data-key="valueCourage" />Courage</label>
+                <label><input type="checkbox" data-key="valueService" />Service / Stewardship</label>
+                <label><input type="checkbox" data-key="valueTruth" />Truth / Honesty</label>
+                <label><input type="checkbox" data-key="valueLove" />Love & Presence</label>
+                <label><input type="checkbox" data-key="valueCuriosity" />Curiosity</label>
+              </div>
+            </div>
           </div>
         </section>
 
-        <!-- Values -->
-    <div class="card" data-category="arete">
-      <div class="card-header">
-        <div class="card-title-block">
-          <div class="card-title">Values</div>
-          <div class="card-subtitle">Live the code today</div>
-        </div>
-        <div class="xp">0 / 1000 XP</div>
-      </div>
-      <div class="items">
-        <label><input type="checkbox" data-key="valueDiscipline" />Discipline</label>
-        <label><input type="checkbox" data-key="valueCourage" />Courage</label>
-        <label><input type="checkbox" data-key="valueService" />Service / Stewardship</label>
-        <label><input type="checkbox" data-key="valueTruth" />Truth / Honesty</label>
-        <label><input type="checkbox" data-key="valueLove" />Love & Presence</label>
-        <label><input type="checkbox" data-key="valueCuriosity" />Curiosity</label>
-      </div>
-    </div>
-        
         <!-- CRAFT & DUTY -->
         <section class="section-block">
           <h2 class="section-title">Craft & Duty</h2>
@@ -685,6 +727,38 @@
 
     const MAX_XP = 8000;
 
+    /* ------- Daily prompt data (seed lists – extend as you like) ------- */
+
+    const mentalModels = [
+      'Inversion — think first about what you want to avoid.',
+      'Second-order effects — what happens after the first step?',
+      'Circle of competence — stay within what you truly understand.',
+      'Regret minimisation — what would your 80-year-old self choose?',
+    ];
+
+    const productivityGames = [
+      '10-minute war: attack one avoided task for 10 minutes.',
+      'Shutdown ritual: spend 5 minutes planning tomorrow.',
+      'Deep-work sprint: 25 minutes on a single, important task.',
+      'Distraction audit: note every distraction in the next hour.',
+    ];
+
+    const investingReads = [
+      'Re-read your notes on PDD’s comparative advantage.',
+      'Buffett 1997 Shareholder Letter — section on float.',
+      'Kaspi.kz innovation flywheel — one memo or article.',
+      'One page from your “terminal portfolio” notes.',
+    ];
+
+    const quotes = [
+      '“The score takes care of itself.” — Bill Walsh',
+      '“Focus is a superpower.”',
+      '“Discipline equals freedom.” — Jocko Willink',
+      '“Quality is not an act, it is a habit.”',
+    ];
+
+    /* -------------------- Date helpers -------------------- */
+
     function todayISO() {
       return new Date().toISOString().slice(0, 10);
     }
@@ -727,6 +801,8 @@
       });
     }
 
+    /* -------------------- XP logic -------------------- */
+
     function computeCategoryXp(state) {
       const xp = {
         supplements: 0,
@@ -750,25 +826,23 @@
       if (fitnessCount >= 4) xp.fitness = 1000;
       else if (fitnessCount >= 2) xp.fitness = 500;
 
-      // Wisdom
-const wisdomKeys = [
-  'gratitude',
-  'journal',
-  'meditate',
-  'mentalModel',
-  'productivityGame',
-  'philosophy',
-];
-const wisdomCount = wisdomKeys.filter(k => state[k]).length;
-
-if (wisdomCount === wisdomKeys.length) {
-  // all 6
-  xp.wisdom = 1000;
-} else if (wisdomCount >= 4) {
-  xp.wisdom = 500;
-} else if (wisdomCount >= 3) {
-  xp.wisdom = 250;
-}
+      // Wisdom – 6 items
+      const wisdomKeys = [
+        'gratitude',
+        'journal',
+        'meditate',
+        'mentalModel',
+        'productivityGame',
+        'philosophy',
+      ];
+      const wisdomCount = wisdomKeys.filter(k => state[k]).length;
+      if (wisdomCount === wisdomKeys.length) {
+        xp.wisdom = 1000;
+      } else if (wisdomCount >= 4) {
+        xp.wisdom = 500;
+      } else if (wisdomCount >= 3) {
+        xp.wisdom = 250;
+      }
 
       // Mastery
       const masteryKeys = ['investingReading', 'researchMemo', 'investorInteraction'];
@@ -785,22 +859,22 @@ if (wisdomCount === wisdomKeys.length) {
         if (respCount > 0) xp.responsibility = 2000;
       }
 
-      // Arete
+      // Arete (behaviours + values)
       const areteKeys = [
-  'familyTime',
-  'golf',
-  'fiction',
-  'lunchDinner',
-  'contribution',
-  'valueDiscipline',
-  'valueCourage',
-  'valueService',
-  'valueTruth',
-  'valueLove',
-  'valueCuriosity',
-];
-const areteCount = areteKeys.filter(k => state[k]).length;
-if (areteCount >= 1) xp.arete = 1000;
+        'familyTime',
+        'golf',
+        'fiction',
+        'lunchDinner',
+        'contribution',
+        'valueDiscipline',
+        'valueCourage',
+        'valueService',
+        'valueTruth',
+        'valueLove',
+        'valueCuriosity',
+      ];
+      const areteCount = areteKeys.filter(k => state[k]).length;
+      if (areteCount >= 1) xp.arete = 1000;
 
       return xp;
     }
@@ -826,6 +900,8 @@ if (areteCount >= 1) xp.arete = 1000;
         return null;
       }
     }
+
+    /* -------------------- Streaks -------------------- */
 
     function updateStreaks(currentDateStr) {
       const LIMIT_DAYS = 365;
@@ -904,6 +980,30 @@ if (areteCount >= 1) xp.arete = 1000;
         .join('');
     }
 
+    /* -------------------- Daily prompts -------------------- */
+
+    function pickForDate(arr, dateStr) {
+      if (!arr.length) return '';
+      const d = parseISODate(dateStr);
+      const seed = d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+      const index = seed % arr.length;
+      return arr[index];
+    }
+
+    function updateDailyPrompts(dateStr) {
+      const mmEl = document.getElementById('prompt-mental-model');
+      const gameEl = document.getElementById('prompt-game');
+      const readEl = document.getElementById('prompt-reading');
+      const quoteEl = document.getElementById('prompt-quote');
+
+      mmEl.textContent = pickForDate(mentalModels, dateStr);
+      gameEl.textContent = pickForDate(productivityGames, dateStr);
+      readEl.textContent = pickForDate(investingReads, dateStr);
+      quoteEl.textContent = pickForDate(quotes, dateStr);
+    }
+
+    /* -------------------- UI update + persistence -------------------- */
+
     function updateUI() {
       const state = readStateFromUI();
       const xp = computeCategoryXp(state);
@@ -933,6 +1033,7 @@ if (areteCount >= 1) xp.arete = 1000;
 
       const currentDateStr = dateInput.value || todayISO();
       updateStreaks(currentDateStr);
+      updateDailyPrompts(currentDateStr);
     }
 
     function saveDay() {
