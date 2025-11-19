@@ -1,7 +1,7 @@
 // KOMOREBI OS - DATA & CONFIGURATION
 // Edit this file to change content, scoring, and protocols.
 
-const KOMOREBI_CONFIG = {
+const DEFAULT_CONFIG =
     // 1. SYSTEM CONSTANTS
     levels: {
         elite: 6500,
