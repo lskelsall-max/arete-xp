@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Komorebi OS — Master Protocol</title>
+  <title>Komorebi OS — Master Database</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
@@ -271,8 +271,8 @@
     }
     .modal-content {
       background: var(--card); padding: 1.5rem; border-radius: 12px;
-      border: 1px solid var(--accent-gold); max-width: 500px; width: 90%;
-      max-height: 80vh; overflow-y: auto;
+      border: 1px solid var(--accent-gold); max-width: 600px; width: 90%;
+      max-height: 85vh; overflow-y: auto;
     }
     .modal-title { font-size: 1.2rem; margin-bottom: 1rem; color: var(--accent-gold); display: flex; justify-content: space-between; align-items: center;}
     .modal-actions { display: flex; gap: 0.5rem; margin-top: 1rem; justify-content: flex-end; }
@@ -284,8 +284,8 @@
     }
 
     /* LIBRARY MODAL STYLES */
-    .library-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.5rem; }
-    .library-tab { cursor: pointer; padding: 0.3rem 0.6rem; border-radius: 4px; font-size: 0.85rem; color: var(--text-muted); }
+    .library-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.5rem; overflow-x: auto; }
+    .library-tab { cursor: pointer; padding: 0.3rem 0.6rem; border-radius: 4px; font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; }
     .library-tab.active { background: var(--komorebi-mint); color: #000; font-weight: 600; }
     
     .search-bar { width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid var(--border-subtle); background: rgba(0,0,0,0.3); color: var(--text-main); margin-bottom: 1rem; }
@@ -295,6 +295,8 @@
     .library-item:hover { border-color: var(--komorebi-mint-soft); }
     .lib-title { font-weight: 600; color: var(--komorebi-mint); font-size: 0.9rem; margin-bottom: 0.2rem; }
     .lib-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.3; }
+    
+    .investor-meta { font-size: 0.75rem; color: var(--accent-gold-strong); margin-bottom: 0.2rem; display:inline-block; background:rgba(0,0,0,0.3); padding:0.1rem 0.4rem; border-radius:4px;}
 
     /* CHART STYLES */
     .chart-container {
@@ -312,11 +314,11 @@
     .bar-value { font-size: 0.65rem; color: #fff; margin-bottom: 2px; }
 
     /* INVESTOR CARD */
-    .investor-card-content { display: flex; flex-direction: column; gap: 0.2rem; }
+    .investor-card-content { display: flex; flex-direction: column; gap: 0.3rem; }
     .investor-name { color: var(--komorebi-mint); font-weight: 700; font-size: 1rem; }
     .investor-resource { color: var(--text-main); font-style: italic; }
     .investor-stats { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; display: flex; gap: 0.5rem; align-items: center; }
-    .investor-stats span { background: rgba(255,255,255,0.1); padding: 0.1rem 0.4rem; border-radius: 4px; }
+    .investor-stats span { background: rgba(255,255,255,0.1); padding: 0.1rem 0.4rem; border-radius: 4px; color: var(--accent-gold-strong); }
 
     /* GAMIFICATION ANIMATION */
     .floating-xp {
@@ -338,7 +340,7 @@
       <div class="app-header-top">
         <div class="app-title-block">
           <div class="app-title">Komorebi OS</div>
-          <div class="app-subtitle">Master Protocol (Mind + Body + Legacy)</div>
+          <div class="app-subtitle">Daily Protocols &amp; Discipline</div>
         </div>
         <div class="header-controls">
           <div class="date-block">
@@ -379,7 +381,7 @@
           <div class="prompt-body" id="prompt-mental-model">Loading...</div>
         </div>
         <div class="card">
-          <div class="card-header"><div class="card-title">Productivity Game</div></div>
+          <div class="card-header"><div class="card-title">Productivity Insight</div></div>
           <div class="prompt-body" id="prompt-productivity">Loading...</div>
         </div>
         <div class="card">
@@ -411,40 +413,39 @@
 
         <!-- HEALTH -->
         <section class="section-block">
-          <h2 class="section-title">Health (Body Fat &lt; 16%)</h2>
+          <h2 class="section-title">Health</h2>
           <div class="section-grid-3">
             <div class="card" data-category="supplements">
-              <div class="card-header"><div class="card-title">Jaguar Fuel</div><div class="xp">0 / 500 XP</div></div>
+              <div class="card-header"><div class="card-title">Supplement Stack</div><div class="xp">0 / 500 XP</div></div>
               <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items items-wide">
-                <label><input type="checkbox" data-key="supplementStack" />Smoothie & Supps</label>
-                <details class="details-list"><summary>Stack Details</summary>
-                  <ul class="sub-list">
-                      <li>Clean Protein 35g, Creatine, Greens</li>
-                      <li>Alpha GPC, Omega 3, Flexi-Calcium</li>
-                      <li>Dutasteride/Minoxidil, Joint Complex</li>
-                      <li>Hydration: 2L + Slow-Mag/Electrolytes</li>
-                  </ul>
+                <label><input type="checkbox" data-key="supplementStack" />Stack complete</label>
+                <details class="details-list"><summary>View details</summary>
+                  <ul class="sub-list"><li>Electrolytes, Alpha GPC</li><li>Omega 3/6, Bone Complex</li><li>Collagen, Tongkat Ali</li></ul>
+                </details>
+              </div>
+            </div>
+
+            <div class="card" data-category="smoothie">
+              <div class="card-header"><div class="card-title">Supersmoothie</div><div class="xp">0 / 500 XP</div></div>
+              <div class="progress-track"><div class="progress-fill"></div></div>
+              <div class="items items-wide">
+                <label><input type="checkbox" data-key="smoothie" />Smoothie complete</label>
+                <details class="details-list"><summary>View recipe</summary>
+                  <ul class="sub-list"><li>Protein 40g, Creatine 5g</li><li>Greens, Ginger, Berries</li></ul>
                 </details>
               </div>
             </div>
 
             <div class="card" data-category="fitness">
-              <div class="card-header"><div class="card-title">Jaguar Physique</div><div class="xp">0 / 1000 XP</div></div>
+              <div class="card-header"><div class="card-title">Fitness & Recovery</div><div class="xp">0 / 1000 XP</div></div>
               <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items">
-                <label><input type="checkbox" data-key="workout" />Workout (Huberman/Johnson)</label>
-                <label><input type="checkbox" data-key="corrective" />Corrective/Postural (10m)</label>
-                <label><input type="checkbox" data-key="zone2" />Zone 2 / Ruck</label>
-              </div>
-            </div>
-             <div class="card" data-category="aesthetics">
-              <div class="card-header"><div class="card-title">Aesthetics</div><div class="xp">0 / 500 XP</div></div>
-              <div class="progress-track"><div class="progress-fill"></div></div>
-              <div class="items">
-                <label><input type="checkbox" data-key="grooming" />Grooming/Skin</label>
-                <label><input type="checkbox" data-key="posture" />Posture Wall Sits</label>
-                <label><input type="checkbox" data-key="guaSha" />Gua Sha / Ice Roll</label>
+                <label><input type="checkbox" data-key="sunshine" />Sunshine</label>
+                <label><input type="checkbox" data-key="rollerYoga" />Mobility/Roller</label>
+                <label><input type="checkbox" data-key="protein120" />Prot ≥ 120g</label>
+                <label><input type="checkbox" data-key="exercise" />Exercise</label>
+                <label><input type="checkbox" data-key="cold" />Cold/Heat</label>
               </div>
             </div>
           </div>
@@ -452,71 +453,78 @@
           <div class="section-grid-1" style="margin-top: 0.4rem;">
             <div class="card workout-card">
               <div class="card-header">
-                <div class="card-title-block"><div class="card-title">Workout Focus</div><div class="card-subtitle" id="wod-type">Loading…</div></div>
+                <div class="card-title-block"><div class="card-title">Workout of the Day</div><div class="card-subtitle" id="wod-type">Loading…</div></div>
               </div>
               <div class="items items-wide"><ul class="sub-list" id="wod-details"></ul></div>
             </div>
           </div>
         </section>
 
-        <!-- MIND & MEANING -->
+        <!-- MIND & ARETE -->
         <section class="section-block">
-          <h2 class="section-title">Mind & Meaning</h2>
+          <h2 class="section-title">Mind & Arete</h2>
           <div class="section-grid-3">
             <div class="card" data-category="wisdom">
-              <div class="card-header"><div class="card-title">Mental Resilience</div><div class="xp">0 / 1000 XP</div></div>
+              <div class="card-header"><div class="card-title">Wisdom & Clarity</div><div class="xp">0 / 1000 XP</div></div>
               <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items">
-                <label><input type="checkbox" data-key="meditate" />FitMind / Meditation</label>
-                <label><input type="checkbox" data-key="slowThink" />Slow Thinking (10m Solitude)</label>
-                <label><input type="checkbox" data-key="gratitude" />Evening Gratitude</label>
-                <label><input type="checkbox" data-key="stoicReflect" />Stoic Reflection</label>
+                <label><input type="checkbox" data-key="gratitude" />Gratitude</label>
+                <label><input type="checkbox" data-key="journal" />Journal</label>
+                <label><input type="checkbox" data-key="meditate" />Meditate</label>
+                <label><input type="checkbox" data-key="mentalModel" />Mental model</label>
+                <label><input type="checkbox" data-key="productivityGame" />Prod game</label>
+                <label><input type="checkbox" data-key="philosophy" />Philosophy</label>
+              </div>
+            </div>
+
+            <div class="card" data-category="arete">
+              <div class="card-header"><div class="card-title">Arete & Alignment</div><div class="xp">0 / 1000 XP</div></div>
+              <div class="progress-track"><div class="progress-fill"></div></div>
+              <div class="items">
+                <label><input type="checkbox" data-key="familyTime" />Family time</label>
+                <label><input type="checkbox" data-key="golf" />Golf/Skill</label>
+                <label><input type="checkbox" data-key="fiction" />Read Fiction</label>
+                <label><input type="checkbox" data-key="lunchDinner" />Social Meal</label>
+                <label><input type="checkbox" data-key="contribution" />Contribution</label>
               </div>
             </div>
 
             <div class="card" data-category="values">
-              <div class="card-header"><div class="card-title">Core Values</div><div class="xp">0 / 1000 XP</div></div>
+              <div class="card-header"><div class="card-title">Values</div><div class="xp">0 / 1000 XP</div></div>
               <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items">
-                <label><input type="checkbox" data-key="valStrength" />Strength</label>
-                <label><input type="checkbox" data-key="valBeauty" />Beauty</label>
-                <label><input type="checkbox" data-key="valService" />Service</label>
-                <label><input type="checkbox" data-key="valFamily" />Family</label>
-                <label><input type="checkbox" data-key="valWisdom" />Wisdom</label>
-              </div>
-            </div>
-             <div class="card" data-category="arete">
-              <div class="card-header"><div class="card-title">Anti-Mimetic</div><div class="xp">0 / 500 XP</div></div>
-              <div class="progress-track"><div class="progress-fill"></div></div>
-              <div class="items items-wide">
-                 <label><input type="checkbox" data-key="antiMimetic" />Avoided "The Crowd"</label>
-                 <label><input type="checkbox" data-key="legacy" />Legacy Action (Build for future)</label>
+                <label><input type="checkbox" data-key="valueCourage" />Courage</label>
+                <label><input type="checkbox" data-key="valueAdventure" />Adventure</label>
+                <label><input type="checkbox" data-key="valueSelfImprovement" />Growth</label>
+                <label><input type="checkbox" data-key="valueIntegrity" />Integrity</label>
+                <label><input type="checkbox" data-key="valueDiscipline" />Discipline</label>
+                <label><input type="checkbox" data-key="valueKindness" />Kindness</label>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- LEARNING & SYSTEM -->
+        <!-- CRAFT & DUTY -->
         <section class="section-block">
-          <h2 class="section-title">Learning & Productivity</h2>
+          <h2 class="section-title">Craft & Duty</h2>
           <div class="section-grid-2">
             <div class="card" data-category="mastery">
-              <div class="card-header"><div class="card-title">Ultralearning</div><div class="xp">0 / 2000 XP</div></div>
+              <div class="card-header"><div class="card-title">Mastery</div><div class="xp">0 / 2000 XP</div></div>
               <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items">
-                <label><input type="checkbox" data-key="metalearning" />Metalearning Map</label>
-                <label><input type="checkbox" data-key="drill" />Drill Weaknesses</label>
-                <label><input type="checkbox" data-key="overlearn" />Overlearn/Teach</label>
+                <label><input type="checkbox" data-key="investingReading" />Deep Read</label>
+                <label><input type="checkbox" data-key="researchMemo" />Write Memo</label>
+                <label><input type="checkbox" data-key="investorInteraction" />Networking</label>
               </div>
             </div>
 
             <div class="card" data-category="responsibility">
-              <div class="card-header"><div class="card-title">Second Brain</div><div class="xp">0 / 2000 XP</div></div>
+              <div class="card-header"><div class="card-title">Responsibility</div><div class="xp">0 / 2000 XP</div></div>
               <div class="progress-track"><div class="progress-fill"></div></div>
               <div class="items">
-                <label><input type="checkbox" data-key="sbCapture" />Capture (Notes/Ideas)</label>
-                <label><input type="checkbox" data-key="sbOrganize" />Organize (PARA)</label>
-                <label><input type="checkbox" data-key="sbDistill" />Distill (Progressive Sum.)</label>
+                <label><input type="checkbox" data-key="earnIncome" />Earn Income</label>
+                <label><input type="checkbox" data-key="completeTaxes" />Admin/Tax</label>
+                <label><input type="checkbox" data-key="hectorBellaEducation" />Kids Edu</label>
               </div>
             </div>
           </div>
@@ -538,7 +546,7 @@
 
   <!-- LIBRARY MODAL -->
   <div class="modal-overlay" id="library-modal">
-      <div class="modal-content" style="max-width: 700px;">
+      <div class="modal-content" style="max-width: 800px;">
           <h3 class="modal-title">Knowledge Library <span id="close-lib-modal" style="cursor:pointer">✕</span></h3>
           
           <div class="library-tabs">
@@ -586,15 +594,15 @@
       MAX_XP: 9000,
       XP_LEVELS: { ELITE: 6500, STRONG: 5000, SURVIVAL: 3500 },
       CATEGORY_MAX: {
-        supplements: 500, smoothie: 500, fitness: 1000, wisdom: 1000, aesthetics: 500,
-        mastery: 2000, responsibility: 2000, arete: 500, values: 1000
+        supplements: 500, smoothie: 500, fitness: 1000, wisdom: 1000,
+        mastery: 2000, responsibility: 2000, arete: 1000, values: 1000
       }
     };
 
-    // --- LARGE DATABASES ---
+    // --- HUGE DATABASES FROM DOCUMENTATION ---
 
     const DB_MODELS = [
-        { name: "First Principles", desc: "Reduce problems to fundamental truths, build upward." },
+        { name: "First Principles Thinking", desc: "Reduce problems to fundamental truths, build upward." },
         { name: "Second-Order Thinking", desc: "Consider consequences beyond the immediate." },
         { name: "Inversion", desc: "Think backward: how could this fail? Then avoid it." },
         { name: "Probabilistic Thinking", desc: "Evaluate decisions using likelihoods, not certainties." },
@@ -617,38 +625,185 @@
         { name: "Status Games", desc: "Most ambition is about pecking order. Avoid them." },
         { name: "Envy & Jealousy", desc: "Underrated forces behind irrational decisions." },
         { name: "Social Proof", desc: "We copy others, especially under uncertainty." },
+        { name: "Commitment & Consistency Bias", desc: "We stay loyal to past choices, even when wrong." },
         { name: "Confirmation Bias", desc: "We seek agreement, not truth." },
+        { name: "Hindsight Bias", desc: "Everything is obvious after it happens." },
         { name: "Survivorship Bias", desc: "We forget the invisible failures." },
+        { name: "Narrative Instinct", desc: "Truth gets rewritten as fable." },
         { name: "Do-Something Syndrome", desc: "Action bias overrides logic." },
         { name: "Pavlovian Association", desc: "Emotionally charged cues override reason." },
+        { name: "First-Conclusion Bias", desc: "First idea sticks; mind shuts after." },
         { name: "Availability Heuristic", desc: "Recent, vivid = true (but not really)." },
+        { name: "Representativeness Heuristic", desc: "Stereotyping based on past patterns." },
+        { name: "Base Rate Neglect", desc: "Ignore statistical norms in favor of specifics." },
+        { name: "Stress Response Bias", desc: "Fight or flight inhibits reasoning." },
+        { name: "Denial & Coping Bias", desc: "The mind evades pain." },
+        { name: "Relative Misery Bias", desc: "We benchmark happiness against others." },
+        { name: "Fairness Sensitivity", desc: "Morality instinct overrides logic." },
+        { name: "Fundamental Attribution Error", desc: "We blame people over context." },
         { name: "OODA Loop (Boyd)", desc: "Observe, Orient, Decide, Act." },
         { name: "Asymmetric Warfare", desc: "Win by not fighting on equal terms." },
+        { name: "Two-Front War", desc: "Divided resources = risk." },
+        { name: "Mutually Assured Destruction", desc: "Deterrence through symmetry." },
         { name: "Concentration of Force", desc: "Overwhelm by focus." },
+        { name: "Deception (Sun Tzu)", desc: "All war is based on misdirection." },
+        { name: "Moral Authority", desc: "Legitimacy is power." },
+        { name: "Timing and Tempo", desc: "Speed is a weapon." },
+        { name: "Seeing the Front", desc: "Eyes on the field, not the map." },
         { name: "The Lindy Effect", desc: "What survives ages, survives longer." },
-        { name: "Pareto Principle", desc: "80% of effects come from 20% of causes." }
+        { name: "Chunking", desc: "Grouping aids memory and reasoning." },
+        { name: "Meta-Learning", desc: "Learn how to learn." },
+        { name: "Socratic Method", desc: "Question everything." },
+        { name: "Curiosity Instinct", desc: "Innate drive to explore, understand, and innovate." },
+        { name: "Language Instinct", desc: "Deep grammar wired into us." },
+        { name: "Pareto Principle", desc: "80% of effects come from 20% of causes." },
+        { name: "Hyperbolic Discounting", desc: "Preferring small rewards now over big ones later." },
+        { name: "Reciprocity", desc: "We feel obligated to return favors." },
+        { name: "Scarcity", desc: "We value things more when they are rare." },
+        { name: "Authority", desc: "We obey perceived experts." },
+        { name: "Liking", desc: "We say yes to those we like." },
+        { name: "Framing Effect", desc: "The way you tell it changes what people hear." },
+        { name: "Anchoring Effect", desc: "First number heard shapes expectation." },
+        { name: "Contrast Principle", desc: "Context changes perceived value." },
+        { name: "Truth-by-Repetition", desc: "Familiarity breeds believability." },
+        { name: "Moral Credentialing", desc: "Past good acts license current selfish ones." },
+        { name: "Opportunity Cost", desc: "Every choice is a trade." },
+        { name: "Margin of Safety", desc: "Room for error is your friend." },
+        { name: "Mr. Market", desc: "The market is emotional, not rational." },
+        { name: "Compounding", desc: "The most powerful force in the universe." },
+        { name: "ROIC", desc: "Return on Invested Capital is core of performance." },
+        { name: "Capital Allocation", desc: "Intelligent reinvestment trumps earnings." },
+        { name: "Cash Flow over Earnings", desc: "Real cash > accounting illusions." },
+        { name: "Founder-Led Advantage", desc: "Skin in the game creates alignment." },
+        { name: "Spawner Model", desc: "Businesses that create new businesses (e.g. Amazon)." },
+        { name: "Network Effects", desc: "Value increases with more users." },
+        { name: "Economies of Scale", desc: "Cost per unit drops as volume increases." },
+        { name: "Switching Costs", desc: "Lock-in creates value." },
+        { name: "Branding", desc: "Intangible asset that allows pricing power." },
+        { name: "Cornered Resource", desc: "Exclusive access to a valuable asset." },
+        { name: "Counter-Positioning", desc: "New business model that incumbents cannot copy." },
+        { name: "Feedback Loops", desc: "Positive amplifies, negative stabilizes." },
+        { name: "Equilibrium", desc: "Where systems settle (or not)." },
+        { name: "Emergence", desc: "Complex behavior from simple rules." },
+        { name: "Bottlenecks", desc: "Throughput limits performance." },
+        { name: "Leverage Points", desc: "Small inputs, big outputs." },
+        { name: "Redundancy", desc: "Slack = resilience." },
+        { name: "Scaling Laws", desc: "Size changes behavior." },
+        { name: "Autocatalysis", desc: "Growth feeds on itself." },
+        { name: "Power Laws", desc: "Extreme outliers dominate the average." },
+        { name: "Phase Transitions", desc: "Tiny shifts trigger massive change." },
+        { name: "Inertia", desc: "Things in motion stay in motion." },
+        { name: "Entropy", desc: "Systems tend toward disorder." },
+        { name: "Critical Mass", desc: "Threshold effects ignite change." },
+        { name: "Thermodynamics", desc: "Conservation, entropy, energy transfer." },
+        { name: "Evolution", desc: "Survival via variation and selection." },
+        { name: "Fitness Landscapes", desc: "Some solutions are stuck in local optima." },
+        { name: "Ecosystem Thinking", desc: "Every part affects the whole." },
+        { name: "Activation Energy", desc: "Change requires a spark." },
+        { name: "Signal vs. Noise", desc: "Extract meaning from chaos." }
     ];
 
     const DB_PRODUCTIVITY = [
-        { name: "5 Second Rule (Mel Robbins)", desc: "Count 5-4-3-2-1-GO to bypass hesitation." },
-        { name: "Eat That Frog (Brian Tracy)", desc: "Do the biggest, ugliest task first thing." },
-        { name: "2-Minute Rule (James Clear)", desc: "If it takes < 2 mins, do it now. Start habits by doing just 2 mins." },
-        { name: "Time Boxing (Nir Eyal)", desc: "Schedule every minute of your day. 'Indistractable'." },
-        { name: "WOOP (Gabriele Oettingen)", desc: "Wish, Outcome, Obstacle, Plan." },
+        { name: "Growth Mindset (Dweck)", desc: "Believing challenges are a chance to grow, not a threat. The power of 'Yet'." },
+        { name: "Re-labeling (Little Bets)", desc: "Fixed mindset sees failure as identity. Growth mindset sees failure as data." },
+        { name: "Self-Efficacy Quest (SuperBetter)", desc: "Complete simple daily quests to build confidence for bigger challenges." },
+        { name: "Kaizen (Maurer)", desc: "Small, continuous steps to bypass the brain's fear response (Amygdala)." },
+        { name: "Compound Effect (Hardy)", desc: "Small, smart choices + consistency + time = radical difference." },
+        { name: "Subjective Success (Barker)", desc: "Measure Achievement, Legacy, Significance, and Happiness, not just money." },
+        { name: "Optimize for Interesting (Dorie Clark)", desc: "Choose the path that keeps you curious to play the Long Game." },
+        { name: "Ego is the Enemy (Holiday)", desc: "Aspiring? Do. Succeeding? Stay humble. Failing? Resilience." },
+        { name: "Amor Fati (Holiday)", desc: "Love your fate. Turn obstacles into fuel." },
+        { name: "Circle of Control (Stoicism)", desc: "Focus only on what you control. Ignore the rest." },
+        { name: "10-10-10 (Suzy Welch)", desc: "How will I feel in 10 mins, 10 months, 10 years?" },
+        { name: "The 4 Agreements (Ruiz)", desc: "Be impeccable with your word. Don't take it personally. Don't assume. Do your best." },
+        { name: "The ONE Thing (Keller)", desc: "What is the one thing such that by doing it, everything else is easier or unnecessary?" },
+        { name: "Essentialism (McKeown)", desc: "Less but better. The disciplined pursuit of less." },
+        { name: "The 80/20 Principle (Koch)", desc: "20% of inputs produce 80% of outputs. Focus on the 20%." },
+        { name: "Strategic Underachievement (Burkeman)", desc: "Decide in advance what to fail at to save energy for what matters." },
+        { name: "Hell Yeah or No (Sivers)", desc: "If it's not a 'Hell Yeah', it's a no." },
+        { name: "The Positive No (Ury)", desc: "Yes to values, No to request, Yes to relationship." },
+        { name: "Your One Word (Carmichael)", desc: "Find the single value that defines you and use it as a compass." },
+        { name: "Pain-Pleasure Association (Robbins)", desc: "Link massive pain to inaction and massive pleasure to action." },
+        { name: "Tragic Optimism (Frankl)", desc: "Finding meaning in suffering. The last of the human freedoms." },
+        { name: "Psycho-Cybernetics (Maltz)", desc: "Your self-image sets the boundaries of your individual accomplishment." },
+        { name: "The Dip (Godin)", desc: "Quit the wrong things fast so you can push through the right Dip." },
+        { name: "Grit (Duckworth)", desc: "Passion + Perseverance for long-term goals." },
+        { name: "The 40% Rule (Goggins)", desc: "When your mind says you're done, you're only 40% done." },
+        { name: "Cookie Jar (Goggins)", desc: "Remember past victories to fuel present struggles." },
+        { name: "Winning (Grover)", desc: "Winning demands obsession and doesn't care about your feelings." },
+        { name: "Power Laws (Greene)", desc: "Say less. Be audacious. Be formless." },
+        { name: "David vs Goliath (Gladwell)", desc: "Neutralize the giant's advantage by changing the rules." },
+        { name: "Antifragile (Taleb)", desc: "Gain from disorder. Cap downside, infinite upside." },
+        { name: "Subtle Art (Manson)", desc: "Choose what you are willing to suffer for." },
+        { name: "Think Like a Monk (Shetty)", desc: "Let go of external expectations. Find your dharma." },
+        { name: "Worry Compartmentalization (Carnegie)", desc: "Live in day-tight compartments." },
+        { name: "5-4-3-2-1 Grounding (Trenton)", desc: "Engage senses to stop overthinking." },
+        { name: "Stress Enhancing Mindset (McGonigal)", desc: "View stress as energy preparation, not a threat." },
+        { name: "WRAP Decision Making (Heath)", desc: "Widen options, Reality test, Attain distance, Prepare to be wrong." },
+        { name: "Thinking in Bets (Duke)", desc: "Decisions are bets on the future, not certainties." },
+        { name: "System 1 vs System 2 (Kahneman)", desc: "Slow down to engage rational thinking over intuition." },
+        { name: "Via Negativa (Dobelli)", desc: "Avoid stupidity rather than seeking brilliance." },
+        { name: "37% Rule (Algorithms)", desc: "Explore for the first 37%, then exploit the next best option." },
+        { name: "First Principles (Elon Musk)", desc: "Boil things down to fundamental truths and reason up." },
+        { name: "Second-Order Thinking", desc: "And then what? Look beyond the immediate effect." },
+        { name: "Smarter Faster Better (Duhigg)", desc: "Generate motivation by making choices that prove autonomy." },
+        { name: "Radical Open-mindedness (Dalio)", desc: "Pain + Reflection = Progress." },
+        { name: "Think Again (Grant)", desc: "Think like a scientist, not a preacher, prosecutor, or politician." },
+        { name: "Regret Minimization (Pink)", desc: "Foundation, Boldness, Moral, and Connection regrets." },
+        { name: "Design Your Life (Burnett/Evans)", desc: "Prototype your life. Don't just plan it." },
+        { name: "Code of Extraordinary Mind (Lakhiani)", desc: "Question the 'Brules' (Bullshit Rules) of society." },
+        { name: "Born for This (Guillebeau)", desc: "Intersection of Joy, Money, and Flow." },
+        { name: "Craftsman Mindset (Newport)", desc: "Be so good they can't ignore you. Passion follows skill." },
+        { name: "Mastery (Greene)", desc: "Primal Curiosity + Intense Focus + Mentorship." },
+        { name: "Reverse Engineering (Friedman)", desc: "Decode greatness by analyzing the best work." },
+        { name: "Talent Hotbeds (Coyle)", desc: "Deep practice + Ignition + Master Coaching." },
+        { name: "Range (Epstein)", desc: "Generalists thrive in a specialized world. Sample widely." },
+        { name: "Originality (Grant)", desc: "Question the default. Produce volume to find quality." },
+        { name: "Giver vs Taker (Grant)", desc: "Givers win in the long run if they avoid burnout." },
+        { name: "Win Friends (Carnegie)", desc: "Be genuinely interested in other people." },
+        { name: "One Minute Manager", desc: "1 Min Goals, 1 Min Praisings, 1 Min Redirects." },
+        { name: "Coaching Habit (Stanier)", desc: "Ask 'What's on your mind?' and 'And what else?'" },
+        { name: "Culture Code (Coyle)", desc: "Build safety, share vulnerability, establish purpose." },
+        { name: "Good to Great (Collins)", desc: "Hedgehog Concept: Passion, Best at, Economic Engine." },
+        { name: "Profit First (Michalowicz)", desc: "Sales - Profit = Expenses. Take profit first." },
+        { name: "Start with Why (Sinek)", desc: "People don't buy what you do, they buy why you do it." },
+        { name: "StoryBrand (Miller)", desc: "The customer is the hero, not your brand." },
+        { name: "E-Myth (Gerber)", desc: "Work ON your business, not IN it. Build systems." },
+        { name: "Company of One (Jarvis)", desc: "Better, not bigger. Question growth." },
+        { name: "1000 True Fans (Kelly)", desc: "You don't need millions. You need 1000 true fans." },
+        { name: "Blue Ocean Strategy", desc: "Don't compete. Create a new market." },
+        { name: "Unfair Advantage (Ali/Kubba)", desc: "MILES: Money, Intelligence, Location, Education, Status." },
+        { name: "Day One (Bezos)", desc: "Stave off death by maintaining a start-up mentality." },
+        { name: "Inside the Box (Boyd)", desc: "Innovation happens by subtraction, division, multiplication." },
+        { name: "Jobs to be Done (Christensen)", desc: "Customers hire products to solve a specific problem." },
+        { name: "Lean Startup (Ries)", desc: "Build-Measure-Learn. MVP." },
+        { name: "Sprint (Google Ventures)", desc: "Solve big problems in 5 days." },
+        { name: "Perennial Seller (Holiday)", desc: "Make something timeless. Play the long game." },
+        { name: "To Sell Is Human (Pink)", desc: "Attunement, Buoyancy, Clarity." },
+        { name: "Influence (Cialdini)", desc: "Reciprocity, Commitment, Social Proof, Authority, Liking, Scarcity." },
+        { name: "Magic Words (Jones)", desc: "'Just imagine', 'How open-minded are you?'" },
+        { name: "5 Second Rule (Robbins)", desc: "Count 5-4-3-2-1-GO to bypass hesitation." },
+        { name: "Eat That Frog (Tracy)", desc: "Do the biggest, ugliest task first thing." },
+        { name: "2-Minute Rule (Clear)", desc: "If it takes < 2 mins, do it now." },
+        { name: "Time Boxing (Eyal)", desc: "Schedule every minute of your day." },
+        { name: "WOOP (Oettingen)", desc: "Wish, Outcome, Obstacle, Plan." },
         { name: "Ivy Lee Method", desc: "Define your 3 & 1 priorities the night before." },
         { name: "Reversal of Desire (The Tools)", desc: "Scream 'Bring it on!' when facing pain." },
-        { name: "Intermittent Sobriety", desc: "Abstain from high-dopamine inputs to reset (Dopamine Nation)." },
-        { name: "Batching Buckets (GTD)", desc: "Group similar tasks (calls, emails) to reduce context switching." },
-        { name: "Pomodoro Technique", desc: "25 min focus, 5 min diffuse mode to learn complex topics." },
-        { name: "Checklist Manifesto", desc: "Use checklists to prevent stupid mistakes." },
-        { name: "Deep Work (Cal Newport)", desc: "Dedicate blocks of time to distraction-free cognitive work." },
+        { name: "Intermittent Sobriety (Lembke)", desc: "Abstain from high-dopamine inputs to reset." },
+        { name: "Batching Buckets (Allen)", desc: "Group similar tasks to reduce context switching." },
+        { name: "Pomodoro Technique", desc: "25 min focus, 5 min diffuse mode." },
+        { name: "Checklist Manifesto (Gawande)", desc: "Use checklists to prevent stupid mistakes." },
+        { name: "Deep Work (Newport)", desc: "Dedicate blocks of time to distraction-free cognitive work." },
         { name: "Flow (Csikszentmihalyi)", desc: "Balance challenge and skill to enter the zone." },
-        { name: "The One Thing", desc: "What is the one thing such that by doing it, everything else is easier or unnecessary?" },
-        { name: "Essentialism", desc: "Less but better. The disciplined pursuit of less." },
-        { name: "Tiny Habits (BJ Fogg)", desc: "Anchor a tiny behavior to an existing trigger." },
-        { name: "Bullet Journal", desc: "Rapid logging of tasks, events, and notes." },
-        { name: "Blue Ocean Strategy", desc: "Don't compete. Create a new market." },
-        { name: "Minimum Viable Product (Ries)", desc: "Build the smallest thing to test assumptions." }
+        { name: "The One Thing (Keller)", desc: "What is the one thing that makes everything else easier?" },
+        { name: "Tiny Habits (Fogg)", desc: "Anchor a tiny behavior to an existing trigger." },
+        { name: "Bullet Journal (Carroll)", desc: "Rapid logging of tasks, events, and notes." },
+        { name: "Second Brain (Forte)", desc: "CODE: Capture, Organize, Distill, Express." },
+        { name: "Zettelkasten (Ahrens)", desc: "Smart notes. Connect ideas to build a web of knowledge." },
+        { name: "12 Week Year (Moran)", desc: "Create urgency by shrinking your timeline." },
+        { name: "4 Disciplines of Execution", desc: "Focus on the WIG (Wildly Important Goal)." },
+        { name: "When (Pink)", desc: "Match your chronotype to your tasks." },
+        { name: "Effortless (McKeown)", desc: "Make it easy to do what matters." }
     ];
 
     const DB_INVESTORS = [
@@ -675,7 +830,42 @@
         { name: "Michael Mauboussin", resource: "More Than You Know / Consilient Observer", years: "Strategy" },
         { name: "Ray Dalio", resource: "Principles / Bridgewater Daily Observations", years: "40 Years" },
         { name: "Jamie Dimon", resource: "JPMorgan Chase Shareholder Letters", years: "20 Years" },
-        { name: "Bruce Greenwald", resource: "Class Notes & Value Investing: From Graham to Buffett", years: "Academic" }
+        { name: "Bruce Greenwald", resource: "Class Notes & Value Investing: From Graham to Buffett", years: "Academic" },
+        { name: "Jim Rogers", resource: "Investment Biker", years: "20 Years" },
+        { name: "Rick Guerin", resource: "Pacific Partners", years: "20 Years" },
+        { name: "David Tepper", resource: "Appaloosa Management", years: "20 Years" },
+        { name: "Kevin Daly", resource: "FiveT Capital", years: "15 Years" },
+        { name: "Eddie Lampert", resource: "ESL Investments", years: "20 Years" },
+        { name: "David Einhorn", resource: "Greenlight Capital / Fooling Some of the People All of the Time", years: "20 Years" },
+        { name: "Stan Perlmeter", resource: "Perlmeter Investments", years: "20 Years" },
+        { name: "Daniel Loeb", resource: "Third Point Letters", years: "20 Years" },
+        { name: "Tom Knapp", resource: "Tweedy, Browne", years: "20 Years" },
+        { name: "Shelby Davis", resource: "Davis Dynasty", years: "45 Years" },
+        { name: "Bruce Berkowitz", resource: "Fairholme Fund", years: "15 Years" },
+        { name: "Julian Robertson", resource: "Tiger Management", years: "20 Years" },
+        { name: "Lou Simpson", resource: "GEICO Investments", years: "25 Years" },
+        { name: "Prem Watsa", resource: "Fairfax Financial Letters", years: "25 Years" },
+        { name: "Robert Rodriguez", resource: "FPA Capital", years: "30 Years" },
+        { name: "John Neff", resource: "Vanguard Windsor Fund", years: "35 Years" },
+        { name: "Glenn Greenberg", resource: "Chieftain Capital", years: "25 Years" },
+        { name: "Bill Ruane", resource: "Sequoia Fund", years: "15 Years" },
+        { name: "Philip Carret", resource: "Pioneer Fund", years: "55 Years" },
+        { name: "Adam Smith", resource: "The Wealth of Nations", years: "Classic" },
+        { name: "John Brooks", resource: "Business Adventures", years: "Classic" },
+        { name: "Robert Pirsig", resource: "Zen and the Art of Motorcycle Maintenance", years: "Philosophy" },
+        { name: "Josh Waitzkin", resource: "The Art of Learning", years: "Performance" },
+        { name: "Hamilton Helmer", resource: "7 Powers", years: "Strategy" },
+        { name: "William Thorndike", resource: "The Outsiders", years: "Capital Allocation" },
+        { name: "Lawrence Cunningham", resource: "Quality Investing / Margin of Trust", years: "Analysis" },
+        { name: "Jeremy Miller", resource: "Warren Buffett's Ground Rules", years: "History" },
+        { name: "Lee Freeman-Shor", resource: "The Art of Execution", years: "Process" },
+        { name: "Brad Feld", resource: "Venture Deals", years: "VC" },
+        { name: "Tren Griffin", resource: "Charlie Munger: The Complete Investor", years: "Wisdom" },
+        { name: "William Green", resource: "Richer, Wiser, Happier", years: "Wisdom" },
+        { name: "Glen Arnold", resource: "The Deals of Warren Buffett", years: "History" },
+        { name: "Mary Buffett", resource: "Buffettology", years: "Analysis" },
+        { name: "Alice Schroeder", resource: "The Snowball", years: "Biography" },
+        { name: "Peter Kaufman", resource: "Poor Charlie's Almanack", years: "Multidisciplinary" }
     ];
 
     const DB_QUOTES = [
@@ -696,7 +886,29 @@
         "“Everything in life is a mind game!” — David Goggins",
         "“Slow is smooth, smooth is fast.” — Navy SEALs",
         "“Invert, always invert.” — Jacobi",
-        "“I want to be able to look back and say, ‘I didn’t solve everything, but I didn’t create any new problems.’” — Naval Ravikant"
+        "“I want to be able to look back and say, ‘I didn’t solve everything, but I didn’t create any new problems.’” — Naval Ravikant",
+        "“Spend each day trying to be a little wiser than you were when you woke up.” — Charlie Munger",
+        "“To get what you want, you have to deserve what you want.” — Charlie Munger",
+        "“Compound interest is the eighth wonder of the world. He who understands it, earns it ... he who doesn't ... pays it.” — Einstein",
+        "“I never allow myself to hold an opinion on anything that I don't know the other side's argument better than they do.” — Charlie Munger",
+        "“The best revenge is not to be like your enemy.” — Marcus Aurelius",
+        "“Waste no more time arguing about what a good man should be. Be one.” — Marcus Aurelius",
+        "“If you are going through hell, keep going.” — Winston Churchill",
+        "“Whether you think you can, or you think you can't – you're right.” — Henry Ford",
+        "“The only way to do great work is to love what you do.” — Steve Jobs",
+        "“It does not matter how slowly you go as long as you do not stop.” — Confucius",
+        "“Simplicity is the ultimate sophistication.” — Leonardo da Vinci",
+        "“Knowing yourself is the beginning of all wisdom.” — Aristotle",
+        "“Everything we hear is an opinion, not a fact. Everything we see is a perspective, not the truth.” — Marcus Aurelius",
+        "“Take up one idea. Make that one idea your life - think of it, dream of it, live on that idea.” — Swami Vivekananda",
+        "“You have to grow from the inside out. None can teach you, none can make you spiritual.” — Swami Vivekananda",
+        "“In a conflict between the heart and the brain, follow your heart.” — Swami Vivekananda",
+        "“The world is nothing but change. Our life is perception.” — Marcus Aurelius",
+        "“Man is affected not by events but by the view he takes of them.” — Epictetus",
+        "“Throw me to the wolves and I will return leading the pack.” — Seneca",
+        "“The best armour of old age is a well spent life preceding it.” — Charlie Munger",
+        "“Comfort is no test of truth. Truth is often far from being comfortable.” — Swami Vivekananda",
+        "“If I change, the world will change, no-one else will change the world for me.” — Unknown"
     ];
 
     const els = {
@@ -737,7 +949,6 @@
     function getTodayISO() { return new Date().toISOString().slice(0, 10); }
     function formatDateKey(date) { return `arete_xp_${date}`; }
     
-    // Random index based on day string (changes daily)
     function getPseudoRandomIndex(seedStr, len) {
       let hash = 0;
       for (let i = 0; i < seedStr.length; i++) {
@@ -747,7 +958,6 @@
       return Math.abs(hash) % len;
     }
 
-    // Week number for Investor rotation (Changes weekly)
     function getWeekNumber(d) {
         d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
         d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
@@ -762,7 +972,7 @@
     function readState() {
       const state = {};
       getCheckboxes().forEach(cb => state[cb.dataset.key] = cb.checked);
-      state.note = els.dailyNote.value; // Save note
+      state.note = els.dailyNote.value;
       return state;
     }
 
@@ -772,49 +982,34 @@
     }
 
     function calculateXP(state) {
-      const xp = { supplements: 0, smoothie: 0, fitness: 0, wisdom: 0, aesthetics: 0, mastery: 0, responsibility: 0, arete: 0, values: 0 };
+      const xp = { supplements: 0, smoothie: 0, fitness: 0, wisdom: 0, mastery: 0, responsibility: 0, arete: 0, values: 0 };
 
       if (state.supplementStack) xp.supplements = 500;
       if (state.smoothie) xp.smoothie = 500;
 
-      // Fitness
-      const fKeys = ['workout', 'corrective', 'zone2'];
+      const fKeys = ['sunshine', 'rollerYoga', 'protein120', 'exercise', 'cold'];
       const fCount = fKeys.filter(k => state[k]).length;
-      if (fCount === 3) xp.fitness = 1000; else if (fCount >= 1) xp.fitness = 333 * fCount;
+      if (fCount >= 4) xp.fitness = 1000; else if (fCount >= 2) xp.fitness = 500;
 
-      // Aesthetics
-      const aeKeys = ['grooming', 'posture', 'guaSha'];
-      const aeCount = aeKeys.filter(k => state[k]).length;
-      if(aeCount === 3) xp.aesthetics = 500; else if (aeCount > 0) xp.aesthetics = 150 * aeCount;
-
-      // Wisdom
-      const wKeys = ['meditate', 'slowThink', 'gratitude', 'stoicReflect'];
+      const wKeys = ['gratitude', 'journal', 'meditate', 'mentalModel', 'productivityGame', 'philosophy'];
       const wCount = wKeys.filter(k => state[k]).length;
-      if (wCount === 4) xp.wisdom = 1000; else if (wCount > 0) xp.wisdom = 250 * wCount;
+      if (wCount >= 4) xp.wisdom = 1000; else if (wCount >= 2) xp.wisdom = (wCount === 3) ? 500 : 250;
 
-      // Mastery
-      const mKeys = ['metalearning', 'drill', 'overlearn'];
-      const mCount = mKeys.filter(k => state[k]).length;
-      if (mCount === 3) xp.mastery = 2000; else if (mCount > 0) xp.mastery = 650 * mCount;
-      
-      // Responsibility
-      const rKeys = ['sbCapture', 'sbOrganize', 'sbDistill'];
-      const rCount = rKeys.filter(k => state[k]).length;
-      if (rCount === 3) xp.responsibility = 2000; else if (rCount > 0) xp.responsibility = 650 * rCount;
+      const mCount = ['investingReading', 'researchMemo', 'investorInteraction'].filter(k => state[k]).length;
+      if (mCount > 0) xp.mastery = Math.min(2000, mCount === 3 ? 2000 : mCount * 650);
 
-      // Arete
-      const aKeys = ['antiMimetic', 'legacy'];
-      const aCount = aKeys.filter(k => state[k]).length;
-      if (aCount > 0) xp.arete = 250 * aCount;
+      const rCount = ['earnIncome', 'completeTaxes', 'hectorBellaEducation'].filter(k => state[k]).length;
+      if (rCount > 0) xp.responsibility = Math.min(2000, rCount === 3 ? 2000 : rCount * 650);
 
-      // Values
-      const vCount = ['valStrength', 'valBeauty', 'valService', 'valFamily', 'valWisdom'].filter(k => state[k]).length;
-      if (vCount >= 5) xp.values = 1000; else if (vCount > 0) xp.values = 200 * vCount;
+      const aCount = ['familyTime', 'golf', 'fiction', 'lunchDinner', 'contribution'].filter(k => state[k]).length;
+      if (aCount >= 1) xp.arete = 1000;
+
+      const vCount = ['valueCourage', 'valueAdventure', 'valueSelfImprovement', 'valueIntegrity', 'valueDiscipline', 'valueKindness'].filter(k => state[k]).length;
+      if (vCount >= 3) xp.values = 1000; else if (vCount >= 1) xp.values = 500;
 
       return xp;
     }
 
-    // --- UI & ANIMATION ---
     function showFloatingXP(x, y, amount) {
         if (amount <= 0) return;
         const el = document.createElement('div');
@@ -846,7 +1041,6 @@
       els.prompts.game.textContent = DB_PRODUCTIVITY[idxGame].name + ": " + DB_PRODUCTIVITY[idxGame].desc;
       els.prompts.quote.textContent = DB_QUOTES[idxQuote];
 
-      // Update Investor of the Week (Based on Week Number)
       const dateObj = new Date(dateStr);
       const weekNum = getWeekNumber(dateObj);
       const investorIdx = weekNum % DB_INVESTORS.length;
@@ -856,21 +1050,19 @@
       els.investorCard.resource.textContent = investor.resource;
       els.investorCard.stats.innerHTML = `<span>${investor.years}</span>`;
 
-      // Workout Logic (Jaguar Protocol)
-      const dayOfWeek = dateObj.getDay(); // 0=Sun, 1=Mon
-      const workouts = [
-          { t: "Endurance/Cardio", d: ["Swim, Hike, or Long Zone 2", "Recovery stretch"] }, // Sun
-          { t: "Lower Body Strength", d: ["Squat/Deadlift alternatives", "Posterior chain", "Calves"] }, // Mon
-          { t: "Sauna + Cold Exposure", d: ["3-5 rounds", "20 min sauna + 5 min cold"] }, // Tue
-          { t: "Upper Body Strength", d: ["Push/pull", "Delts, Rhomboids, Neck"] }, // Wed
-          { t: "Cardio Endurance", d: ["Row/Ski/Run/Bike circuit", "Or Ruck"] }, // Thu
-          { t: "HIIT", d: ["Bike, Row, Sled, KB Swings", "No burpees"] }, // Fri
-          { t: "Hypertrophy Circuits", d: ["Arms", "Core", "Calves", "Neck"] } // Sat
-      ];
+      // Standard Workout Logic
+      const dayOfWeek = dateObj.getDay(); 
+      const shiftDay = (dayOfWeek === 0) ? 6 : dayOfWeek - 1; 
+      const cycle = ['Rehab', 'Strength', 'Cardio'];
+      const type = (dayOfWeek === 0) ? 'Rehab' : cycle[shiftDay % 3];
       
-      const w = workouts[dayOfWeek];
-      els.wodType.textContent = w.t;
-      els.wodDetails.innerHTML = w.d.map(d => `<li>${d}</li>`).join('');
+      let details = [];
+      if (type === 'Rehab') details = ['Yoga / mobility 30m', 'Foam Roll', 'Hip openers'];
+      else if (type === 'Strength') details = ['Push/Pull/Hinge', 'Compound lifts 3x5', 'Core 10m'];
+      else details = ['Zone 2 Run 45m', 'Intervals', 'Ruck / Hike'];
+
+      els.wodType.textContent = `${type} Focus`;
+      els.wodDetails.innerHTML = details.map(d => `<li>${d}</li>`).join('');
     }
 
     function updateVisuals() {
@@ -899,9 +1091,9 @@
       els.xpPillValue.textContent = total;
       
       let rLabel = 'Red Zone', rClass = 'red';
-      if (total >= CONSTANTS.XP_LEVELS.ELITE) { rLabel = 'Jaguar King'; rClass = 'elite'; }
-      else if (total >= CONSTANTS.XP_LEVELS.STRONG) { rLabel = 'Warrior'; rClass = 'strong'; }
-      else if (total >= CONSTANTS.XP_LEVELS.SURVIVAL) { rLabel = 'Survival'; rClass = 'survival'; }
+      if (total >= CONSTANTS.XP_LEVELS.ELITE) { rLabel = 'Elite Day'; rClass = 'elite'; }
+      else if (total >= CONSTANTS.XP_LEVELS.STRONG) { rLabel = 'Strong Day'; rClass = 'strong'; }
+      else if (total >= CONSTANTS.XP_LEVELS.SURVIVAL) { rLabel = 'Survival Day'; rClass = 'survival'; }
       
       els.dayRating.innerHTML = `Day Rating: <span class="badge ${rClass}">${rLabel}</span>`;
       return total;
@@ -949,13 +1141,12 @@
         else if(currentLibTab === 'quotes') sourceData = DB_QUOTES.map(q => ({ name: "Quote", desc: q }));
 
         sourceData.forEach(item => {
-            // Simple search filtering
-            if(filterText && !item.name.toLowerCase().includes(filterText.toLowerCase()) && !item.desc.toLowerCase().includes(filterText.toLowerCase())) return;
+            if(filterText && !item.name.toLowerCase().includes(filterText.toLowerCase()) && !(item.desc && item.desc.toLowerCase().includes(filterText.toLowerCase()))) return;
             
             const div = document.createElement('div');
             div.className = 'library-item';
             if (currentLibTab === 'investors') {
-                div.innerHTML = `<div class="lib-title">${item.name} (${item.years})</div><div class="lib-desc">${item.resource}</div>`;
+                div.innerHTML = `<div class="lib-title">${item.name} <span class="investor-meta">${item.years}</span></div><div class="lib-desc">${item.resource}</div>`;
             } else {
                 div.innerHTML = `<div class="lib-title">${item.name}</div><div class="lib-desc">${item.desc}</div>`;
             }
@@ -1021,7 +1212,7 @@
       const total = updateVisuals();
       if (total >= CONSTANTS.XP_LEVELS.ELITE) {
         fireConfetti();
-        setTimeout(() => alert('JAGUAR STATUS ACHIEVED. Legacy building in progress.'), 100);
+        setTimeout(() => alert('ELITE DAY SAVED. Excellent work.'), 100);
       } else {
         alert('Day progress saved.');
       }
