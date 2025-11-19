@@ -360,14 +360,7 @@
       flex-direction: column;
       gap: 0.05rem;
     }
-
-    .card-label {
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--text-muted);
-    }
-
+    
     .card-title {
       font-size: 0.98rem;
       font-weight: 600;
@@ -538,7 +531,6 @@
             <div class="card" data-category="smoothie">
               <div class="card-header">
                 <div class="card-title-block">
-                  <div class="card-label">Health · Fuel</div>
                   <div class="card-title">Supersmoothie</div>
                 </div>
                 <div class="xp">0 / 500 XP</div>
@@ -567,7 +559,6 @@
             <div class="card" data-category="fitness">
               <div class="card-header">
                 <div class="card-title-block">
-                  <div class="card-label">Health · Body</div>
                   <div class="card-title">Fitness & Recovery</div>
                 </div>
                 <div class="xp">0 / 1000 XP</div>
@@ -591,12 +582,13 @@
             <div class="card" data-category="wisdom">
               <div class="card-header">
                 <div class="card-title-block">
-                  <div class="card-label">Mind · Clarity</div>
                   <div class="card-title">Daily Wisdom</div>
                 </div>
                 <div class="xp">0 / 1000 XP</div>
               </div>
               <div class="items">
+                <label><input type="checkbox" data-key="gratitude" />Gratitude</label>
+                <label><input type="checkbox" data-key="journal" />Journal</label>
                 <label><input type="checkbox" data-key="meditate" />Meditate</label>
                 <label><input type="checkbox" data-key="mentalModel" />Mental model</label>
                 <label><input type="checkbox" data-key="productivityGame" />Productivity game</label>
@@ -608,7 +600,6 @@
             <div class="card" data-category="arete">
               <div class="card-header">
                 <div class="card-title-block">
-                  <div class="card-label">Arete · Alignment</div>
                   <div class="card-title">Arete</div>
                 </div>
                 <div class="xp">0 / 1000 XP</div>
@@ -632,7 +623,6 @@
             <div class="card" data-category="mastery">
               <div class="card-header">
                 <div class="card-title-block">
-                  <div class="card-label">Craft · Mastery</div>
                   <div class="card-title">Mastery</div>
                 </div>
                 <div class="xp">0 / 2000 XP</div>
@@ -648,7 +638,6 @@
             <div class="card" data-category="responsibility">
               <div class="card-header">
                 <div class="card-title-block">
-                  <div class="card-label">Duty · Stewardship</div>
                   <div class="card-title">Responsibility</div>
                 </div>
                 <div class="xp">0 / 2000 XP</div>
