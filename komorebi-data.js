@@ -202,4 +202,255 @@ const DEFAULT_CONFIG = {
             { name: "Intermittent Sobriety (Lembke)", desc: "Abstain from high-dopamine inputs to reset." },
             { name: "Batching Buckets (Allen)", desc: "Group similar tasks to reduce context switching." },
             { name: "Pomodoro Technique", desc: "25 min focus, 5 min diffuse mode." },
-            { name: "Checklist Manifesto (Gawande)", desc: "Use che
+            { name: "Checklist Manifesto (Gawande)", desc: "Use checklists to prevent stupid mistakes." },
+            { name: "Deep Work (Newport)", desc: "Dedicate blocks of time to distraction-free cognitive work." },
+            { name: "Flow (Csikszentmihalyi)", desc: "Balance challenge and skill to enter the zone." },
+            { name: "The One Thing (Keller)", desc: "What is the one thing that makes everything else easier?" },
+            { name: "Tiny Habits (Fogg)", desc: "Anchor a tiny behavior to an existing trigger." },
+            { name: "Bullet Journal (Carroll)", desc: "Rapid logging of tasks, events, and notes." },
+            { name: "Second Brain (Forte)", desc: "CODE: Capture, Organize, Distill, Express." },
+            { name: "Zettelkasten (Ahrens)", desc: "Smart notes. Connect ideas to build a web of knowledge." },
+            { name: "12 Week Year (Moran)", desc: "Create urgency by shrinking your timeline." },
+            { name: "4 Disciplines of Execution", desc: "Focus on the WIG (Wildly Important Goal)." },
+            { name: "When (Pink)", desc: "Match your chronotype to your tasks." },
+            { name: "Effortless (McKeown)", desc: "Make it easy to do what matters." }
+        ],
+        investors: [
+            { name: "Stanley Druckenmiller", resource: "The Genius of Stan Druckenmiller (MOI Global)", years: "30 Years" },
+            { name: "Mark Leonard", resource: "Constellation Shareholder Letters / Q&A", years: "25 Years" },
+            { name: "Warren Buffett", resource: "Berkshire Shareholder Letters (1965-2023)", years: "55 Years" },
+            { name: "Charlie Munger", resource: "Poor Charlie's Almanack & Transcripts", years: "15+ Years" },
+            { name: "Seth Klarman", resource: "Margin of Safety & Baupost Letters", years: "25 Years" },
+            { name: "Rakesh Jhunjhunwala", resource: "The Big Bull of India (Insights & PDFs)", years: "35 Years" },
+            { name: "Peter Lynch", resource: "One Up on Wall Street", years: "15 Years" },
+            { name: "Nick Sleep", resource: "Nomad Investment Partnership Letters", years: "13 Years" },
+            { name: "Li Lu", resource: "Himalayan Capital / Modernization", years: "20+ Years" },
+            { name: "Howard Marks", resource: "The Most Important Thing / Memos", years: "25+ Years" },
+            { name: "Joel Greenblatt", resource: "The Little Book that Beats the Market / Class Notes", years: "20 Years" },
+            { name: "George Soros", resource: "The Alchemy of Finance", years: "35 Years" },
+            { name: "Benjamin Graham", resource: "The Intelligent Investor / Security Analysis", years: "25 Years" },
+            { name: "Philip Fisher", resource: "Common Stocks and Uncommon Profits", years: "70 Years" },
+            { name: "Terry Smith", resource: "Investing for Growth / Fundsmith Letters", years: "20+ Years" },
+            { name: "Bill Ackman", resource: "Pershing Square Letters & Activist Campaigns", years: "20 Years" },
+            { name: "Chuck Akre", resource: "Akre Capital Management Letters (The Three-Legged Stool)", years: "30 Years" },
+            { name: "John Templeton", resource: "Templeton Growth Fund", years: "40 Years" },
+            { name: "Walter Schloss", resource: "Factors Needed to Make Money in the Stock Market", years: "50 Years" },
+            { name: "Mohnish Pabrai", resource: "The Dhandho Investor", years: "20 Years" },
+            { name: "Michael Mauboussin", resource: "More Than You Know / Consilient Observer", years: "Strategy" },
+            { name: "Ray Dalio", resource: "Principles / Bridgewater Daily Observations", years: "40 Years" },
+            { name: "Jamie Dimon", resource: "JPMorgan Chase Shareholder Letters", years: "20 Years" },
+            { name: "Bruce Greenwald", resource: "Class Notes & Value Investing: From Graham to Buffett", years: "Academic" },
+            { name: "Jim Rogers", resource: "Investment Biker", years: "20 Years" },
+            { name: "Rick Guerin", resource: "Pacific Partners", years: "20 Years" },
+            { name: "David Tepper", resource: "Appaloosa Management", years: "20 Years" },
+            { name: "Kevin Daly", resource: "FiveT Capital", years: "15 Years" },
+            { name: "Eddie Lampert", resource: "ESL Investments", years: "20 Years" },
+            { name: "David Einhorn", resource: "Greenlight Capital / Fooling Some of the People All of the Time", years: "20 Years" },
+            { name: "Stan Perlmeter", resource: "Perlmeter Investments", years: "20 Years" },
+            { name: "Daniel Loeb", resource: "Third Point Letters", years: "20 Years" },
+            { name: "Tom Knapp", resource: "Tweedy, Browne", years: "20 Years" },
+            { name: "Shelby Davis", resource: "Davis Dynasty", years: "45 Years" },
+            { name: "Bruce Berkowitz", resource: "Fairholme Fund", years: "15 Years" },
+            { name: "Julian Robertson", resource: "Tiger Management", years: "20 Years" },
+            { name: "Lou Simpson", resource: "GEICO Investments", years: "25 Years" },
+            { name: "Prem Watsa", resource: "Fairfax Financial Letters", years: "25 Years" },
+            { name: "Robert Rodriguez", resource: "FPA Capital", years: "30 Years" },
+            { name: "John Neff", resource: "Vanguard Windsor Fund", years: "35 Years" },
+            { name: "Glenn Greenberg", resource: "Chieftain Capital", years: "25 Years" },
+            { name: "Bill Ruane", resource: "Sequoia Fund", years: "15 Years" },
+            { name: "Philip Carret", resource: "Pioneer Fund", years: "55 Years" },
+            { name: "Adam Smith", resource: "The Wealth of Nations", years: "Classic" },
+            { name: "John Brooks", resource: "Business Adventures", years: "Classic" },
+            { name: "Robert Pirsig", resource: "Zen and the Art of Motorcycle Maintenance", years: "Philosophy" },
+            { name: "Josh Waitzkin", resource: "The Art of Learning", years: "Performance" },
+            { name: "Hamilton Helmer", resource: "7 Powers", years: "Strategy" },
+            { name: "William Thorndike", resource: "The Outsiders", years: "Capital Allocation" },
+            { name: "Lawrence Cunningham", resource: "Quality Investing / Margin of Trust", years: "Analysis" },
+            { name: "Jeremy Miller", resource: "Warren Buffett's Ground Rules", years: "History" },
+            { name: "Lee Freeman-Shor", resource: "The Art of Execution", years: "Process" },
+            { name: "Brad Feld", resource: "Venture Deals", years: "VC" },
+            { name: "Tren Griffin", resource: "Charlie Munger: The Complete Investor", years: "Wisdom" },
+            { name: "William Green", resource: "Richer, Wiser, Happier", years: "Wisdom" },
+            { name: "Glen Arnold", resource: "The Deals of Warren Buffett", years: "History" },
+            { name: "Mary Buffett", resource: "Buffettology", years: "Analysis" },
+            { name: "Alice Schroeder", resource: "The Snowball", years: "Biography" },
+            { name: "Peter Kaufman", resource: "Poor Charlie's Almanack", years: "Multidisciplinary" }
+        ],
+        quotes: [
+            "“Discipline equals freedom.” — Jocko Willink",
+            "“The impediment to action advances action.” — Marcus Aurelius",
+            "“You do not rise to the level of your goals. You fall to the level of your systems.” — James Clear",
+            "“The score takes care of itself.” — Bill Walsh",
+            "“He who has a why to live can bear almost any how.” — Nietzsche",
+            "“Be the person with embarrassing goals and impressive results.” — Stephen Guise",
+            "“Action isn't just the effect of motivation; it's also the cause of it.” — Mark Manson",
+            "“Give me a lever long enough and a fulcrum on which to place it, and I shall move the world.” — Archimedes",
+            "“What you do is what matters, not what you think or say or plan.” — Jason Fried",
+            "“It is the quality of time at work that counts and the quantity of time at home that matters.” — Brian Tracy",
+            "“I am the master of my fate, I am the captain of my soul.” — Invictus",
+            "“We suffer more in imagination than in reality.” — Seneca",
+            "“If you want to go fast, go alone. If you want to go far, go together.” — African Proverb",
+            "“It is not the critic who counts... The credit belongs to the man who is actually in the arena.” — Theodore Roosevelt",
+            "“Everything in life is a mind game!” — David Goggins",
+            "“Slow is smooth, smooth is fast.” — Navy SEALs",
+            "“Invert, always invert.” — Jacobi",
+            "“I want to be able to look back and say, ‘I didn’t solve everything, but I didn’t create any new problems.’” — Naval Ravikant",
+            "“Spend each day trying to be a little wiser than you were when you woke up.” — Charlie Munger",
+            "“To get what you want, you have to deserve what you want.” — Charlie Munger",
+            "“Compound interest is the eighth wonder of the world. He who understands it, earns it ... he who doesn't ... pays it.” — Einstein",
+            "“I never allow myself to hold an opinion on anything that I don't know the other side's argument better than they do.” — Charlie Munger",
+            "“The best revenge is not to be like your enemy.” — Marcus Aurelius",
+            "“Waste no more time arguing about what a good man should be. Be one.” — Marcus Aurelius",
+            "“If you are going through hell, keep going.” — Winston Churchill",
+            "“Whether you think you can, or you think you can't – you're right.” — Henry Ford",
+            "“The only way to do great work is to love what you do.” — Steve Jobs",
+            "“It does not matter how slowly you go as long as you do not stop.” — Confucius",
+            "“Simplicity is the ultimate sophistication.” — Leonardo da Vinci",
+            "“Knowing yourself is the beginning of all wisdom.” — Aristotle",
+            "“Everything we hear is an opinion, not a fact. Everything we see is a perspective, not the truth.” — Marcus Aurelius",
+            "“Take up one idea. Make that one idea your life - think of it, dream of it, live on that idea.” — Swami Vivekananda",
+            "“You have to grow from the inside out. None can teach you, none can make you spiritual.” — Swami Vivekananda",
+            "“In a conflict between the heart and the brain, follow your heart.” — Swami Vivekananda",
+            "“The world is nothing but change. Our life is perception.” — Marcus Aurelius",
+            "“Man is affected not by events but by the view he takes of them.” — Epictetus",
+            "“Throw me to the wolves and I will return leading the pack.” — Seneca",
+            "“The best armour of old age is a well spent life preceding it.” — Charlie Munger",
+            "“Comfort is no test of truth. Truth is often far from being comfortable.” — Swami Vivekananda",
+            "“If I change, the world will change, no-one else will change the world for me.” — Unknown"
+        ]
+    },
+
+    // 3. PROTOCOL DEFINITIONS (The Checkboxes)
+    protocols: [
+        {
+            id: "health",
+            title: "Health",
+            columns: 3,
+            cards: [
+                {
+                    id: "supplements",
+                    title: "Supplement Stack",
+                    maxXP: 500,
+                    items: [
+                        { id: "supplementStack", label: "Stack complete", xp: 500 }
+                    ]
+                },
+                {
+                    id: "smoothie",
+                    title: "Supersmoothie",
+                    maxXP: 500,
+                    items: [
+                        { id: "smoothie", label: "Smoothie complete", xp: 500 }
+                    ]
+                },
+                {
+                    id: "fitness",
+                    title: "Fitness & Recovery",
+                    maxXP: 1000,
+                    scoringType: "count_multiplier", 
+                    perItemXP: 334,
+                    items: [
+                        { id: "sunshine", label: "Sunshine" },
+                        { id: "rollerYoga", label: "Roller / Yoga" },
+                        { id: "protein120", label: "Protein ≥ 120g" },
+                        { id: "exercise", label: "Exercise" },
+                        { id: "cold", label: "Cold / sauna" }
+                    ]
+                }
+            ]
+        },
+        {
+            id: "mind",
+            title: "Mind & Arete",
+            columns: 3,
+            cards: [
+                {
+                    id: "wisdom",
+                    title: "Wisdom & Clarity",
+                    maxXP: 1000,
+                    scoringType: "count_multiplier",
+                    perItemXP: 250,
+                    items: [
+                        { id: "gratitude", label: "Gratitude" },
+                        { id: "journal", label: "Journal" },
+                        { id: "meditate", label: "Meditate" },
+                        { id: "mentalModel", label: "Mental model" },
+                        { id: "productivityGame", label: "Productivity game" },
+                        { id: "philosophy", label: "Philosophy" }
+                    ]
+                },
+                {
+                    id: "arete",
+                    title: "Arete & Alignment",
+                    maxXP: 1000,
+                    scoringType: "count_multiplier",
+                    perItemXP: 500,
+                    items: [
+                        { id: "familyTime", label: "Family time" },
+                        { id: "golf", label: "Hit balls / play 9" },
+                        { id: "fiction", label: "Read sci-fi / fiction" },
+                        { id: "lunchDinner", label: "Lunch or dinner out" },
+                        { id: "contribution", label: "Contribution" }
+                    ]
+                },
+                {
+                    id: "values",
+                    title: "Values",
+                    maxXP: 1000,
+                    scoringType: "count_multiplier",
+                    perItemXP: 334,
+                    items: [
+                        { id: "valueCourage", label: "Courage" },
+                        { id: "valueAdventure", label: "Adventure" },
+                        { id: "valueSelfImprovement", label: "Self-improvement" },
+                        { id: "valueIntegrity", label: "Integrity" },
+                        { id: "valueDiscipline", label: "Discipline" },
+                        { id: "valueKindness", label: "Kindness" }
+                    ]
+                }
+            ]
+        },
+        {
+            id: "craft",
+            title: "Craft & Duty",
+            columns: 2,
+            cards: [
+                {
+                    id: "mastery",
+                    title: "Mastery",
+                    maxXP: 2000,
+                    scoringType: "count_multiplier",
+                    perItemXP: 666,
+                    items: [
+                        { id: "investingReading", label: "Investing reading list" },
+                        { id: "researchMemo", label: "Research memo" },
+                        { id: "investorInteraction", label: "Investor interaction" }
+                    ]
+                },
+                {
+                    id: "responsibility",
+                    title: "Responsibility",
+                    maxXP: 2000,
+                    scoringType: "count_multiplier",
+                    perItemXP: 666,
+                    items: [
+                        { id: "earnIncome", label: "Earn income" },
+                        { id: "completeTaxes", label: "Complete taxes / admin" },
+                        { id: "hectorBellaEducation", label: "Hector & Bella education" }
+                    ]
+                }
+            ]
+        }
+    ],
+    
+    // 4. DAILY WORKOUTS (Editable via UI)
+    workouts: [
+        { t: "Sunday", d: "Endurance/Cardio (Swim, Hike, Long Zone 2)" },
+        { t: "Monday", d: "Lower Body Strength (Squat/Deadlift, Posterior Chain)" },
+        { t: "Tuesday", d: "Sauna + Cold Exposure (3-5 Rounds)" },
+        { t: "Wednesday", d: "Upper Body Strength (Push/Pull, Delts)" },
+        { t: "Thursday", d: "Cardio Endurance (Row/Ski/Run/Bike/Ruck)" },
+        { t: "Friday", d: "HIIT (Bike, Row, Sled, KB Swings - No Burpees)" },
+        { t: "Saturday", d: "Hypertrophy (Arms, Core, Calves, Neck)" }
+    ]
+};
