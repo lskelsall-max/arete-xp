@@ -1,13 +1,12 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Komorebi OS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   
-  <!-- SUPABASE SDK -->
+  <!-- SUPABASE SDK & MARKDOWN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- MARKDOWN PARSER -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <!-- ICONS -->
@@ -17,15 +16,13 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <style>
+    /* --- THEME --- */
     :root {
       --komorebi-mint: #66c5a5;
-      --komorebi-mint-soft: #7ed6b7;
       --bg-deep: #050f0a;
       --bg-forest: #08150e;
       --card: #0e2016;
-      --card-soft: #13271c;
       --accent-gold: #f5c15c;
-      --accent-gold-soft: rgba(245, 193, 92, 0.14);
       --accent-gold-strong: #ffdf8f;
       --text-main: #f5f7f4;
       --text-muted: #a5b4ac;
@@ -34,6 +31,7 @@
       --success: #4ade80;
     }
 
+    /* RESET */
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
     html, body { width: 100%; height: 100%; overflow-x: hidden; }
 
@@ -47,7 +45,7 @@
 
     #confetti-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 
-    /* CONTAINER */
+    /* LAYOUT */
     .container { 
         max-width: 1200px; margin: 0 auto; 
         padding-left: 0.8rem; padding-right: 0.8rem; padding-top: 0; 
@@ -61,12 +59,11 @@
       padding-top: 0.8rem; padding-bottom: 1rem; margin-bottom: 0;
     }
     .app-title { font-size: 1.6rem; font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; line-height: 1; margin-bottom: 2px; color: #050f0a; text-shadow: none; }
-    .app-subtitle { font-size: 0.75rem; color: #1f352a; font-weight: 700; opacity: 0.9; }
     .header-controls { display: flex; flex-direction: column; align-items: flex-end; gap: 0.3rem; }
     #date-input { background: rgba(0, 0, 0, 0.1); border: 1px solid rgba(0,0,0,0.1); border-radius: 6px; padding: 0.2rem 0.5rem; color: #050f0a; font-weight: 600; font-family: inherit; font-size: 0.85rem; text-align: right; }
     .xp-pill { font-size: 0.9rem; color: #050f0a; font-weight: 800; }
 
-    /* SEARCH BAR */
+    /* SEARCH */
     .jaguar-search-container { margin-bottom: 1rem; position: relative; }
     .jaguar-input { width: 100%; padding: 0.8rem 1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(14, 32, 22, 0.6); color: #fff; font-size: 0.95rem; backdrop-filter: blur(5px); transition: all 0.2s; }
     .jaguar-input:focus { outline: none; border-color: var(--accent-gold); background: rgba(14, 32, 22, 0.9); box-shadow: 0 0 15px rgba(245, 193, 92, 0.2); }
@@ -86,13 +83,12 @@
     button { background: var(--accent-gold); color: #0e2016; border: none; border-radius: 6px; padding: 0.4rem 0.8rem; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.15s; }
     button:active { transform: scale(0.96); }
     button.secondary { background: rgba(255,255,255,0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-muted); }
-    button.secondary:hover { background: rgba(255,255,255,0.1); color: #fff; }
     button.icon-btn { padding: 0.4rem 0.6rem; min-width: 36px; }
     button.danger { background: rgba(249, 115, 115, 0.15); color: var(--danger); border: 1px solid var(--danger); }
     button.add-btn { width: 100%; margin-top: 0.5rem; background: rgba(255,255,255,0.05); color: var(--komorebi-mint); border: 1px dashed var(--border-subtle); padding: 0.6rem; font-size: 0.8rem; }
     button.tiny-btn { padding: 0.2rem 0.4rem; font-size: 0.7rem; margin-left: 2px; background: rgba(255,255,255,0.1); color: #fff;}
 
-    /* CARDS */
+    /* CARDS & GRID */
     .section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255, 255, 255, 0.4); margin: 0 0 0.4rem 0.2rem; font-weight: 600; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1.2rem; }
     .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; margin-bottom: 1.2rem; }
@@ -111,13 +107,9 @@
     label:hover { color: #fff; }
     input[type="checkbox"] { accent-color: var(--accent-gold); transform: scale(1.2); margin-top: 2px; cursor: pointer; }
 
-    /* DETAILS DROPDOWN */
     details.details-list { margin-top: 0.2rem; font-size: 0.8rem; color: var(--text-muted); margin-left: 1.8rem; }
     details.details-list summary { cursor: pointer; list-style: none; outline: none; opacity: 0.7; transition: opacity 0.2s;}
     details.details-list summary:hover { opacity: 1; color: var(--komorebi-mint); }
-    details.details-list summary::-webkit-details-marker { display: none; }
-    details.details-list summary::before { content: "▸"; display: inline-block; margin-right: 0.3rem; font-size: 0.7rem; }
-    details.details-list[open] summary::before { content: "▾"; }
     .sub-list { margin: 0.3rem 0 0; padding-left: 0.5rem; border-left: 1px solid var(--border-subtle); }
     .sub-list li { list-style: none; margin-bottom: 0.2rem; }
 
@@ -125,26 +117,22 @@
     .prompt-body b { color: #fff; display:block; margin-bottom:0.2rem; }
     .investor-meta { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 0.1rem 0.4rem; border-radius: 4px; color: var(--accent-gold); margin-top: 0.4rem; display: inline-block; }
 
-    /* MODALS */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 50; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-    .modal-content { background: var(--card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-subtle); box-shadow: 0 0 40px rgba(0,0,0,0.5); max-width: 800px; width: 95%; max-height: 90vh; overflow-y: auto; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; color: var(--accent-gold); font-size: 1.2rem; font-weight: 700; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.8rem; }
-    
     /* EDITOR STYLES */
     .editor-section { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
     .editor-row { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; align-items: center; flex-wrap: wrap;}
     .editor-input { background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); color: var(--text-main); padding: 0.6rem; border-radius: 6px; flex: 1; min-width: 120px; font-family: inherit; font-size: 0.9rem;}
     .editor-input-sm { width: 70px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); color: var(--text-main); padding: 0.6rem; border-radius: 6px; text-align: center; }
     .editor-label { font-size: 0.75rem; color: var(--komorebi-mint); margin-bottom: 0.5rem; display: block; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-    
     .item-edit-container { margin-bottom: 0.5rem; padding: 0.6rem; background: rgba(255,255,255,0.02); border-radius: 8px; display: flex; gap: 0.5rem; align-items: center; border: 1px solid transparent; }
-    .item-edit-container:hover { border-color: rgba(255,255,255,0.1); }
     .item-edit-inputs { flex: 1; display: flex; flex-direction: column; gap: 0.3rem; }
-    .item-edit-actions { display: flex; flex-direction: column; gap: 0.3rem; }
+    
+    /* MODALS */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 50; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+    .modal-content { background: var(--card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-subtle); box-shadow: 0 0 40px rgba(0,0,0,0.5); max-width: 800px; width: 95%; max-height: 90vh; overflow-y: auto; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; color: var(--accent-gold); font-size: 1.2rem; font-weight: 700; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.8rem; }
 
-    /* Library Styles */
+    /* TABS */
     .lib-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: none; }
-    .lib-tabs::-webkit-scrollbar { display: none; }
     .lib-tab { cursor: pointer; padding: 0.5rem 1rem; font-size: 0.85rem; color: var(--text-muted); border-radius: 8px; white-space: nowrap; background: rgba(255,255,255,0.05); transition: all 0.2s; }
     .lib-tab.active { background: var(--komorebi-mint); color: #050f0a; font-weight: 700; }
     .lib-item { background: rgba(255,255,255,0.03); padding: 1rem; border-radius: 8px; margin-bottom: 0.5rem; border: 1px solid transparent; transition: border-color 0.2s; }
@@ -152,34 +140,27 @@
     .lib-title { color: var(--komorebi-mint); font-weight: 700; font-size: 1rem; margin-bottom: 0.3rem;}
     .lib-desc { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
 
-    /* Stats Chart */
+    /* STATS */
     .chart-container { display: flex; align-items: flex-end; justify-content: space-between; height: 200px; margin-top: 1rem; padding-bottom: 5px; border-bottom: 1px solid var(--text-muted); gap: 4px; }
     .bar-group { display: flex; flex-direction: column; align-items: center; flex: 1; }
     .bar { width: 80%; background: var(--komorebi-mint); border-radius: 4px 4px 0 0; transition: height 0.5s ease; min-height: 2px; position: relative; }
     .bar.elite { background: #4ade80; box-shadow: 0 0 10px rgba(74, 222, 128, 0.3); }
     .bar-label { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.5rem; }
-    
-    /* Animation */
+
+    /* ANIMATION */
     .floating-xp { position: fixed; color: var(--accent-gold); font-weight: bold; font-size: 1.2rem; pointer-events: none; animation: floatUp 1s ease-out forwards; z-index: 9999; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
     @keyframes floatUp { 0% { opacity: 1; transform: translateY(0) } 100% { opacity: 0; transform: translateY(-50px) } }
-
-    textarea { width: 100%; height: 120px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-subtle); border-radius: 8px; color: #fff; padding: 0.8rem; font-family: inherit; line-height: 1.5; font-size: 0.9rem; }
-    
-    /* AI ANSWER */
     .ai-answer { font-size: 0.95rem; line-height: 1.6; color: #eee; }
-    .ai-answer h1, .ai-answer h2, .ai-answer h3 { color: var(--komorebi-mint); margin-top: 1rem; font-size: 1.1rem; }
-    .ai-answer strong { color: #fff; font-weight: 700; }
-    .ai-answer ul { margin-left: 1.5rem; margin-bottom: 1rem; }
     .ai-source { font-size: 0.75rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.8rem; margin-top: 1.5rem; }
     .ai-loading { color: var(--accent-gold); font-style: italic; animation: pulse 1.5s infinite; text-align: center; padding: 2rem; }
     @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+    textarea { width: 100%; height: 120px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-subtle); border-radius: 8px; color: #fff; padding: 0.8rem; font-family: inherit; line-height: 1.5; font-size: 0.9rem; }
   </style>
 </head>
 <body>
   <canvas id="confetti-canvas"></canvas>
 
   <div class="container">
-    <!-- HEADER -->
     <header class="app-header">
       <div class="app-title-block">
         <div class="app-title">Komorebi OS</div>
@@ -191,12 +172,10 @@
       </div>
     </header>
 
-    <!-- JAGUAR SEARCH (Vector Brain) -->
     <div class="jaguar-search-container">
         <input type="text" id="jaguar-input" class="jaguar-input" placeholder="Ask the Jaguar Warrior King..." onkeypress="handleJaguarSearch(event)">
     </div>
 
-    <!-- SUMMARY -->
     <section class="summary-bar">
       <div class="summary-left">
         <span id="total-xp">Total: 0</span>
@@ -212,20 +191,13 @@
       </div>
     </section>
 
-    <!-- CONTENT AREA -->
     <div id="app-content"></div>
   </div>
 
-  <!-- CUSTOMIZE MODAL -->
+  <!-- MODALS -->
   <div class="modal-overlay" id="editor-modal">
       <div class="modal-content">
-          <div class="modal-header">
-              Customize 
-              <div>
-                  <button onclick="factoryReset()" class="danger" style="font-size:0.7rem; padding:0.2rem 0.5rem; margin-right:10px;">Reset All</button>
-                  <span style="cursor:pointer" onclick="closeModal('editor-modal')">✕</span>
-              </div>
-          </div>
+          <div class="modal-header">Customize <div><button onclick="factoryReset()" class="danger" style="font-size:0.7rem; padding:0.2rem 0.5rem; margin-right:10px;">Reset All</button><span style="cursor:pointer" onclick="closeModal('editor-modal')">✕</span></div></div>
           <div class="lib-tabs">
               <div class="lib-tab active" onclick="switchEditorTab('protocols')">Protocols</div>
               <div class="lib-tab" onclick="switchEditorTab('workouts')">Workouts</div>
@@ -235,13 +207,10 @@
               <div class="lib-tab" onclick="switchEditorTab('quotes')">Quotes</div>
           </div>
           <div id="editor-content"></div>
-          <div class="modal-actions">
-              <button onclick="saveCustomConfig()">Save Changes</button>
-          </div>
+          <div class="modal-actions"><button onclick="saveCustomConfig()">Save Changes</button></div>
       </div>
   </div>
 
-  <!-- LIBRARY MODAL -->
   <div class="modal-overlay" id="library-modal">
     <div class="modal-content">
       <div class="modal-header">Knowledge Base <span style="cursor:pointer" onclick="closeModal('library-modal')">✕</span></div>
@@ -256,7 +225,6 @@
     </div>
   </div>
   
-  <!-- ANSWER MODAL -->
   <div class="modal-overlay" id="answer-modal">
     <div class="modal-content">
       <div class="modal-header">Jaguar Insight <span style="cursor:pointer" onclick="closeModal('answer-modal')">✕</span></div>
@@ -264,7 +232,6 @@
     </div>
   </div>
 
-  <!-- SETTINGS/DATA MODAL -->
   <div class="modal-overlay" id="settings-modal">
     <div class="modal-content">
       <div class="modal-header">Settings <span style="cursor:pointer" onclick="closeModal('settings-modal')">✕</span></div>
@@ -276,14 +243,11 @@
       <div class="editor-section">
           <div class="editor-label">Data Backup</div>
           <textarea id="export-area"></textarea>
-          <div class="modal-actions">
-            <button onclick="restoreData()">Restore</button>
-          </div>
+          <div class="modal-actions"><button onclick="restoreData()">Restore</button></div>
       </div>
     </div>
   </div>
 
-  <!-- STATS MODAL -->
   <div class="modal-overlay" id="stats-modal">
     <div class="modal-content">
       <div class="modal-header">Performance <span style="cursor:pointer" onclick="closeModal('stats-modal')">✕</span></div>
@@ -302,11 +266,152 @@
     }
 
     // ==========================================
-    // 1. DEFAULT CONFIGURATION
+    // 1. DEFAULT CONFIGURATION (PROTOCOLS AT TOP)
     // ==========================================
     const DEFAULT_CONFIG = {
         levels: { elite: 6500, strong: 5000, survival: 3500 },
         maxXP: 9000,
+        // --- PROTOCOLS (HABITS) ---
+        protocols: [
+            {
+                id: "health",
+                title: "Health",
+                columns: 3,
+                cards: [
+                    {
+                        id: "supplements",
+                        title: "Nutrition",
+                        maxXP: 500,
+                        scoringType: "count_multiplier",
+                        perItemXP: 166,
+                        items: [ 
+                            { id: "electrolytes", label: "Electrolytes Mix" }, 
+                            { id: "supplements", label: "Morning Supps" }, 
+                            { id: "smoothie", label: "Supersmoothie" } 
+                        ],
+                        details: [
+                            "Ingredients: Electrolytes, Alpha GPC, Omega 3, Flexi-Calcium, Joint Complex",
+                            "Smoothie: Clean Protein 35g, Creatine 5g, Greens powder, Berries, Turmeric/Ginger"
+                        ]
+                    },
+                    {
+                        id: "mindset",
+                        title: "Mindset",
+                        maxXP: 500,
+                        scoringType: "count_multiplier",
+                        perItemXP: 166,
+                        items: [ 
+                            { id: "meditate", label: "Meditation" }, 
+                            { id: "gratitude", label: "Gratitude" }, 
+                            { id: "journal", label: "Daily Journaling" } 
+                        ],
+                        details: [
+                            "1. What is the single most important thing today?",
+                            "2. What will stretch me beyond comfort?",
+                            "3. How will I lead by example for my children?",
+                            "4. How will I honour Virtue today?"
+                        ]
+                    },
+                    {
+                        id: "fitness",
+                        title: "Fitness & Recovery",
+                        maxXP: 1000,
+                        scoringType: "count_multiplier", 
+                        perItemXP: 334,
+                        items: [
+                            { id: "sunshine", label: "Sunshine" },
+                            { id: "rollerYoga", label: "Mobility" },
+                            { id: "exercise", label: "Exercise" },
+                            { id: "cold", label: "Cold / Sauna" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "mind",
+                title: "Wisdom & Arete",
+                columns: 3,
+                cards: [
+                    {
+                        id: "wisdom",
+                        title: "Wisdom",
+                        maxXP: 1000,
+                        scoringType: "count_multiplier",
+                        perItemXP: 334,
+                        items: [ 
+                            { id: "mentalModel", label: "Mental model" }, 
+                            { id: "productivityGame", label: "Productivity game" }, 
+                            { id: "philosophy", label: "Philosophy" } 
+                        ]
+                    },
+                    {
+                        id: "arete",
+                        title: "Joy as GPS",
+                        maxXP: 1000,
+                        scoringType: "count_multiplier",
+                        perItemXP: 500,
+                        items: [ 
+                            { id: "familyTime", label: "Family time" }, 
+                            { id: "golf", label: "Golf / Skill" },
+                            { id: "fiction", label: "Read fiction" },
+                            { id: "contribution", label: "Contribution" }
+                        ]
+                    },
+                    {
+                        id: "values",
+                        title: "Values",
+                        maxXP: 1000,
+                        scoringType: "count_multiplier",
+                        perItemXP: 334,
+                        items: [ 
+                            { id: "valueCourage", label: "Courage" }, 
+                            { id: "valueDiscipline", label: "Discipline" }, 
+                            { id: "valueKindness", label: "Kindness" } 
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "craft",
+                title: "Craft & Duty",
+                columns: 2,
+                cards: [
+                    {
+                        id: "mastery",
+                        title: "Mastery",
+                        maxXP: 2000,
+                        scoringType: "count_multiplier",
+                        perItemXP: 666,
+                        items: [ 
+                            { id: "investingReading", label: "Deep Read" }, 
+                            { id: "researchMemo", label: "Deep Work Block" }, 
+                            { id: "investorInteraction", label: "Networking" } 
+                        ]
+                    },
+                    {
+                        id: "responsibility",
+                        title: "Responsibility",
+                        maxXP: 2000,
+                        scoringType: "count_multiplier",
+                        perItemXP: 666,
+                        items: [ 
+                            { id: "earnIncome", label: "Earn income" }, 
+                            { id: "admin", label: "Admin/Tax" }, 
+                            { id: "education", label: "Education" } 
+                        ]
+                    }
+                ]
+            }
+        ],
+        workouts: [
+            { t: "Sunday", d: "Endurance/Cardio (Swim, Hike, Long Zone 2)" },
+            { t: "Monday", d: "Lower Body Strength (Squat/Deadlift, Posterior Chain)" },
+            { t: "Tuesday", d: "Sauna + Cold Exposure (3-5 Rounds)" },
+            { t: "Wednesday", d: "Upper Body Strength (Push/Pull, Delts)" },
+            { t: "Thursday", d: "Cardio Endurance (Row/Ski/Run/Bike/Ruck)" },
+            { t: "Friday", d: "HIIT (Bike, Row, Sled, KB Swings - No Burpees)" },
+            { t: "Saturday", d: "Hypertrophy (Arms, Core, Calves, Neck)" }
+        ],
         library: {
             mentalModels: [
                 { name: "First Principles Thinking", desc: "Reduce problems to fundamental truths, build upward." },
@@ -636,14 +741,13 @@
 
     // --- INITIALIZATION ---
     async function init() {
-        // 1. Load Config: Try LocalStorage first, then fall back to Default
+        // 1. Load Config from LocalStorage or Default
         const savedConfig = localStorage.getItem('komorebi_custom_config');
         // Force reload default if structure seems broken or empty
         if (savedConfig && savedConfig.length > 100) {
             try {
                 const parsed = JSON.parse(savedConfig);
                 // AUTO-REPAIR: If specific cards are missing, reset to default
-                // AGGRESSIVE CHECK: If "Health" is missing OR protocol list is empty
                 if(!parsed.protocols || parsed.protocols.length === 0 || !parsed.protocols.some(p => p.id === "health")) {
                    console.log("Config corrupted/empty. Auto-repairing...");
                    APP_CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
@@ -683,12 +787,20 @@
 
     async function cloudSync() {
         if (!supabaseClient) return alert("Supabase not initialized.");
+        
         if (!currentUser) {
-            const { error } = await supabaseClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
-            if (error) alert(error.message);
+            const { data, error } = await supabaseClient.auth.signInWithOAuth({
+                provider: 'google',
+                options: { redirectTo: window.location.href }
+            });
+            if (error) alert("Login Error: " + error.message);
         } else {
-            if(confirm("Log out?")) { await supabaseClient.auth.signOut(); window.location.reload(); }
-            else saveToCloud();
+            if(confirm("Do you want to LOGOUT? (Click Cancel to just Sync)")) {
+                await supabaseClient.auth.signOut();
+                window.location.reload();
+            } else {
+                await saveToCloud();
+            }
         }
     }
 
@@ -697,16 +809,22 @@
         const history = {};
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
-            if (key.startsWith('komorebi_')) history[key] = JSON.parse(localStorage.getItem(key));
+            if (key.startsWith('komorebi_')) {
+                history[key] = JSON.parse(localStorage.getItem(key));
+            }
         }
-        const { error } = await supabaseClient.from('user_data').upsert({
+        const payload = {
             user_id: currentUser.id,
             config: APP_CONFIG,
             history: history,
             updated_at: new Date()
-        }, { onConflict: 'user_id' });
+        };
+        const { error } = await supabaseClient.from('user_data').upsert(payload, { onConflict: 'user_id' });
         if (error) alert("Sync Failed: " + error.message);
-        else { document.getElementById('cloud-btn').innerText = "☁️✔"; alert("Synced!"); }
+        else {
+            document.getElementById('cloud-btn').innerText = "☁️✔";
+            alert("Synced to Cloud ✅");
+        }
     }
 
     async function loadCloudData() {
