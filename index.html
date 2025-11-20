@@ -5,9 +5,8 @@
   <title>Komorebi OS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   
-  <!-- SUPABASE SDK -->
+  <!-- SUPABASE SDK & MARKDOWN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- MARKDOWN -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <!-- ICONS -->
@@ -17,10 +16,13 @@
   <style>
     :root {
       --komorebi-mint: #66c5a5;
+      --komorebi-mint-soft: #7ed6b7;
       --bg-deep: #050f0a;
       --bg-forest: #08150e;
       --card: #0e2016;
+      --card-soft: #13271c;
       --accent-gold: #f5c15c;
+      --accent-gold-soft: rgba(245, 193, 92, 0.14);
       --accent-gold-strong: #ffdf8f;
       --text-main: #f5f7f4;
       --text-muted: #a5b4ac;
@@ -42,6 +44,7 @@
 
     #confetti-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 
+    /* CONTAINER */
     .container { 
         max-width: 1200px; margin: 0 auto; 
         padding-left: 0.8rem; padding-right: 0.8rem; padding-top: 0; 
@@ -64,8 +67,8 @@
     .jaguar-input { width: 100%; padding: 0.8rem 1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(14, 32, 22, 0.6); color: #fff; font-size: 0.95rem; backdrop-filter: blur(5px); transition: all 0.2s; }
     .jaguar-input:focus { outline: none; border-color: var(--accent-gold); background: rgba(14, 32, 22, 0.9); box-shadow: 0 0 15px rgba(245, 193, 92, 0.2); }
     .jaguar-input::placeholder { color: rgba(255,255,255,0.5); font-style: italic; }
-    
-    /* SUMMARY */
+
+    /* SUMMARY BAR */
     .summary-bar { background: rgba(6, 19, 13, 0.8); border-radius: 12px; padding: 0.5rem 0.8rem; border: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; backdrop-filter: blur(12px); box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
     .summary-left { display: flex; align-items: center; gap: 0.8rem; font-size: 0.9rem; }
     #total-xp { font-weight: 600; color: var(--text-main); }
@@ -105,13 +108,14 @@
     input[type="checkbox"] { accent-color: var(--accent-gold); transform: scale(1.2); margin-top: 2px; cursor: pointer; }
 
     /* DETAILS DROPDOWN */
-    details.details-list { margin-top: 0.2rem; font-size: 0.8rem; color: var(--text-muted); margin-left: 1.8rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem; }
-    details.details-list summary { cursor: pointer; list-style: none; outline: none; opacity: 0.7; transition: opacity 0.2s; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    details.details-list { margin-top: 0.2rem; font-size: 0.8rem; color: var(--text-muted); margin-left: 1.8rem; }
+    details.details-list summary { cursor: pointer; list-style: none; outline: none; opacity: 0.7; transition: opacity 0.2s;}
     details.details-list summary:hover { opacity: 1; color: var(--komorebi-mint); }
     details.details-list summary::-webkit-details-marker { display: none; }
     details.details-list summary::before { content: "▸"; display: inline-block; margin-right: 0.3rem; font-size: 0.7rem; }
     details.details-list[open] summary::before { content: "▾"; }
-    .sub-list { margin: 0.5rem 0 0; font-family: monospace; font-size: 0.85rem; line-height: 1.5; color: #ccc; white-space: pre-wrap; }
+    .sub-list { margin: 0.3rem 0 0; padding-left: 0.5rem; border-left: 1px solid var(--border-subtle); }
+    .sub-list li { list-style: none; margin-bottom: 0.2rem; }
 
     .prompt-body { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
     .prompt-body b { color: #fff; display:block; margin-bottom:0.2rem; }
@@ -127,7 +131,7 @@
     .editor-row { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; align-items: center; flex-wrap: wrap;}
     .editor-input { background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); color: var(--text-main); padding: 0.6rem; border-radius: 6px; flex: 1; min-width: 120px; font-family: inherit; font-size: 0.9rem;}
     .editor-input-sm { width: 70px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); color: var(--text-main); padding: 0.6rem; border-radius: 6px; text-align: center; }
-    .editor-select { background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); color: var(--text-main); padding: 0.6rem; border-radius: 6px; font-family: inherit; font-size: 0.8rem; }
+    .editor-select { background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); color: var(--text-main); padding: 0.6rem; border-radius: 6px; }
     .editor-label { font-size: 0.75rem; color: var(--komorebi-mint); margin-bottom: 0.5rem; display: block; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
     .editor-textarea { width: 100%; height: 80px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); color: var(--text-main); padding: 0.6rem; border-radius: 6px; font-family: inherit; font-size: 0.85rem; margin-top: 0.5rem; }
     
@@ -146,14 +150,22 @@
     .lib-title { color: var(--komorebi-mint); font-weight: 700; font-size: 1rem; margin-bottom: 0.3rem;}
     .lib-desc { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
 
-    /* ANIMATION */
+    /* Stats Chart */
+    .chart-container { display: flex; align-items: flex-end; justify-content: space-between; height: 200px; margin-top: 1rem; padding-bottom: 5px; border-bottom: 1px solid var(--text-muted); gap: 4px; }
+    .bar-group { display: flex; flex-direction: column; align-items: center; flex: 1; }
+    .bar { width: 80%; background: var(--komorebi-mint); border-radius: 4px 4px 0 0; transition: height 0.5s ease; min-height: 2px; position: relative; }
+    .bar.elite { background: #4ade80; box-shadow: 0 0 10px rgba(74, 222, 128, 0.3); }
+    .bar-label { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.5rem; }
+    
+    /* Animation */
     .floating-xp { position: fixed; color: var(--accent-gold); font-weight: bold; font-size: 1.2rem; pointer-events: none; animation: floatUp 1s ease-out forwards; z-index: 9999; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
     @keyframes floatUp { 0% { opacity: 1; transform: translateY(0) } 100% { opacity: 0; transform: translateY(-50px) } }
 
-    textarea.daily-note { width: 100%; height: 120px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-subtle); border-radius: 8px; color: #fff; padding: 0.8rem; font-family: inherit; line-height: 1.5; font-size: 0.9rem; }
+    textarea { width: 100%; height: 120px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-subtle); border-radius: 8px; color: #fff; padding: 0.8rem; font-family: inherit; line-height: 1.5; font-size: 0.9rem; }
     
     /* AI ANSWER */
     .ai-answer { font-size: 0.95rem; line-height: 1.6; color: #eee; }
+    .ai-answer h3 { color: var(--komorebi-mint); margin-top: 1rem; }
     .ai-source { font-size: 0.75rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.8rem; margin-top: 1.5rem; }
     .ai-loading { color: var(--accent-gold); font-style: italic; animation: pulse 1.5s infinite; text-align: center; padding: 2rem; }
     @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
@@ -187,6 +199,7 @@
         <button id="save-day" onclick="saveDay()">Save</button>
         <button id="cloud-btn" class="secondary icon-btn" title="Cloud Sync" onclick="cloudSync()">☁️</button>
         <button class="secondary icon-btn" title="Library" onclick="openLibrary()">📖</button>
+        <button class="secondary icon-btn" title="Stats" onclick="renderStats()">📊</button>
         <button class="secondary icon-btn" title="Customize" onclick="openEditor()">✏️</button>
         <button class="secondary icon-btn" title="Data" onclick="openSettings()">⚙️</button>
       </div>
@@ -195,16 +208,28 @@
     <div id="app-content"></div>
   </div>
 
-  <!-- EDITOR MODAL -->
+  <!-- CUSTOMIZE MODAL -->
   <div class="modal-overlay" id="editor-modal">
       <div class="modal-content">
-          <div class="modal-header">Customize <span style="cursor:pointer" onclick="closeModal('editor-modal')">✕</span></div>
+          <div class="modal-header">
+              Customize 
+              <div>
+                  <button onclick="factoryReset()" class="danger" style="font-size:0.7rem; padding:0.2rem 0.5rem; margin-right:10px;">Reset All</button>
+                  <span style="cursor:pointer" onclick="closeModal('editor-modal')">✕</span>
+              </div>
+          </div>
           <div class="lib-tabs">
               <div class="lib-tab active" onclick="switchEditorTab('protocols')">Protocols</div>
               <div class="lib-tab" onclick="switchEditorTab('workouts')">Workouts</div>
+              <div class="lib-tab" onclick="switchEditorTab('mentalModels')">Models</div>
+              <div class="lib-tab" onclick="switchEditorTab('productivity')">Productivity</div>
+              <div class="lib-tab" onclick="switchEditorTab('investors')">Investors</div>
+              <div class="lib-tab" onclick="switchEditorTab('quotes')">Quotes</div>
           </div>
           <div id="editor-content"></div>
-          <div class="modal-actions"><button onclick="saveCustomConfig()">Save Changes</button></div>
+          <div class="modal-actions">
+              <button onclick="saveCustomConfig()">Save Changes</button>
+          </div>
       </div>
   </div>
 
@@ -218,7 +243,7 @@
         <div class="lib-tab" onclick="switchLibTab('investors')">Investors</div>
         <div class="lib-tab" onclick="switchLibTab('quotes')">Quotes</div>
       </div>
-      <input type="text" id="lib-search" class="jaguar-input" placeholder="Search..." onkeyup="renderLibrary()">
+      <input type="text" id="lib-search" class="search-bar" placeholder="Search..." onkeyup="renderLibrary()">
       <div id="library-list"></div>
     </div>
   </div>
@@ -231,145 +256,394 @@
     </div>
   </div>
 
-  <!-- SETTINGS MODAL -->
+  <!-- SETTINGS/DATA MODAL -->
   <div class="modal-overlay" id="settings-modal">
     <div class="modal-content">
       <div class="modal-header">Settings <span style="cursor:pointer" onclick="closeModal('settings-modal')">✕</span></div>
       <div class="editor-section">
-          <div class="editor-label">OpenAI API Key</div>
+          <div class="editor-label">OpenAI API Key (For Brain Search)</div>
           <input id="openai-key-input" class="editor-input" type="password" placeholder="sk-...">
           <button onclick="saveOpenAIKey()" style="width:100%; margin-top:0.5rem">Save Key</button>
       </div>
       <div class="editor-section">
-          <div class="editor-label">Reset Data</div>
-          <button onclick="factoryReset()" class="danger" style="width:100%">Reset to Factory Default</button>
+          <div class="editor-label">Data Backup</div>
+          <textarea id="export-area"></textarea>
+          <div class="modal-actions">
+            <button onclick="restoreData()">Restore from Text</button>
+          </div>
       </div>
     </div>
   </div>
 
+  <!-- STATS MODAL -->
+  <div class="modal-overlay" id="stats-modal">
+    <div class="modal-content">
+      <div class="modal-header">Performance <span style="cursor:pointer" onclick="closeModal('stats-modal')">✕</span></div>
+      <div class="chart-container" id="stats-chart"></div>
+    </div>
+  </div>
+
   <script>
-    // SUPABASE
+    // --- SUPABASE CONFIG ---
     const SUPABASE_URL = 'https://gzxnrhxswleubryhemyz.supabase.co'; 
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6eG5yaHhzd2xldWJyeWhlbXl6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM2MTQ4ODQsImV4cCI6MjA3OTE5MDg4NH0.nMI1TZ1oRz_5aq_Oyp0xWxx_T8-SUWloYEaxNQagJxs';
+    
     let supabaseClient;
-    try { supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch(e) {}
+    if (typeof supabase !== 'undefined') {
+        try { supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch(e) { console.log("Supabase init skipped"); }
+    }
 
-    // DEFAULT CONFIG (V3.2)
+    // ==========================================
+    // 1. DEFAULT CONFIGURATION
+    // ==========================================
     const DEFAULT_CONFIG = {
-        maxXP: 9000,
         levels: { elite: 6500, strong: 5000, survival: 3500 },
-        protocols: [
-            {
-                id: "health",
-                title: "Health",
-                columns: 3,
-                cards: [
-                    {
-                        id: "supplements",
-                        title: "Nutrition",
-                        maxXP: 500,
-                        scoringRule: "all",
-                        items: [ { id: "electrolytes", label: "Electrolytes Mix" }, { id: "supplements", label: "Morning Supps" }, { id: "smoothie", label: "Supersmoothie" } ],
-                        details: "Ingredients: Electrolytes, Alpha GPC, Omega 3, Flexi-Calcium, Joint Complex\nSmoothie: Clean Protein 35g, Creatine 5g, Greens powder, Berries, Turmeric/Ginger"
-                    },
-                    {
-                        id: "mindset",
-                        title: "Mindset",
-                        maxXP: 500,
-                        scoringRule: "all",
-                        items: [ { id: "meditate", label: "Meditation" }, { id: "gratitude", label: "Gratitude" }, { id: "journal", label: "Daily Journaling" } ],
-                        details: "Daily Questions:\n1. What is the single most important thing today?\n2. What will stretch me beyond comfort?\n3. How will I lead by example for my children?\n4. How will I honour Virtue today?"
-                    },
-                    {
-                        id: "fitness",
-                        title: "Fitness & Recovery",
-                        maxXP: 1000,
-                        scoringRule: "66%",
-                        items: [ { id: "sunshine", label: "Sunshine" }, { id: "rollerYoga", label: "Mobility" }, { id: "exercise", label: "Exercise" }, { id: "cold", label: "Cold / Sauna" } ]
-                    }
-                ]
-            },
-            {
-                id: "mind",
-                title: "Wisdom & Arete",
-                columns: 3,
-                cards: [
-                    {
-                        id: "wisdom",
-                        title: "Wisdom",
-                        maxXP: 1000,
-                        scoringRule: "50%",
-                        items: [ { id: "mentalModel", label: "Mental model" }, { id: "productivityGame", label: "Productivity game" }, { id: "philosophy", label: "Philosophy" } ]
-                    },
-                    {
-                        id: "arete",
-                        title: "Joy as GPS",
-                        maxXP: 1000,
-                        scoringRule: "any",
-                        items: [ { id: "familyTime", label: "Family time" }, { id: "golf", label: "Golf / Skill" }, { id: "fiction", label: "Read fiction" }, { id: "contribution", label: "Contribution" } ]
-                    },
-                    {
-                        id: "values",
-                        title: "Values",
-                        maxXP: 1000,
-                        scoringRule: "33%",
-                        items: [ { id: "valueCourage", label: "Courage" }, { id: "valueDiscipline", label: "Discipline" }, { id: "valueKindness", label: "Kindness" } ]
-                    }
-                ]
-            },
-            {
-                id: "craft",
-                title: "Craft & Duty",
-                columns: 2,
-                cards: [
-                    {
-                        id: "mastery",
-                        title: "Mastery",
-                        maxXP: 2000,
-                        scoringRule: "50%",
-                        items: [ { id: "investingReading", label: "Deep Read" }, { id: "researchMemo", label: "Deep Work Block" }, { id: "investorInteraction", label: "Networking" } ]
-                    },
-                    {
-                        id: "responsibility",
-                        title: "Responsibility",
-                        maxXP: 2000,
-                        scoringRule: "66%",
-                        items: [ { id: "earnIncome", label: "Earn income" }, { id: "admin", label: "Admin/Tax" }, { id: "education", label: "Education" } ]
-                    }
-                ]
-            }
-        ],
-        workouts: [
-            { t: "Sunday", d: "Endurance/Cardio (Swim, Hike, Long Zone 2)" }, { t: "Monday", d: "Lower Body Strength (Squat/Deadlift, Posterior Chain)" }, { t: "Tuesday", d: "Sauna + Cold Exposure (3-5 Rounds)" },
-            { t: "Wednesday", d: "Upper Body Strength (Push/Pull, Delts)" }, { t: "Thursday", d: "Cardio Endurance (Row/Ski/Run/Bike/Ruck)" }, { t: "Friday", d: "HIIT (Bike, Row, Sled, KB Swings - No Burpees)" },
-            { t: "Saturday", d: "Hypertrophy (Arms, Core, Calves, Neck)" }
-        ],
+        maxXP: 9000,
         library: {
-            mentalModels: [ { name: "First Principles", desc: "Reduce to truths." }, { name: "Inversion", desc: "Think backward." }, { name: "Compound Effect", desc: "Consistency + Time." } ],
-            productivity: [ { name: "5 Second Rule", desc: "5-4-3-2-1 Go." }, { name: "Eat That Frog", desc: "Hardest task first." } ],
-            investors: [ { name: "Warren Buffett", resource: "Shareholder Letters", years: "55 Years" } ],
-            quotes: [ "“Discipline equals freedom.” — Jocko Willink" ]
-        }
+            mentalModels: [
+                { name: "First Principles Thinking", desc: "Reduce problems to fundamental truths, build upward." },
+                { name: "Second-Order Thinking", desc: "Consider consequences beyond the immediate." },
+                { name: "Inversion", desc: "Think backward: how could this fail? Then avoid it." },
+                { name: "Probabilistic Thinking", desc: "Evaluate decisions using likelihoods, not certainties." },
+                { name: "Bayesian Updating", desc: "Adjust beliefs in light of new evidence." },
+                { name: "Expected Value", desc: "Quantify decisions: outcomes × probabilities." },
+                { name: "Circle of Competence", desc: "Operate within your area of true knowledge." },
+                { name: "Falsifiability (Popper)", desc: "If it cannot be proven wrong, it’s not knowledge." },
+                { name: "Map ≠ Territory", desc: "Symbols are not reality." },
+                { name: "Occam’s Razor", desc: "Prefer the simplest explanation that fits the data." },
+                { name: "Hanlon’s Razor", desc: "Never attribute to malice what can be explained by stupidity." },
+                { name: "Necessity & Sufficiency", desc: "Distinguish causes from catalysts." },
+                { name: "Thought Experiments", desc: "Simulate reality to explore principles." },
+                { name: "Decision Trees", desc: "Branching paths for multi-stage decisions." },
+                { name: "Sensitivity Analysis", desc: "Test assumptions to see what breaks the model." },
+                { name: "Kelly Criterion", desc: "Optimal bet sizing under uncertainty." },
+                { name: "Barbell Strategy", desc: "Pair extreme safety with high-upside risk." },
+                { name: "Anti-fragility (Taleb)", desc: "Seek systems that benefit from disorder." },
+                { name: "Via Negativa", desc: "What not to do is often more important than what to do." },
+                { name: "Mimetic Desire (Girard)", desc: "We imitate others' desires; conflict follows." },
+                { name: "Status Games", desc: "Most ambition is about pecking order. Avoid them." },
+                { name: "Envy & Jealousy", desc: "Underrated forces behind irrational decisions." },
+                { name: "Social Proof", desc: "We copy others, especially under uncertainty." },
+                { name: "Commitment & Consistency Bias", desc: "We stay loyal to past choices, even when wrong." },
+                { name: "Confirmation Bias", desc: "We seek agreement, not truth." },
+                { name: "Hindsight Bias", desc: "Everything is obvious after it happens." },
+                { name: "Survivorship Bias", desc: "We forget the invisible failures." },
+                { name: "Narrative Instinct", desc: "Truth gets rewritten as fable." },
+                { name: "Do-Something Syndrome", desc: "Action bias overrides logic." },
+                { name: "Pavlovian Association", desc: "Emotionally charged cues override reason." },
+                { name: "First-Conclusion Bias", desc: "First idea sticks; mind shuts after." },
+                { name: "Availability Heuristic", desc: "Recent, vivid = true (but not really)." },
+                { name: "Representativeness Heuristic", desc: "Stereotyping based on past patterns." },
+                { name: "Base Rate Neglect", desc: "Ignore statistical norms in favor of specifics." },
+                { name: "Stress Response Bias", desc: "Fight or flight inhibits reasoning." },
+                { name: "Denial & Coping Bias", desc: "The mind evades pain." },
+                { name: "Relative Misery Bias", desc: "We benchmark happiness against others." },
+                { name: "Fairness Sensitivity", desc: "Morality instinct overrides logic." },
+                { name: "Fundamental Attribution Error", desc: "We blame people over context." },
+                { name: "OODA Loop (Boyd)", desc: "Observe, Orient, Decide, Act." },
+                { name: "Asymmetric Warfare", desc: "Win by not fighting on equal terms." },
+                { name: "Two-Front War", desc: "Divided resources = risk." },
+                { name: "Mutually Assured Destruction", desc: "Deterrence through symmetry." },
+                { name: "Concentration of Force", desc: "Overwhelm by focus." },
+                { name: "Deception (Sun Tzu)", desc: "All war is based on misdirection." },
+                { name: "Moral Authority", desc: "Legitimacy is power." },
+                { name: "Timing and Tempo", desc: "Speed is a weapon." },
+                { name: "Seeing the Front", desc: "Eyes on the field, not the map." },
+                { name: "The Lindy Effect", desc: "What survives ages, survives longer." },
+                { name: "Chunking", desc: "Grouping aids memory and reasoning." },
+                { name: "Meta-Learning", desc: "Learn how to learn." },
+                { name: "Socratic Method", desc: "Question everything." },
+                { name: "Curiosity Instinct", desc: "Innate drive to explore, understand, and innovate." },
+                { name: "Language Instinct", desc: "Deep grammar wired into us." },
+                { name: "Pareto Principle", desc: "80% of effects come from 20% of causes." },
+                { name: "Hyperbolic Discounting", desc: "Preferring small rewards now over big ones later." },
+                { name: "Reciprocity", desc: "We feel obligated to return favors." },
+                { name: "Scarcity", desc: "We value things more when they are rare." },
+                { name: "Authority", desc: "We obey perceived experts." },
+                { name: "Liking", desc: "We say yes to those we like." },
+                { name: "Framing Effect", desc: "The way you tell it changes what people hear." },
+                { name: "Anchoring Effect", desc: "First number heard shapes expectation." },
+                { name: "Contrast Principle", desc: "Context changes perceived value." },
+                { name: "Truth-by-Repetition", desc: "Familiarity breeds believability." },
+                { name: "Moral Credentialing", desc: "Past good acts license current selfish ones." },
+                { name: "Opportunity Cost", desc: "Every choice is a trade." },
+                { name: "Margin of Safety", desc: "Room for error is your friend." },
+                { name: "Mr. Market", desc: "The market is emotional, not rational." },
+                { name: "Compounding", desc: "The most powerful force in the universe." },
+                { name: "ROIC", desc: "Return on Invested Capital is core of performance." },
+                { name: "Capital Allocation", desc: "Intelligent reinvestment trumps earnings." },
+                { name: "Cash Flow over Earnings", desc: "Real cash > accounting illusions." },
+                { name: "Founder-Led Advantage", desc: "Skin in the game creates alignment." },
+                { name: "Spawner Model", desc: "Businesses that create new businesses (e.g. Amazon)." },
+                { name: "Network Effects", desc: "Value increases with more users." },
+                { name: "Economies of Scale", desc: "Cost per unit drops as volume increases." },
+                { name: "Switching Costs", desc: "Lock-in creates value." },
+                { name: "Branding", desc: "Intangible asset that allows pricing power." },
+                { name: "Cornered Resource", desc: "Exclusive access to a valuable asset." },
+                { name: "Counter-Positioning", desc: "New business model that incumbents cannot copy." },
+                { name: "Feedback Loops", desc: "Positive amplifies, negative stabilizes." },
+                { name: "Equilibrium", desc: "Where systems settle (or not)." },
+                { name: "Emergence", desc: "Complex behavior from simple rules." },
+                { name: "Bottlenecks", desc: "Throughput limits performance." },
+                { name: "Leverage Points", desc: "Small inputs, big outputs." },
+                { name: "Redundancy", desc: "Slack = resilience." },
+                { name: "Scaling Laws", desc: "Size changes behavior." },
+                { name: "Autocatalysis", desc: "Growth feeds on itself." },
+                { name: "Power Laws", desc: "Extreme outliers dominate the average." },
+                { name: "Phase Transitions", desc: "Tiny shifts trigger massive change." },
+                { name: "Inertia", desc: "Things in motion stay in motion." },
+                { name: "Entropy", desc: "Systems tend toward disorder." },
+                { name: "Critical Mass", desc: "Threshold effects ignite change." },
+                { name: "Thermodynamics", desc: "Conservation, entropy, energy transfer." },
+                { name: "Evolution", desc: "Survival via variation and selection." },
+                { name: "Fitness Landscapes", desc: "Some solutions are stuck in local optima." },
+                { name: "Ecosystem Thinking", desc: "Every part affects the whole." },
+                { name: "Activation Energy", desc: "Change requires a spark." },
+                { name: "Signal vs. Noise", desc: "Extract meaning from chaos." }
+            ],
+            productivity: [
+                { name: "Growth Mindset (Dweck)", desc: "Believing challenges are a chance to grow, not a threat. The power of 'Yet'." },
+                { name: "Re-labeling (Little Bets)", desc: "Fixed mindset sees failure as identity. Growth mindset sees failure as data." },
+                { name: "Self-Efficacy Quest (SuperBetter)", desc: "Complete simple daily quests to build confidence for bigger challenges." },
+                { name: "Kaizen (Maurer)", desc: "Small, continuous steps to bypass the brain's fear response (Amygdala)." },
+                { name: "Compound Effect (Hardy)", desc: "Small, smart choices + consistency + time = radical difference." },
+                { name: "Subjective Success (Barker)", desc: "Measure Achievement, Legacy, Significance, and Happiness, not just money." },
+                { name: "Optimize for Interesting (Dorie Clark)", desc: "Choose the path that keeps you curious to play the Long Game." },
+                { name: "Ego is the Enemy (Holiday)", desc: "Aspiring? Do. Succeeding? Stay humble. Failing? Resilience." },
+                { name: "Amor Fati (Holiday)", desc: "Love your fate. Turn obstacles into fuel." },
+                { name: "Circle of Control (Stoicism)", desc: "Focus only on what you control. Ignore the rest." },
+                { name: "10-10-10 (Suzy Welch)", desc: "How will I feel in 10 mins, 10 months, 10 years?" },
+                { name: "The 4 Agreements (Ruiz)", desc: "Be impeccable with your word. Don't take it personally. Don't assume. Do your best." },
+                { name: "The ONE Thing (Keller)", desc: "What is the one thing such that by doing it, everything else is easier or unnecessary?" },
+                { name: "Essentialism (McKeown)", desc: "Less but better. The disciplined pursuit of less." },
+                { name: "The 80/20 Principle (Koch)", desc: "20% of inputs produce 80% of outputs. Focus on the 20%." },
+                { name: "Strategic Underachievement (Burkeman)", desc: "Decide in advance what to fail at to save energy for what matters." },
+                { name: "Hell Yeah or No (Sivers)", desc: "If it's not a 'Hell Yeah', it's a no." },
+                { name: "The Positive No (Ury)", desc: "Yes to values, No to request, Yes to relationship." },
+                { name: "Your One Word (Carmichael)", desc: "Find the single value that defines you and use it as a compass." },
+                { name: "Pain-Pleasure Association (Robbins)", desc: "Link massive pain to inaction and massive pleasure to action." },
+                { name: "Tragic Optimism (Frankl)", desc: "Finding meaning in suffering. The last of the human freedoms." },
+                { name: "Psycho-Cybernetics (Maltz)", desc: "Your self-image sets the boundaries of your individual accomplishment." },
+                { name: "The Dip (Godin)", desc: "Quit the wrong things fast so you can push through the right Dip." },
+                { name: "Grit (Duckworth)", desc: "Passion + Perseverance for long-term goals." },
+                { name: "The 40% Rule (Goggins)", desc: "When your mind says you're done, you're only 40% done." },
+                { name: "Cookie Jar (Goggins)", desc: "Remember past victories to fuel present struggles." },
+                { name: "Winning (Grover)", desc: "Winning demands obsession and doesn't care about your feelings." },
+                { name: "Power Laws (Greene)", desc: "Say less. Be audacious. Be formless." },
+                { name: "David vs Goliath (Gladwell)", desc: "Neutralize the giant's advantage by changing the rules." },
+                { name: "Antifragile (Taleb)", desc: "Gain from disorder. Cap downside, infinite upside." },
+                { name: "Subtle Art (Manson)", desc: "Choose what you are willing to suffer for." },
+                { name: "Think Like a Monk (Shetty)", desc: "Let go of external expectations. Find your dharma." },
+                { name: "Worry Compartmentalization (Carnegie)", desc: "Live in day-tight compartments." },
+                { name: "5-4-3-2-1 Grounding (Trenton)", desc: "Engage senses to stop overthinking." },
+                { name: "Stress Enhancing Mindset (McGonigal)", desc: "View stress as energy preparation, not a threat." },
+                { name: "WRAP Decision Making (Heath)", desc: "Widen options, Reality test, Attain distance, Prepare to be wrong." },
+                { name: "Thinking in Bets (Duke)", desc: "Decisions are bets on the future, not certainties." },
+                { name: "System 1 vs System 2 (Kahneman)", desc: "Slow down to engage rational thinking over intuition." },
+                { name: "Via Negativa (Dobelli)", desc: "Avoid stupidity rather than seeking brilliance." },
+                { name: "37% Rule (Algorithms)", desc: "Explore for the first 37%, then exploit the next best option." },
+                { name: "First Principles (Elon Musk)", desc: "Boil things down to fundamental truths and reason up." },
+                { name: "Second-Order Thinking", desc: "And then what? Look beyond the immediate effect." },
+                { name: "Smarter Faster Better (Duhigg)", desc: "Generate motivation by making choices that prove autonomy." },
+                { name: "Radical Open-mindedness (Dalio)", desc: "Pain + Reflection = Progress." },
+                { name: "Think Again (Grant)", desc: "Think like a scientist, not a preacher, prosecutor, or politician." },
+                { name: "Regret Minimization (Pink)", desc: "Foundation, Boldness, Moral, and Connection regrets." },
+                { name: "Design Your Life (Burnett/Evans)", desc: "Prototype your life. Don't just plan it." },
+                { name: "Code of Extraordinary Mind (Lakhiani)", desc: "Question the 'Brules' (Bullshit Rules) of society." },
+                { name: "Born for This (Guillebeau)", desc: "Intersection of Joy, Money, and Flow." },
+                { name: "Craftsman Mindset (Newport)", desc: "Be so good they can't ignore you. Passion follows skill." },
+                { name: "Mastery (Greene)", desc: "Primal Curiosity + Intense Focus + Mentorship." },
+                { name: "Reverse Engineering (Friedman)", desc: "Decode greatness by analyzing the best work." },
+                { name: "Talent Hotbeds (Coyle)", desc: "Deep practice + Ignition + Master Coaching." },
+                { name: "Range (Epstein)", desc: "Generalists thrive in a specialized world. Sample widely." },
+                { name: "Originality (Grant)", desc: "Question the default. Produce volume to find quality." },
+                { name: "Giver vs Taker (Grant)", desc: "Givers win in the long run if they avoid burnout." },
+                { name: "Win Friends (Carnegie)", desc: "Be genuinely interested in other people." },
+                { name: "One Minute Manager", desc: "1 Min Goals, 1 Min Praisings, 1 Min Redirects." },
+                { name: "Coaching Habit (Stanier)", desc: "Ask 'What's on your mind?' and 'And what else?'" },
+                { name: "Culture Code (Coyle)", desc: "Build safety, share vulnerability, establish purpose." },
+                { name: "Good to Great (Collins)", desc: "Hedgehog Concept: Passion, Best at, Economic Engine." },
+                { name: "Profit First (Michalowicz)", desc: "Sales - Profit = Expenses. Take profit first." },
+                { name: "Start with Why (Sinek)", desc: "People don't buy what you do, they buy why you do it." },
+                { name: "StoryBrand (Miller)", desc: "The customer is the hero, not your brand." },
+                { name: "E-Myth (Gerber)", desc: "Work ON your business, not IN it. Build systems." },
+                { name: "Company of One (Jarvis)", desc: "Better, not bigger. Question growth." },
+                { name: "1000 True Fans (Kelly)", desc: "You don't need millions. You need 1000 true fans." },
+                { name: "Blue Ocean Strategy", desc: "Don't compete. Create a new market." },
+                { name: "Unfair Advantage (Ali/Kubba)", desc: "MILES: Money, Intelligence, Location, Education, Status." },
+                { name: "Day One (Bezos)", desc: "Stave off death by maintaining a start-up mentality." },
+                { name: "Inside the Box (Boyd)", desc: "Innovation happens by subtraction, division, multiplication." },
+                { name: "Jobs to be Done (Christensen)", desc: "Customers hire products to solve a specific problem." },
+                { name: "Lean Startup (Ries)", desc: "Build-Measure-Learn. MVP." },
+                { name: "Sprint (Google Ventures)", desc: "Solve big problems in 5 days." },
+                { name: "Perennial Seller (Holiday)", desc: "Make something timeless. Play the long game." },
+                { name: "To Sell Is Human (Pink)", desc: "Attunement, Buoyancy, Clarity." },
+                { name: "Influence (Cialdini)", desc: "Reciprocity, Commitment, Social Proof, Authority, Liking, Scarcity." },
+                { name: "Magic Words (Jones)", desc: "'Just imagine', 'How open-minded are you?'" },
+                { name: "5 Second Rule (Robbins)", desc: "Count 5-4-3-2-1-GO to bypass hesitation." },
+                { name: "Eat That Frog (Tracy)", desc: "Do the biggest, ugliest task first thing." },
+                { name: "2-Minute Rule (Clear)", desc: "If it takes < 2 mins, do it now." },
+                { name: "Time Boxing (Eyal)", desc: "Schedule every minute of your day." },
+                { name: "WOOP (Oettingen)", desc: "Wish, Outcome, Obstacle, Plan." },
+                { name: "Ivy Lee Method", desc: "Define your 3 & 1 priorities the night before." },
+                { name: "Reversal of Desire (The Tools)", desc: "Scream 'Bring it on!' when facing pain." },
+                { name: "Intermittent Sobriety (Lembke)", desc: "Abstain from high-dopamine inputs to reset." },
+                { name: "Batching Buckets (Allen)", desc: "Group similar tasks to reduce context switching." },
+                { name: "Pomodoro Technique", desc: "25 min focus, 5 min diffuse mode." },
+                { name: "Checklist Manifesto (Gawande)", desc: "Use checklists to prevent stupid mistakes." },
+                { name: "Deep Work (Newport)", desc: "Dedicate blocks of time to distraction-free cognitive work." },
+                { name: "Flow (Csikszentmihalyi)", desc: "Balance challenge and skill to enter the zone." },
+                { name: "The One Thing (Keller)", desc: "What is the one thing that makes everything else easier?" },
+                { name: "Tiny Habits (Fogg)", desc: "Anchor a tiny behavior to an existing trigger." },
+                { name: "Bullet Journal (Carroll)", desc: "Rapid logging of tasks, events, and notes." },
+                { name: "Second Brain (Forte)", desc: "CODE: Capture, Organize, Distill, Express." },
+                { name: "Zettelkasten (Ahrens)", desc: "Smart notes. Connect ideas to build a web of knowledge." },
+                { name: "12 Week Year (Moran)", desc: "Create urgency by shrinking your timeline." },
+                { name: "4 Disciplines of Execution", desc: "Focus on the WIG (Wildly Important Goal)." },
+                { name: "When (Pink)", desc: "Match your chronotype to your tasks." },
+                { name: "Effortless (McKeown)", desc: "Make it easy to do what matters." }
+            ],
+            investors: [
+                { name: "Stanley Druckenmiller", resource: "The Genius of Stan Druckenmiller (MOI Global)", years: "30 Years" },
+                { name: "Mark Leonard", resource: "Constellation Shareholder Letters / Q&A", years: "25 Years" },
+                { name: "Warren Buffett", resource: "Berkshire Shareholder Letters (1965-2023)", years: "55 Years" },
+                { name: "Charlie Munger", resource: "Poor Charlie's Almanack & Transcripts", years: "15+ Years" },
+                { name: "Seth Klarman", resource: "Margin of Safety & Baupost Letters", years: "25 Years" },
+                { name: "Rakesh Jhunjhunwala", resource: "The Big Bull of India (Insights & PDFs)", years: "35 Years" },
+                { name: "Peter Lynch", resource: "One Up on Wall Street", years: "15 Years" },
+                { name: "Nick Sleep", resource: "Nomad Investment Partnership Letters", years: "13 Years" },
+                { name: "Li Lu", resource: "Himalayan Capital / Modernization", years: "20+ Years" },
+                { name: "Howard Marks", resource: "The Most Important Thing / Memos", years: "25+ Years" },
+                { name: "Joel Greenblatt", resource: "The Little Book that Beats the Market / Class Notes", years: "20 Years" },
+                { name: "George Soros", resource: "The Alchemy of Finance", years: "35 Years" },
+                { name: "Benjamin Graham", resource: "The Intelligent Investor / Security Analysis", years: "25 Years" },
+                { name: "Philip Fisher", resource: "Common Stocks and Uncommon Profits", years: "70 Years" },
+                { name: "Terry Smith", resource: "Investing for Growth / Fundsmith Letters", years: "20+ Years" },
+                { name: "Bill Ackman", resource: "Pershing Square Letters & Activist Campaigns", years: "20 Years" },
+                { name: "Chuck Akre", resource: "Akre Capital Management Letters (The Three-Legged Stool)", years: "30 Years" },
+                { name: "John Templeton", resource: "Templeton Growth Fund", years: "40 Years" },
+                { name: "Walter Schloss", resource: "Factors Needed to Make Money in the Stock Market", years: "50 Years" },
+                { name: "Mohnish Pabrai", resource: "The Dhandho Investor", years: "20 Years" },
+                { name: "Michael Mauboussin", resource: "More Than You Know / Consilient Observer", years: "Strategy" },
+                { name: "Ray Dalio", resource: "Principles / Bridgewater Daily Observations", years: "40 Years" },
+                { name: "Jamie Dimon", resource: "JPMorgan Chase Shareholder Letters", years: "20 Years" },
+                { name: "Bruce Greenwald", resource: "Class Notes & Value Investing: From Graham to Buffett", years: "Academic" },
+                { name: "Jim Rogers", resource: "Investment Biker", years: "20 Years" },
+                { name: "Rick Guerin", resource: "Pacific Partners", years: "20 Years" },
+                { name: "David Tepper", resource: "Appaloosa Management", years: "20 Years" },
+                { name: "Kevin Daly", resource: "FiveT Capital", years: "15 Years" },
+                { name: "Eddie Lampert", resource: "ESL Investments", years: "20 Years" },
+                { name: "David Einhorn", resource: "Greenlight Capital / Fooling Some of the People All of the Time", years: "20 Years" },
+                { name: "Stan Perlmeter", resource: "Perlmeter Investments", years: "20 Years" },
+                { name: "Daniel Loeb", resource: "Third Point Letters", years: "20 Years" },
+                { name: "Tom Knapp", resource: "Tweedy, Browne", years: "20 Years" },
+                { name: "Shelby Davis", resource: "Davis Dynasty", years: "45 Years" },
+                { name: "Bruce Berkowitz", resource: "Fairholme Fund", years: "15 Years" },
+                { name: "Julian Robertson", resource: "Tiger Management", years: "20 Years" },
+                { name: "Lou Simpson", resource: "GEICO Investments", years: "25 Years" },
+                { name: "Prem Watsa", resource: "Fairfax Financial Letters", years: "25 Years" },
+                { name: "Robert Rodriguez", resource: "FPA Capital", years: "30 Years" },
+                { name: "John Neff", resource: "Vanguard Windsor Fund", years: "35 Years" },
+                { name: "Glenn Greenberg", resource: "Chieftain Capital", years: "25 Years" },
+                { name: "Bill Ruane", resource: "Sequoia Fund", years: "15 Years" },
+                { name: "Philip Carret", resource: "Pioneer Fund", years: "55 Years" },
+                { name: "Adam Smith", resource: "The Wealth of Nations", years: "Classic" },
+                { name: "John Brooks", resource: "Business Adventures", years: "Classic" },
+                { name: "Robert Pirsig", resource: "Zen and the Art of Motorcycle Maintenance", years: "Philosophy" },
+                { name: "Josh Waitzkin", resource: "The Art of Learning", years: "Performance" },
+                { name: "Hamilton Helmer", resource: "7 Powers", years: "Strategy" },
+                { name: "William Thorndike", resource: "The Outsiders", years: "Capital Allocation" },
+                { name: "Lawrence Cunningham", resource: "Quality Investing / Margin of Trust", years: "Analysis" },
+                { name: "Jeremy Miller", resource: "Warren Buffett's Ground Rules", years: "History" },
+                { name: "Lee Freeman-Shor", resource: "The Art of Execution", years: "Process" },
+                { name: "Brad Feld", resource: "Venture Deals", years: "VC" },
+                { name: "Tren Griffin", resource: "Charlie Munger: The Complete Investor", years: "Wisdom" },
+                { name: "William Green", resource: "Richer, Wiser, Happier", years: "Wisdom" },
+                { name: "Glen Arnold", resource: "The Deals of Warren Buffett", years: "History" },
+                { name: "Mary Buffett", resource: "Buffettology", years: "Analysis" },
+                { name: "Alice Schroeder", resource: "The Snowball", years: "Biography" },
+                { name: "Peter Kaufman", resource: "Poor Charlie's Almanack", years: "Multidisciplinary" }
+            ],
+            quotes: [
+                "“Discipline equals freedom.” — Jocko Willink",
+                "“The impediment to action advances action.” — Marcus Aurelius",
+                "“You do not rise to the level of your goals. You fall to the level of your systems.” — James Clear",
+                "“The score takes care of itself.” — Bill Walsh",
+                "“He who has a why to live can bear almost any how.” — Nietzsche",
+                "“Be the person with embarrassing goals and impressive results.” — Stephen Guise",
+                "“Action isn't just the effect of motivation; it's also the cause of it.” — Mark Manson",
+                "“Give me a lever long enough and a fulcrum on which to place it, and I shall move the world.” — Archimedes",
+                "“What you do is what matters, not what you think or say or plan.” — Jason Fried",
+                "“It is the quality of time at work that counts and the quantity of time at home that matters.” — Brian Tracy",
+                "“I am the master of my fate, I am the captain of my soul.” — Invictus",
+                "“We suffer more in imagination than in reality.” — Seneca",
+                "“If you want to go fast, go alone. If you want to go far, go together.” — African Proverb",
+                "“It is not the critic who counts... The credit belongs to the man who is actually in the arena.” — Theodore Roosevelt",
+                "“Everything in life is a mind game!” — David Goggins",
+                "“Slow is smooth, smooth is fast.” — Navy SEALs",
+                "“Invert, always invert.” — Jacobi",
+                "“I want to be able to look back and say, ‘I didn’t solve everything, but I didn’t create any new problems.’” — Naval Ravikant",
+                "“Spend each day trying to be a little wiser than you were when you woke up.” — Charlie Munger",
+                "“To get what you want, you have to deserve what you want.” — Charlie Munger",
+                "“Compound interest is the eighth wonder of the world. He who understands it, earns it ... he who doesn't ... pays it.” — Einstein",
+                "“I never allow myself to hold an opinion on anything that I don't know the other side's argument better than they do.” — Charlie Munger",
+                "“The best revenge is not to be like your enemy.” — Marcus Aurelius",
+                "“Waste no more time arguing about what a good man should be. Be one.” — Marcus Aurelius",
+                "“If you are going through hell, keep going.” — Winston Churchill",
+                "“Whether you think you can, or you think you can't – you're right.” — Henry Ford",
+                "“The only way to do great work is to love what you do.” — Steve Jobs",
+                "“It does not matter how slowly you go as long as you do not stop.” — Confucius",
+                "“Simplicity is the ultimate sophistication.” — Leonardo da Vinci",
+                "“Knowing yourself is the beginning of all wisdom.” — Aristotle",
+                "“Everything we hear is an opinion, not a fact. Everything we see is a perspective, not the truth.” — Marcus Aurelius",
+                "“Take up one idea. Make that one idea your life - think of it, dream of it, live on that idea.” — Swami Vivekananda",
+                "“You have to grow from the inside out. None can teach you, none can make you spiritual.” — Swami Vivekananda",
+                "“In a conflict between the heart and the brain, follow your heart.” — Swami Vivekananda",
+                "“The world is nothing but change. Our life is perception.” — Marcus Aurelius",
+                "“Man is affected not by events but by the view he takes of them.” — Epictetus",
+                "“Throw me to the wolves and I will return leading the pack.” — Seneca",
+                "“The best armour of old age is a well spent life preceding it.” — Charlie Munger",
+                "“Comfort is no test of truth. Truth is often far from being comfortable.” — Swami Vivekananda",
+                "“If I change, the world will change, no-one else will change the world for me.” — Unknown"
+            ]
+        },
+        workouts: [
+            { t: "Sunday", d: "Endurance/Cardio (Swim, Hike, Long Zone 2)" },
+            { t: "Monday", d: "Lower Body Strength (Squat/Deadlift, Posterior Chain)" },
+            { t: "Tuesday", d: "Sauna + Cold Exposure (3-5 Rounds)" },
+            { t: "Wednesday", d: "Upper Body Strength (Push/Pull, Delts)" },
+            { t: "Thursday", d: "Cardio Endurance (Row/Ski/Run/Bike/Ruck)" },
+            { t: "Friday", d: "HIIT (Bike, Row, Sled, KB Swings - No Burpees)" },
+            { t: "Saturday", d: "Hypertrophy (Arms, Core, Calves, Neck)" }
+        ]
     };
 
+    // --- GLOBAL STATE ---
     let APP_CONFIG = {};
-    let currentUser = null;
+    let currentLibTab = 'mentalModels';
     let currentEditorTab = 'protocols';
+    let currentUser = null;
+    let previousXP = 0;
     let userOpenAIKey = localStorage.getItem('komorebi_openai_key') || '';
 
-    // INIT
+    // --- INITIALIZATION ---
     async function init() {
-        const saved = localStorage.getItem('komorebi_custom_config');
-        // AGGRESSIVE RESET IF BROKEN
-        if (saved) {
+        // 1. Load Config: Try LocalStorage first, then fall back to Default
+        const savedConfig = localStorage.getItem('komorebi_custom_config');
+        // Force reload default if structure seems broken or empty
+        if (savedConfig && savedConfig.length > 100) {
             try {
-                const p = JSON.parse(saved);
-                if (!p.protocols || p.protocols.length === 0) throw new Error("Empty");
-                APP_CONFIG = p;
+                const parsed = JSON.parse(savedConfig);
+                // AUTO-REPAIR: If specific cards are missing, reset to default
+                if(!parsed.protocols || parsed.protocols.length === 0 || !parsed.protocols.some(p => p.id === "health")) {
+                   console.log("Config corrupted/empty. Auto-repairing...");
+                   APP_CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+                   localStorage.setItem('komorebi_custom_config', JSON.stringify(APP_CONFIG));
+                } else {
+                   APP_CONFIG = parsed;
+                }
             } catch(e) {
-                console.log("Resetting Config");
                 APP_CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
-                localStorage.setItem('komorebi_custom_config', JSON.stringify(APP_CONFIG));
             }
         } else {
             APP_CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
@@ -382,178 +656,470 @@
         loadDay();
         
         document.getElementById('date-input').addEventListener('change', loadDay);
+        
         if (supabaseClient) checkUser();
     }
 
-    // APP RENDERER
+    // --- REMAINDER OF LOGIC (Sync, Render, Editor) ---
+    
+    async function checkUser() {
+        const { data } = await supabaseClient.auth.getSession();
+        if (data.session) {
+            currentUser = data.session.user;
+            document.getElementById('cloud-btn').innerText = "☁️✔";
+            await loadCloudData();
+            renderApp();
+        }
+    }
+
+    async function cloudSync() {
+        if (!supabaseClient) return alert("Supabase not initialized.");
+        
+        if (!currentUser) {
+            const { data, error } = await supabaseClient.auth.signInWithOAuth({
+                provider: 'google',
+                options: { redirectTo: window.location.href }
+            });
+            if (error) alert("Login Error: " + error.message);
+        } else {
+            if(confirm("Do you want to LOGOUT? (Click Cancel to just Sync)")) {
+                await supabaseClient.auth.signOut();
+                window.location.reload();
+            } else {
+                await saveToCloud();
+            }
+        }
+    }
+
+    async function saveToCloud() {
+        if (!currentUser) return;
+        const history = {};
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key.startsWith('komorebi_')) {
+                history[key] = JSON.parse(localStorage.getItem(key));
+            }
+        }
+        const payload = {
+            user_id: currentUser.id,
+            config: APP_CONFIG,
+            history: history,
+            updated_at: new Date()
+        };
+        const { error } = await supabaseClient.from('user_data').upsert(payload, { onConflict: 'user_id' });
+        if (error) alert("Sync Failed: " + error.message);
+        else {
+            document.getElementById('cloud-btn').innerText = "☁️✔";
+            alert("Synced to Cloud ✅");
+        }
+    }
+
+    async function loadCloudData() {
+        if (!currentUser) return;
+        const { data, error } = await supabaseClient.from('user_data').select('config, history').eq('user_id', currentUser.id).single();
+        
+        if (data) {
+            if (data.config) {
+                APP_CONFIG = data.config;
+                localStorage.setItem('komorebi_custom_config', JSON.stringify(APP_CONFIG));
+            }
+            if (data.history) {
+                Object.keys(data.history).forEach(key => {
+                    localStorage.setItem(key, JSON.stringify(data.history[key]));
+                });
+            }
+        }
+    }
+    
+    // --- AI SEARCH ---
+    function saveOpenAIKey() {
+        const key = document.getElementById('openai-key-input').value;
+        localStorage.setItem('komorebi_openai_key', key);
+        userOpenAIKey = key;
+        alert("Key Saved Locally");
+    }
+
+    async function handleJaguarSearch(e) {
+        if (e.key === 'Enter') {
+            const query = document.getElementById('jaguar-input').value;
+            if (!query) return;
+            
+            const local = searchLocalLibrary(query);
+            let vector = [];
+            
+            if (userOpenAIKey) {
+                document.getElementById('answer-content').innerHTML = `<div class="ai-loading">Consulting the Jaguar...</div>`;
+                openModal('answer-modal');
+                
+                try {
+                    // Get Embedding
+                    const resp = await fetch('https://api.openai.com/v1/embeddings', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${userOpenAIKey}` },
+                        body: JSON.stringify({ input: query, model: "text-embedding-3-small" })
+                    });
+                    const json = await resp.json();
+                    
+                    if(json.error) {
+                        document.getElementById('answer-content').innerHTML = "OpenAI Error: " + json.error.message;
+                        return;
+                    }
+
+                    const embedding = json.data[0].embedding;
+                    
+                    // Search Database
+                    const { data, error } = await supabaseClient.rpc('match_documents', {
+                        query_embedding: embedding,
+                        match_threshold: 0.5,
+                        match_count: 5
+                    });
+                    
+                    if(error) throw error;
+                    if(data) vector = data;
+
+                    // --- RAG: GENERATE ANSWER ---
+                    if(vector.length > 0) {
+                        const context = vector.map(d => d.content).join("\n\n");
+                        const chatResp = await fetch('https://api.openai.com/v1/chat/completions', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${userOpenAIKey}` },
+                            body: JSON.stringify({
+                                model: "gpt-4o-mini",
+                                messages: [
+                                    {role: "system", content: "You are the Jaguar Warrior King, a wise and relentless mentor. Answer the user's question based STRICTLY on the provided context below. If the answer isn't in the context, say so, but offer general wisdom. Keep it concise, actionable, and inspiring."},
+                                    {role: "user", content: `Context:\n${context}\n\nQuestion: ${query}`}
+                                ]
+                            })
+                        });
+                        const chatJson = await chatResp.json();
+                        const answer = chatJson.choices[0].message.content;
+                        
+                        // Display Answer + Sources
+                        let html = `<div class="ai-answer">${marked.parse(answer)}</div>`;
+                        html += `<div class="ai-source"><strong>Sources:</strong><br>`;
+                        vector.forEach(v => html += `• ${v.metadata.title || 'Document'} (Page ${v.metadata.page || 1})<br>`);
+                        html += `</div>`;
+                        document.getElementById('answer-content').innerHTML = html;
+                        return;
+                    }
+
+                } catch(err) { 
+                    console.log(err); 
+                    document.getElementById('answer-content').innerHTML = "Search Error. Check API Key.";
+                    return;
+                }
+            }
+            
+            displayAnswer(query, local, vector);
+        }
+    }
+
+    function searchLocalLibrary(query) {
+        const results = [];
+        const q = query.toLowerCase();
+        Object.values(APP_CONFIG.library).flat().forEach(item => {
+            const text = (item.name || item) + " " + (item.desc || item.resource || "");
+            if (text.toLowerCase().includes(q)) results.push(item);
+        });
+        return results.slice(0, 3);
+    }
+
+    function displayAnswer(query, local, vector) {
+        let html = `<b>Query:</b> ${query}<br><br>`;
+        
+        if (local.length > 0) {
+            html += `<b>Library Matches:</b><br>`;
+            local.forEach(item => {
+                html += `• ${item.name || item} <span style="color:#aaa; font-size:0.8rem">${item.desc || item.resource || ""}</span><br>`;
+            });
+            html += `<br>`;
+        }
+        
+        if (vector.length > 0) {
+            html += `<b>Brain Matches (PDFs):</b><br>`;
+            vector.forEach(item => {
+                html += `• "${item.content.substring(0, 400)}..." <span style="color:#aaa; font-size:0.7rem">(${item.metadata?.title || 'Source'})</span><br><br>`;
+            });
+        } else if (vector.length === 0 && local.length === 0) {
+            html += "No matches found in Library or Brain.";
+        }
+
+        document.getElementById('answer-content').innerHTML = html;
+        openModal('answer-modal');
+    }
+
+    // --- RENDER APP ---
     function renderApp() {
         const seed = document.getElementById('date-input').value;
-        let html = '';
+        
+        const model = getRandom(APP_CONFIG.library.mentalModels, seed + 'm');
+        const prod = getRandom(APP_CONFIG.library.productivity, seed + 'p');
+        const quote = getRandom(APP_CONFIG.library.quotes, seed + 'q');
+        const inv = getInvestorOfTheWeek(seed);
 
-        // Alignment Section
-        // (Keep simple logic here for brevity in this update, focusing on Protocols)
-        html += `<section class="section-block"><h2 class="section-title">Daily Alignment</h2><div class="card" style="padding:1rem; color:#888; font-style:italic; text-align:center">Daily prompts rotate here (See Library)</div></section>`;
+        let html = `
+        <section class="section-block">
+          <h2 class="section-title">Daily Alignment</h2>
+          <div class="grid-2">
+            <div class="card"><div class="card-header"><div class="card-title">Mental Model</div></div><div class="prompt-body"><b>${model.name}</b><br>${model.desc}</div></div>
+            <div class="card"><div class="card-header"><div class="card-title">Productivity</div></div><div class="prompt-body"><b>${prod.name}</b><br>${prod.desc}</div></div>
+            <div class="card"><div class="card-header"><div class="card-title">Wisdom</div></div><div class="prompt-body">${quote.name ? quote.desc : quote}</div></div>
+            <div class="card" style="border-color:var(--komorebi-mint-soft)">
+                <div class="card-header"><div class="card-title">Investor of the Week</div><div class="xp-display">Weekly</div></div>
+                <div class="prompt-body">
+                    <div style="color:var(--komorebi-mint); font-weight:700">${inv.name}</div>
+                    <div style="font-style:italic">${inv.resource}</div>
+                    <div class="investor-meta">${inv.years}</div>
+                </div>
+            </div>
+          </div>
+        </section>`;
 
-        // PROTOCOLS RENDER
-        APP_CONFIG.protocols.forEach(s => {
-            html += `<section class="section-block"><h2 class="section-title">${s.title}</h2><div class="grid-${s.columns}">`;
-            s.cards.forEach(c => {
-                html += `<div class="card" id="card-${c.id}">
+        APP_CONFIG.protocols.forEach(section => {
+            html += `<section class="section-block"><h2 class="section-title">${section.title}</h2><div class="grid-${section.columns}">`;
+            section.cards.forEach(card => {
+                html += `
+                <div class="card" id="card-${card.id}">
                     <div class="card-header">
-                        <div class="card-title">${c.title}</div>
-                        <div class="xp-display">0 / ${c.maxXP} XP</div>
+                        <div class="card-title">${card.title}</div>
+                        <div class="xp-display">0 / ${card.maxXP} XP</div>
                     </div>
                     <div class="progress-track"><div class="progress-fill"></div></div>
                     <div class="items">`;
-                
-                c.items.forEach(i => {
-                    html += `<label><input type="checkbox" data-key="${i.id}" data-card="${c.id}"> ${i.label}</label>`;
+                card.items.forEach(item => {
+                    let xpVal = card.scoringType === 'count_multiplier' ? card.perItemXP : (item.xp || card.maxXP);
+                    html += `<label><input type="checkbox" data-key="${item.id}" data-card="${card.id}" data-xp="${xpVal}"> ${item.label}</label>`;
                 });
                 
-                if(c.details) {
+                if (card.details && card.details.length > 0) {
                     html += `<details class="details-list"><summary>View Details</summary><ul class="sub-list">`;
-                    c.details.split('\n').forEach(line => html += `<li>${line}</li>`);
+                    card.details.forEach(d => html += `<li>${d}</li>`);
                     html += `</ul></details>`;
                 }
+
                 html += `</div></div>`;
             });
             html += `</div></section>`;
         });
 
+        const dateObj = new Date(seed);
+        const dayIdx = dateObj.getDay();
+        const w = APP_CONFIG.workouts && APP_CONFIG.workouts[dayIdx] ? APP_CONFIG.workouts[dayIdx] : { t: "Rest", d: "Recover" };
+        html += `
+        <section class="section-block">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Workout of the Day</div>
+                <div style="font-size:0.8rem; color:var(--text-muted)">${w.t}</div>
+              </div>
+              <div class="items" style="font-size:0.85rem; color:var(--text-main)">${w.d}</div>
+            </div>
+        </section>`;
+
+        html += `<section class="section-block"><div class="card"><div class="card-header"><div class="card-title">Daily Journal</div></div><textarea id="daily-note-area" placeholder="Wins, lessons, or thoughts..."></textarea></div></section>`;
+
         document.getElementById('app-content').innerHTML = html;
-        
+
         document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-            cb.addEventListener('change', updateVisuals);
-        });
-    }
-
-    // SCORING LOGIC
-    function updateVisuals() {
-        const s = readState();
-        let totalXP = 0;
-
-        APP_CONFIG.protocols.forEach(sec => {
-            sec.cards.forEach(c => {
-                const checkedCount = c.items.filter(i => s[i.id]).length;
-                const totalCount = c.items.length;
-                let earned = 0;
-                
-                // SCORING RULES
-                let threshold = totalCount; // Default 'all'
-                if (c.scoringRule === '66%') threshold = Math.ceil(totalCount * 0.66);
-                else if (c.scoringRule === '50%') threshold = Math.ceil(totalCount * 0.5);
-                else if (c.scoringRule === '33%') threshold = Math.ceil(totalCount * 0.33);
-                else if (c.scoringRule === 'any') threshold = 1;
-                
-                if (checkedCount >= threshold && totalCount > 0) earned = parseInt(c.maxXP);
-
-                // Update UI
-                const el = document.getElementById(`card-${c.id}`);
-                if(el) {
-                    el.querySelector('.xp-display').innerText = `${earned} / ${c.maxXP} XP`;
-                    el.querySelector('.progress-fill').style.width = `${(checkedCount / totalCount) * 100}%`;
-                    if(checkedCount === totalCount) el.querySelector('.progress-fill').classList.add('maxed');
-                    else el.querySelector('.progress-fill').classList.remove('maxed');
-                }
-                totalXP += earned;
+            cb.addEventListener('change', (e) => {
+                updateVisuals();
+                if(e.target.checked) showFloatingXP(e);
             });
         });
-
-        document.getElementById('total-xp').innerText = totalXP;
-        document.querySelector('.xp-pill span').innerText = totalXP;
     }
 
-    // EDITOR LOGIC
-    function openEditor() { document.getElementById('editor-modal').style.display = 'flex'; renderEditor(); }
-    function switchEditorTab(t) { currentEditorTab = t; renderEditor(); }
-    
-    function renderEditor() {
+    // --- EDITOR ENGINE ---
+    function openEditor() { openModal('editor-modal'); renderEditorContent(); }
+    function switchEditorTab(tab) {
+        currentEditorTab = tab;
+        document.querySelectorAll('#editor-modal .lib-tab').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active');
+        renderEditorContent();
+    }
+    function renderEditorContent() {
         const container = document.getElementById('editor-content');
         container.innerHTML = '';
-        
         if (currentEditorTab === 'protocols') {
-            APP_CONFIG.protocols.forEach((sec, sIdx) => {
-                let html = `<div class="editor-section"><div class="editor-label">${sec.title}</div>`;
-                sec.cards.forEach((card, cIdx) => {
+            APP_CONFIG.protocols.forEach((section, sIdx) => {
+                let html = `<div class="editor-section"><div class="editor-label">${section.title}</div>`;
+                section.cards.forEach((card, cIdx) => {
                     html += `<div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; margin-bottom:10px;">
-                        <div class="editor-row">
-                            <input class="editor-input" value="${card.title}" onchange="updateConfig('protocols', '${sIdx}.cards.${cIdx}.title', this.value)">
-                            <input class="editor-input-sm" type="number" value="${card.maxXP}" onchange="updateConfig('protocols', '${sIdx}.cards.${cIdx}.maxXP', this.value)"> XP
-                        </div>
-                        <div class="editor-row">
-                            <select class="editor-input" onchange="updateConfig('protocols', '${sIdx}.cards.${cIdx}.scoringRule', this.value)">
-                                <option value="all" ${card.scoringRule=='all'?'selected':''}>100% (All)</option>
-                                <option value="66%" ${card.scoringRule=='66%'?'selected':''}>66% (Majority)</option>
-                                <option value="50%" ${card.scoringRule=='50%'?'selected':''}>50% (Half)</option>
-                                <option value="33%" ${card.scoringRule=='33%'?'selected':''}>33% (Third)</option>
-                                <option value="any" ${card.scoringRule=='any'?'selected':''}>Any (1+)</option>
-                            </select>
-                        </div>
-                        <div class="editor-label" style="font-size:0.7rem; color:#aaa">Details</div>
-                        <textarea class="editor-textarea" onchange="updateConfig('protocols', '${sIdx}.cards.${cIdx}.details', this.value)">${card.details || ''}</textarea>
-                        <div class="editor-label" style="font-size:0.7rem; color:#aaa; margin-top:10px;">Checkboxes (Max 6)</div>`;
-                    
+                        <div class="editor-row"><input class="editor-input" value="${card.title}" onchange="updateConfigValue('protocols', '${sIdx}.cards.${cIdx}.title', this.value)">
+                        <input class="editor-input-sm" type="number" value="${card.maxXP}" onchange="updateConfigValue('protocols', '${sIdx}.cards.${cIdx}.maxXP', this.value)"> XP</div>
+                        <div class="editor-label" style="font-size:0.7rem; color:#aaa">Checkboxes</div>`;
                     card.items.forEach((item, iIdx) => {
-                        html += `<div class="editor-row">
-                            <input class="editor-input" value="${item.label}" onchange="updateConfig('protocols', '${sIdx}.cards.${cIdx}.items.${iIdx}.label', this.value)">
-                            <button class="danger icon-btn" onclick="deleteItem(${sIdx}, ${cIdx}, ${iIdx})">×</button>
-                        </div>`;
+                        html += `<div class="editor-row"><input class="editor-input" value="${item.label}" onchange="updateConfigValue('protocols', '${sIdx}.cards.${cIdx}.items.${iIdx}.label', this.value)">
+                        <button class="danger icon-btn" onclick="deleteProtocolItem(${sIdx}, ${cIdx}, ${iIdx})">×</button></div>`;
                     });
-                    
-                    if(card.items.length < 6) {
-                        html += `<button onclick="addItem(${sIdx}, ${cIdx})" class="add-btn">+ Add Checkbox</button>`;
-                    }
-                    html += `</div>`;
+                    html += `<button onclick="addProtocolItem(${sIdx}, ${cIdx})" class="add-btn">+ Add Checkbox</button></div>`;
                 });
                 html += `</div>`;
                 container.innerHTML += html;
             });
+        } else if (currentEditorTab === 'workouts') {
+            let html = `<div class="editor-section"><div class="editor-label">Daily Workouts</div>`;
+            APP_CONFIG.workouts.forEach((w, idx) => {
+                html += `<div class="editor-row"><div style="width:80px; font-size:0.8rem;">Day ${idx}</div>
+                <input class="editor-input" value="${w.t}" onchange="updateConfigValue('workouts', '${idx}.t', this.value)">
+                <input class="editor-input" value="${w.d}" onchange="updateConfigValue('workouts', '${idx}.d', this.value)"></div>`;
+            });
+            container.innerHTML = html + `</div>`;
+        } else {
+            const key = currentEditorTab; 
+            let html = `<div class="editor-section"><div class="editor-label">Add New Item</div>
+            <div class="editor-row"><input id="new-lib-1" class="editor-input" placeholder="Name / Quote">`;
+            if(key !== 'quotes') html += `<input id="new-lib-2" class="editor-input" placeholder="Description / Resource">`;
+            if(key === 'investors') html += `<input id="new-lib-3" class="editor-input" placeholder="Years">`;
+            html += `<button onclick="addToLibrary('${key}')" class="icon-btn">+</button></div></div>`;
+            
+            html += `<div class="editor-label">Existing Items (${APP_CONFIG.library[key].length})</div>`;
+            APP_CONFIG.library[key].forEach((item, idx) => {
+                const val1 = item.name || item; 
+                const val2 = item.desc || item.resource || "";
+                const val3 = item.years || "";
+                
+                let inputs = `<input class="editor-input" value="${val1}" onchange="updateLibItem('${key}', ${idx}, 'name', this.value)">`;
+                if(key !== 'quotes') inputs += `<input class="editor-input" value="${val2}" onchange="updateLibItem('${key}', ${idx}, 'desc', this.value)">`;
+                if(key === 'investors') inputs += `<input class="editor-input" style="max-width:80px" value="${val3}" onchange="updateLibItem('${key}', ${idx}, 'years', this.value)">`;
+
+                html += `<div class="item-edit-container">
+                    <div class="item-edit-actions">
+                        <button class="tiny-btn" onclick="moveLibItem('${key}', ${idx}, -1)">↑</button>
+                        <button class="tiny-btn" onclick="moveLibItem('${key}', ${idx}, 1)">↓</button>
+                    </div>
+                    <div class="item-edit-inputs" style="flex-direction:${key==='investors' ? 'column' : 'row'}">
+                        ${inputs}
+                    </div>
+                    <button class="danger icon-btn" onclick="deleteLibItem('${key}', ${idx})">×</button>
+                </div>`;
+            });
+            container.innerHTML = html;
         }
     }
 
-    // CONFIG UPDATERS
-    function updateConfig(root, path, value) {
+    function updateConfigValue(root, path, value) {
         let parts = path.split('.'); let obj = APP_CONFIG[root];
         for(let i=0; i<parts.length-1; i++) obj = obj[parts[i]];
         obj[parts[parts.length-1]] = value;
     }
-    function addItem(sIdx, cIdx) {
-        APP_CONFIG.protocols[sIdx].cards[cIdx].items.push({ id: "custom_"+Date.now(), label: "New Habit" });
-        renderEditor();
+    function updateLibItem(key, idx, field, value) {
+        if (key === 'quotes') {
+            APP_CONFIG.library[key][idx] = value;
+        } else {
+            if(field === 'desc' && key === 'investors') field = 'resource';
+            APP_CONFIG.library[key][idx][field] = value;
+        }
     }
-    function deleteItem(sIdx, cIdx, iIdx) {
-        APP_CONFIG.protocols[sIdx].cards[cIdx].items.splice(iIdx, 1);
-        renderEditor();
+    function moveLibItem(key, idx, dir) {
+        const arr = APP_CONFIG.library[key];
+        if ((dir === -1 && idx > 0) || (dir === 1 && idx < arr.length - 1)) {
+            const temp = arr[idx];
+            arr[idx] = arr[idx + dir];
+            arr[idx + dir] = temp;
+            renderEditorContent();
+        }
+    }
+    function addProtocolItem(sIdx, cIdx) {
+        APP_CONFIG.protocols[sIdx].cards[cIdx].items.push({ id: "custom_" + Date.now(), label: "New Habit" });
+        renderEditorContent();
+    }
+    function deleteProtocolItem(sIdx, cIdx, iIdx) {
+        if(confirm("Delete?")) { APP_CONFIG.protocols[sIdx].cards[cIdx].items.splice(iIdx, 1); renderEditorContent(); }
+    }
+    function deleteLibItem(key, idx) {
+        if(confirm("Delete?")) { APP_CONFIG.library[key].splice(idx, 1); renderEditorContent(); }
+    }
+    function addToLibrary(key) {
+        const f1 = document.getElementById(`new-lib-1`).value;
+        if(!f1) return;
+        let newItem;
+        if(key === 'quotes') newItem = f1;
+        else if (key === 'investors') {
+             const f2 = document.getElementById(`new-lib-2`).value;
+             const f3 = document.getElementById(`new-lib-3`).value;
+             newItem = { name: f1, resource: f2, years: f3 };
+        } else {
+             const f2 = document.getElementById(`new-lib-2`).value;
+             newItem = { name: f1, desc: f2 };
+        }
+        APP_CONFIG.library[key].unshift(newItem); 
+        alert("Added!"); renderEditorContent();
     }
     function saveCustomConfig() {
         localStorage.setItem('komorebi_custom_config', JSON.stringify(APP_CONFIG));
         saveToCloud();
-        closeModal('editor-modal');
-        renderApp(); updateVisuals();
+        closeModal('editor-modal'); renderApp(); updateVisuals(); alert("Configuration Saved!");
     }
     function factoryReset() {
-        if(confirm("Reset everything?")) {
-            localStorage.removeItem('komorebi_custom_config');
-            location.reload();
-        }
+        if(confirm("Reset to defaults?")) { localStorage.removeItem('komorebi_custom_config'); location.reload(); }
     }
 
-    // STANDARD HELPERS
-    function readState() { const s={}; document.querySelectorAll('input[type="checkbox"]').forEach(cb => s[cb.dataset.key]=cb.checked); return s; }
-    function saveDay() { const s=readState(); localStorage.setItem(`komorebi_${document.getElementById('date-input').value}`, JSON.stringify(s)); saveToCloud(); alert("Saved."); }
-    function loadDay() { 
-        const s = JSON.parse(localStorage.getItem(`komorebi_${document.getElementById('date-input').value}`) || '{}');
-        document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = !!s[cb.dataset.key]);
-        updateVisuals();
+    // --- VISUALS & LOGIC ---
+    function updateVisuals() {
+        const state = readState();
+        let totalXP = 0;
+        APP_CONFIG.protocols.forEach(section => {
+            section.cards.forEach(card => {
+                let cardXP = 0;
+                const checkedCount = card.items.filter(i => state[i.id]).length;
+                if (card.scoringType === 'count_multiplier') {
+                    if (checkedCount === card.items.length) cardXP = card.maxXP;
+                    else cardXP = checkedCount * card.perItemXP;
+                } else {
+                    card.items.forEach(i => { if(state[i.id]) cardXP += (i.xp || 0); });
+                }
+                if (cardXP > card.maxXP) cardXP = card.maxXP;
+                totalXP += cardXP;
+                const cardEl = document.getElementById(`card-${card.id}`);
+                if (cardEl) {
+                    cardEl.querySelector('.xp-display').innerText = `${Math.round(cardXP)} / ${card.maxXP} XP`;
+                    const pct = (cardXP / card.maxXP) * 100;
+                    const fill = cardEl.querySelector('.progress-fill');
+                    fill.style.width = `${pct}%`;
+                    if(pct >= 100) fill.classList.add('maxed'); else fill.classList.remove('maxed');
+                }
+            });
+        });
+        document.getElementById('total-xp').innerText = `${Math.round(totalXP)}`;
+        document.querySelector('.xp-pill span').innerText = Math.round(totalXP);
+        let label = "Red Zone", cls = "red";
+        if (totalXP >= APP_CONFIG.levels.elite) { label = "Elite"; cls = "elite"; }
+        else if (totalXP >= APP_CONFIG.levels.strong) { label = "Strong"; cls = "strong"; }
+        else if (totalXP >= APP_CONFIG.levels.survival) { label = "Survival"; cls = "survival"; }
+        const rating = document.getElementById('day-rating');
+        rating.className = `badge ${cls}`; rating.innerText = label;
     }
-    function closeModal(id) { document.getElementById(id).style.display='none'; }
-    function openSettings() { document.getElementById('settings-modal').style.display='flex'; }
-    function saveOpenAIKey() { localStorage.setItem('komorebi_openai_key', document.getElementById('openai-key-input').value); alert("Saved"); }
-    
-    // CLOUD STUBS (Full logic in prev versions, simplified here for focus on Feature #1)
-    async function checkUser() {} 
-    async function cloudSync() {} 
-    async function saveToCloud() {} 
+
+    // --- LIBRARY RENDER ---
+    function renderLibrary() {
+        const filter = document.getElementById('lib-search').value.toLowerCase();
+        let data = APP_CONFIG.library[currentLibTab] || [];
+        if(currentLibTab === 'quotes') data = data.map(q => ({ name: "Quote", desc: q }));
+        document.getElementById('library-list').innerHTML = data.filter(i => i.name.toLowerCase().includes(filter) || (i.desc && i.desc.toLowerCase().includes(filter)))
+            .map(i => `<div class="lib-item"><div class="lib-title">${i.name} ${i.years ? `<span class="investor-meta">${i.years}</span>` : ''}</div><div class="lib-desc">${i.resource || i.desc}</div></div>`).join('');
+    }
+    function switchLibTab(tab) {
+        currentLibTab = tab; document.querySelectorAll('#library-modal .lib-tab').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active'); renderLibrary();
+    }
+    function openLibrary() { openModal('library-modal'); renderLibrary(); }
+
+    // --- HELPERS ---
+    function readState() { const s = {}; document.querySelectorAll('input[type="checkbox"]').forEach(cb => s[cb.dataset.key] = cb.checked); return s; }
+    function writeState(s) { document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = !!s[cb.dataset.key]); document.getElementById('daily-note-area').value = s.note || ""; }
+    function getFormatKey() { return `komorebi_${document.getElementById('date-input').value}`; }
+    function saveDay() { const s = readState(); s.note = document.getElementById('daily-note-area').value; localStorage.setItem(getFormatKey(), JSON.stringify(s)); saveToCloud(); alert("Saved."); }
+    function loadDay() { renderApp(); const raw = localStorage.getItem(getFormatKey()); if(raw) writeState(JSON.parse(raw)); updateVisuals(); }
+    function resetDay() { writeState({}); updateVisuals(); }
+    function showFloatingXP(e) { const div = document.createElement('div'); div.className = 'floating-xp'; div.innerText = `+${e.target.dataset.xp} XP`; div.style.left = e.clientX + 'px'; div.style.top = e.clientY + 'px'; document.body.appendChild(div); setTimeout(() => div.remove(), 1000); }
+    function fireConfetti() { /* Animation code */ }
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function getRandom(arr, seed) { let hash = 0; for(let i=0; i<seed.length; i++) hash = ((hash << 5) - hash) + seed.charCodeAt(i); return arr[Math.abs(hash) % arr.length]; }
+    function getInvestorOfTheWeek(dateStr) { const d = new Date(dateStr); const start = new Date(d.getFullYear(), 0, 1); const week = Math.ceil((((d - start) / 86400000) + start.getDay() + 1) / 7); return APP_CONFIG.library.investors[week % APP_CONFIG.library.investors.length]; }
+    function openSettings() { document.getElementById('export-area').value = JSON.stringify({...localStorage}, null, 2); openModal('settings-modal'); }
+    function restoreData() { try { const d = JSON.parse(document.getElementById('export-area').value); if(confirm("Overwrite?")) { localStorage.clear(); Object.keys(d).forEach(k => localStorage.setItem(k, d[k])); location.reload(); } } catch(e) { alert("Invalid JSON"); } }
+    function renderStats() { const container = document.getElementById('stats-chart'); container.innerHTML = ''; const today = new Date(); for (let i=6; i>=0; i--) { const d = new Date(today); d.setDate(d.getDate() - i); const iso = d.toISOString().slice(0,10); const key = `komorebi_${iso}`; const raw = localStorage.getItem(key); let xp = 0; if (raw) { const s = JSON.parse(raw); xp = 1000; } const group = document.createElement('div'); group.className = 'bar-group'; group.innerHTML = `<div class="bar" style="height:${xp>0?50:2}%"></div><div class="bar-label">${iso.slice(5)}</div>`; container.appendChild(group); } openModal('stats-modal'); }
 
     init();
   </script>
