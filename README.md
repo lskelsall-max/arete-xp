@@ -37,6 +37,15 @@ Komorebi OS is a gamified personal dashboard designed to align daily actions wit
 
 ---
 
+## Tech Stack 
+
+Github repository for code base. 
+Supabase for database (user and documents for RAG)
+OpenAI (user needs secret key) for RAG 
+Google Drive for knowledge base storage
+Google Collab to run vector ingestion 
+ChatGpt and Google Gemini Pro 3 for coding assistance
+
 ## 🛠️ Setup Guide
 
 This app runs as a single `index.html` file hosted on GitHub Pages, connected to a free Supabase backend.
