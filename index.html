@@ -33,7 +33,6 @@
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
-    
     html, body { width: 100%; height: 100%; overflow-x: hidden; }
 
     body {
@@ -46,22 +45,6 @@
 
     #confetti-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 
-    /* EMERGENCY RESET BUTTON */
-    #emergency-reset {
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        z-index: 99999;
-        background: red;
-        color: white;
-        border: 2px solid white;
-        padding: 10px;
-        font-weight: bold;
-        border-radius: 8px;
-        cursor: pointer;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    }
-
     /* CONTAINER */
     .container { 
         max-width: 1200px; margin: 0 auto; 
@@ -73,7 +56,7 @@
     /* HEADER */
     .app-header { 
       display: flex; justify-content: space-between; align-items: flex-start; 
-      padding-top: 0.5rem; padding-bottom: 1rem; margin-bottom: 0;
+      padding-top: 0.8rem; padding-bottom: 1rem; margin-bottom: 0;
     }
     .app-title { font-size: 1.6rem; font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; line-height: 1; margin-bottom: 2px; color: #050f0a; text-shadow: none; }
     .app-subtitle { font-size: 0.75rem; color: #1f352a; font-weight: 700; opacity: 0.9; }
@@ -81,7 +64,7 @@
     #date-input { background: rgba(0, 0, 0, 0.1); border: 1px solid rgba(0,0,0,0.1); border-radius: 6px; padding: 0.2rem 0.5rem; color: #050f0a; font-weight: 600; font-family: inherit; font-size: 0.85rem; text-align: right; }
     .xp-pill { font-size: 0.9rem; color: #050f0a; font-weight: 800; }
 
-    /* SEARCH */
+    /* SEARCH BAR */
     .jaguar-search-container { margin-bottom: 1rem; position: relative; }
     .jaguar-input { width: 100%; padding: 0.8rem 1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(14, 32, 22, 0.6); color: #fff; font-size: 0.95rem; backdrop-filter: blur(5px); transition: all 0.2s; }
     .jaguar-input:focus { outline: none; border-color: var(--accent-gold); background: rgba(14, 32, 22, 0.9); box-shadow: 0 0 15px rgba(245, 193, 92, 0.2); }
@@ -107,7 +90,7 @@
     button.add-btn { width: 100%; margin-top: 0.5rem; background: rgba(255,255,255,0.05); color: var(--komorebi-mint); border: 1px dashed var(--border-subtle); padding: 0.6rem; font-size: 0.8rem; }
     button.tiny-btn { padding: 0.2rem 0.4rem; font-size: 0.7rem; margin-left: 2px; background: rgba(255,255,255,0.1); color: #fff;}
 
-    /* CARDS */
+    /* SECTIONS & CARDS */
     .section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255, 255, 255, 0.4); margin: 0 0 0.4rem 0.2rem; font-weight: 600; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1.2rem; }
     .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; margin-bottom: 1.2rem; }
@@ -182,9 +165,6 @@
   </style>
 </head>
 <body>
-  <!-- EMERGENCY RESET BUTTON (Hidden by default if load works) -->
-  <button id="emergency-reset" onclick="manualHardReset()">⚠️ FACTORY RESET</button>
-
   <canvas id="confetti-canvas"></canvas>
 
   <div class="container">
@@ -286,7 +266,7 @@
           <div class="editor-label">Data Backup</div>
           <textarea id="export-area"></textarea>
           <div class="modal-actions">
-            <button onclick="restoreData()">Restore</button>
+            <button onclick="restoreData()">Restore from Text</button>
           </div>
       </div>
     </div>
@@ -584,7 +564,6 @@
             quotes: [
                 "“Discipline equals freedom.” — Jocko Willink",
                 "“The impediment to action advances action.” — Marcus Aurelius",
-                "“You do not rise to the level of your goals. You fall to the level of your systems.” — James Clear",
                 "“The score takes care of itself.” — Bill Walsh",
                 "“He who has a why to live can bear almost any how.” — Nietzsche",
                 "“Be the person with embarrassing goals and impressive results.” — Stephen Guise",
@@ -640,11 +619,12 @@
     let currentLibTab = 'mentalModels';
     let currentEditorTab = 'protocols';
     let currentUser = null;
+    let previousXP = 0;
     let userOpenAIKey = localStorage.getItem('komorebi_openai_key') || '';
 
     // --- INITIALIZATION ---
     async function init() {
-        // 1. Load Config from LocalStorage or Default
+        // 1. Load Config: Try LocalStorage first, then fall back to Default
         const savedConfig = localStorage.getItem('komorebi_custom_config');
         // Force reload default if structure seems broken
         if (savedConfig && savedConfig.length > 100) {
@@ -667,18 +647,12 @@
         
         document.getElementById('date-input').addEventListener('change', loadDay);
         
-        // HIDE EMERGENCY BUTTON IF SUCCESSFUL
-        document.getElementById('emergency-reset').style.display = 'none';
-
         if (supabaseClient) checkUser();
     }
 
     // --- MANUAL RESET ---
-    function manualHardReset() {
-        if(confirm("This will delete all local data and reset the app. Are you sure?")) {
-            localStorage.clear();
-            window.location.reload();
-        }
+    function factoryReset() {
+        if(confirm("Reset to defaults?")) { localStorage.removeItem('komorebi_custom_config'); location.reload(); }
     }
     
     async function checkUser() {
@@ -739,12 +713,10 @@
         const { data, error } = await supabaseClient.from('user_data').select('config, history').eq('user_id', currentUser.id).single();
         
         if (data) {
-            // Restore Config
             if (data.config) {
                 APP_CONFIG = data.config;
                 localStorage.setItem('komorebi_custom_config', JSON.stringify(APP_CONFIG));
             }
-            // Restore History
             if (data.history) {
                 Object.keys(data.history).forEach(key => {
                     localStorage.setItem(key, JSON.stringify(data.history[key]));
@@ -1047,9 +1019,6 @@
         localStorage.setItem('komorebi_custom_config', JSON.stringify(APP_CONFIG));
         saveToCloud();
         closeModal('editor-modal'); renderApp(); updateVisuals(); alert("Configuration Saved!");
-    }
-    function factoryReset() {
-        if(confirm("Reset to defaults?")) { localStorage.removeItem('komorebi_custom_config'); location.reload(); }
     }
 
     // --- VISUALS & LOGIC ---
