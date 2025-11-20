@@ -5,8 +5,9 @@
   <title>Komorebi OS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   
-  <!-- SUPABASE SDK -->
+  <!-- SUPABASE SDK & MARKDOWN PARSER -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <!-- ICONS -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
@@ -90,7 +91,7 @@
     button.add-btn { width: 100%; margin-top: 0.5rem; background: rgba(255,255,255,0.05); color: var(--komorebi-mint); border: 1px dashed var(--border-subtle); padding: 0.6rem; font-size: 0.8rem; }
     button.tiny-btn { padding: 0.2rem 0.4rem; font-size: 0.7rem; margin-left: 2px; background: rgba(255,255,255,0.1); color: #fff;}
 
-    /* SECTIONS & CARDS */
+    /* CARDS */
     .section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255, 255, 255, 0.4); margin: 0 0 0.4rem 0.2rem; font-weight: 600; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1.2rem; }
     .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; margin-bottom: 1.2rem; }
@@ -162,6 +163,15 @@
     @keyframes floatUp { 0% { opacity: 1; transform: translateY(0) } 100% { opacity: 0; transform: translateY(-50px) } }
 
     textarea { width: 100%; height: 120px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-subtle); border-radius: 8px; color: #fff; padding: 0.8rem; font-family: inherit; line-height: 1.5; font-size: 0.9rem; }
+    
+    /* AI ANSWER */
+    .ai-answer { font-size: 0.95rem; line-height: 1.6; color: #eee; }
+    .ai-answer h1, .ai-answer h2, .ai-answer h3 { color: var(--komorebi-mint); margin-top: 1rem; font-size: 1.1rem; }
+    .ai-answer strong { color: #fff; font-weight: 700; }
+    .ai-answer ul { margin-left: 1.5rem; margin-bottom: 1rem; }
+    .ai-source { font-size: 0.75rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.8rem; margin-top: 1.5rem; }
+    .ai-loading { color: var(--accent-gold); font-style: italic; animation: pulse 1.5s infinite; text-align: center; padding: 2rem; }
+    @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
   </style>
 </head>
 <body>
@@ -249,7 +259,7 @@
   <div class="modal-overlay" id="answer-modal">
     <div class="modal-content">
       <div class="modal-header">Jaguar Insight <span style="cursor:pointer" onclick="closeModal('answer-modal')">✕</span></div>
-      <div id="answer-content" style="line-height: 1.6; color: #ddd;"></div>
+      <div id="answer-content" class="ai-answer"></div>
     </div>
   </div>
 
@@ -266,7 +276,7 @@
           <div class="editor-label">Data Backup</div>
           <textarea id="export-area"></textarea>
           <div class="modal-actions">
-            <button onclick="restoreData()">Restore from Text</button>
+            <button onclick="restoreData()">Restore</button>
           </div>
       </div>
     </div>
@@ -564,6 +574,7 @@
             quotes: [
                 "“Discipline equals freedom.” — Jocko Willink",
                 "“The impediment to action advances action.” — Marcus Aurelius",
+                "“You do not rise to the level of your goals. You fall to the level of your systems.” — James Clear",
                 "“The score takes care of itself.” — Bill Walsh",
                 "“He who has a why to live can bear almost any how.” — Nietzsche",
                 "“Be the person with embarrassing goals and impressive results.” — Stephen Guise",
@@ -630,8 +641,14 @@
         if (savedConfig && savedConfig.length > 100) {
             try {
                 const parsed = JSON.parse(savedConfig);
-                if(!parsed.protocols || parsed.protocols.length === 0) throw new Error("Corrupt");
-                APP_CONFIG = parsed;
+                // AUTO-REPAIR: If specific cards are missing, reset to default
+                if(!parsed.protocols || !parsed.protocols.some(p => p.id === "health")) {
+                   console.log("Config corrupted. Auto-repairing...");
+                   APP_CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+                   localStorage.setItem('komorebi_custom_config', JSON.stringify(APP_CONFIG));
+                } else {
+                   APP_CONFIG = parsed;
+                }
             } catch(e) {
                 APP_CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
             }
@@ -648,11 +665,6 @@
         document.getElementById('date-input').addEventListener('change', loadDay);
         
         if (supabaseClient) checkUser();
-    }
-
-    // --- MANUAL RESET ---
-    function factoryReset() {
-        if(confirm("Reset to defaults?")) { localStorage.removeItem('komorebi_custom_config'); location.reload(); }
     }
     
     async function checkUser() {
@@ -742,10 +754,11 @@
             let vector = [];
             
             if (userOpenAIKey) {
-                document.getElementById('answer-content').innerHTML = "Searching Brain... (This might take a few seconds)";
+                document.getElementById('answer-content').innerHTML = `<div class="ai-loading">Consulting the Jaguar...</div>`;
                 openModal('answer-modal');
                 
                 try {
+                    // Get Embedding
                     const resp = await fetch('https://api.openai.com/v1/embeddings', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${userOpenAIKey}` },
@@ -760,19 +773,41 @@
 
                     const embedding = json.data[0].embedding;
                     
+                    // Search Database
                     const { data, error } = await supabaseClient.rpc('match_documents', {
                         query_embedding: embedding,
                         match_threshold: 0.5,
-                        match_count: 4
+                        match_count: 5
                     });
                     
-                    if(error) {
-                        console.log(error);
-                        document.getElementById('answer-content').innerHTML = "Database Error: " + error.message;
+                    if(error) throw error;
+                    if(data) vector = data;
+
+                    // --- RAG: GENERATE ANSWER ---
+                    if(vector.length > 0) {
+                        const context = vector.map(d => d.content).join("\n\n");
+                        const chatResp = await fetch('https://api.openai.com/v1/chat/completions', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${userOpenAIKey}` },
+                            body: JSON.stringify({
+                                model: "gpt-4o-mini",
+                                messages: [
+                                    {role: "system", content: "You are the Jaguar Warrior King, a wise and relentless mentor. Answer the user's question based STRICTLY on the provided context below. If the answer isn't in the context, say so, but offer general wisdom. Keep it concise, actionable, and inspiring."},
+                                    {role: "user", content: `Context:\n${context}\n\nQuestion: ${query}`}
+                                ]
+                            })
+                        });
+                        const chatJson = await chatResp.json();
+                        const answer = chatJson.choices[0].message.content;
+                        
+                        // Display Answer + Sources
+                        let html = `<div class="ai-answer">${marked.parse(answer)}</div>`;
+                        html += `<div class="ai-source"><strong>Sources:</strong><br>`;
+                        vector.forEach(v => html += `• ${v.metadata.title || 'Document'} (Page ${v.metadata.page || 1})<br>`);
+                        html += `</div>`;
+                        document.getElementById('answer-content').innerHTML = html;
                         return;
                     }
-                    
-                    if(data) vector = data;
 
                 } catch(err) { 
                     console.log(err); 
@@ -819,7 +854,7 @@
         openModal('answer-modal');
     }
 
-    // --- MAIN RENDERER ---
+    // --- RENDER APP ---
     function renderApp() {
         const seed = document.getElementById('date-input').value;
         
@@ -867,6 +902,7 @@
                     card.details.forEach(d => html += `<li>${d}</li>`);
                     html += `</ul></details>`;
                 }
+
                 html += `</div></div>`;
             });
             html += `</div></section>`;
@@ -1020,6 +1056,9 @@
         saveToCloud();
         closeModal('editor-modal'); renderApp(); updateVisuals(); alert("Configuration Saved!");
     }
+    function factoryReset() {
+        if(confirm("Reset to defaults?")) { localStorage.removeItem('komorebi_custom_config'); location.reload(); }
+    }
 
     // --- VISUALS & LOGIC ---
     function updateVisuals() {
@@ -1075,7 +1114,7 @@
     function readState() { const s = {}; document.querySelectorAll('input[type="checkbox"]').forEach(cb => s[cb.dataset.key] = cb.checked); return s; }
     function writeState(s) { document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = !!s[cb.dataset.key]); document.getElementById('daily-note-area').value = s.note || ""; }
     function getFormatKey() { return `komorebi_${document.getElementById('date-input').value}`; }
-    function saveDay() { const s = readState(); s.note = document.getElementById('daily-note-area').value; localStorage.setItem(getFormatKey(), JSON.stringify(s)); saveToCloud(); }
+    function saveDay() { const s = readState(); s.note = document.getElementById('daily-note-area').value; localStorage.setItem(getFormatKey(), JSON.stringify(s)); saveToCloud(); alert("Saved."); }
     function loadDay() { renderApp(); const raw = localStorage.getItem(getFormatKey()); if(raw) writeState(JSON.parse(raw)); updateVisuals(); }
     function resetDay() { writeState({}); updateVisuals(); }
     function showFloatingXP(e) { const div = document.createElement('div'); div.className = 'floating-xp'; div.innerText = `+${e.target.dataset.xp} XP`; div.style.left = e.clientX + 'px'; div.style.top = e.clientY + 'px'; document.body.appendChild(div); setTimeout(() => div.remove(), 1000); }
