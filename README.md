@@ -11,13 +11,13 @@ Komorebi OS is a gamified personal dashboard designed to align daily actions wit
 ## 🎯 Key Features
 
 ### 1. Daily Protocol & Gamification
-- **XP System:** Earn XP for completing habits across Health, Mind, and Mastery.
+- **XP System:** Earn XP for completing habits across Health, Mindset, Wisdom and Mastery.
 - **Day Ratings:** Real-time feedback (Red Zone ➝ Survival ➝ Strong ➝ Elite).
 - **Streaks:** Visual tracking of consistency.
 
-### 2. "Ask the Jaguar" (AI Brain)
+### 2. "Ask the Jaguar Warrior King" (AI Brain)
 - **Vector Search:** A search bar connected to a Supabase Vector Store.
-- **Knowledge Retrieval:** Instantly pulls insights from your uploaded PDFs (Investor letters, Huberman protocols, Mental Models).
+- **Knowledge Retrieval:** Instantly pulls insights from your uploaded PDFs (Superinvestor letters, health protocols, self-help and other productivity hacks, Mental Models and any other personalised notes).
 - **Local Library:** Simultaneously searches your manual entries (Quotes, Principles).
 
 ### 3. Investor of the Week
@@ -27,7 +27,7 @@ Komorebi OS is a gamified personal dashboard designed to align daily actions wit
 ### 4. Built-in CMS (No Coding Required)
 - **Visual Editor (✏️):** Add, edit, delete, or reorder Checkboxes, Workouts, and Library items directly in the browser.
 - **Workouts:** Customize your daily fitness rotation.
-- **Library:** Manage your collection of Mental Models and Quotes.
+- **Library:** Manage your collection of Mental Models, Productivity Hacks, Superinvestors and Quotes.
 
 ### 5. Cloud Sync & Privacy
 - **Supabase Backend:** Data is synced across devices (Desktop ↔ iPhone).
