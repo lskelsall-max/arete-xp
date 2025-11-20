@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <title>Komorebi OS</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   
-  <!-- APP ICON CONFIGURATION -->
+  <!-- APP ICON -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%230e2016%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22central%22 text-anchor=%22middle%22 font-size=%2270%22>🌿</text></svg>">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -29,111 +29,177 @@
       --success: #4ade80;
     }
 
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    /* RESET & BASE */
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+    
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      margin: 0;
-      /* UPDATED PADDING: Top is now much smaller (0.25rem) */
-      padding: 0.25rem 0.5rem 40px 0.5rem;
       background: linear-gradient(to bottom, var(--komorebi-mint) 0, var(--bg-forest) 140px, var(--bg-deep) 100%);
       color: var(--text-main); 
-      min-height: 100vh; 
-      position: relative;
+      min-height: 100vh;
+      /* NO PADDING HERE TO FIX TOP GAP */
     }
-    .container { max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
+
+    /* Main Wrapper handles the spacing/notch */
+    .container { 
+        max-width: 1200px; 
+        margin: 0 auto; 
+        padding-top: env(safe-area-inset-top); /* Only respect notch */
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        padding-bottom: 40px;
+    }
 
     /* HEADER */
     .app-header { 
-      margin-bottom: 0.2rem; 
-      padding-bottom: 0.2rem; 
-      padding-top: 0; /* Forces it to the very top */
-      border-bottom: 1px solid rgba(0, 0, 0, 0.2); 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: flex-start; /* Align to top */
+      padding-top: 0.5rem;     /* Minimal top padding */
+      padding-bottom: 0.5rem; 
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+      margin-bottom: 0.5rem;
+    }
+
+    .app-title-block { display: flex; flex-direction: column; }
+    
+    .app-title { 
+      font-size: 1.5rem; 
+      font-weight: 800; 
+      text-transform: uppercase; 
+      text-shadow: 0 2px 10px rgba(102, 197, 165, 0.3); 
+      line-height: 1;
+      margin-bottom: 2px;
     }
     
+    .app-subtitle { 
+      font-size: 0.7rem; 
+      color: var(--text-main); 
+      opacity: 0.8; 
+    }
+
+    .header-controls { 
+      display: flex; 
+      flex-direction: column; /* Stack date and XP on mobile */
+      align-items: flex-end; 
+      gap: 0.3rem; 
+    }
+
+    #date-input { 
+      background: rgba(0, 0, 0, 0.3); 
+      border: 1px solid rgba(255, 255, 255, 0.1); 
+      border-radius: 6px; 
+      padding: 0.2rem 0.4rem; 
+      color: var(--text-main); 
+      font-family: inherit; 
+      font-size: 0.8rem;
+      color-scheme: dark;
+      text-align: right;
+    }
+
+    .xp-pill { 
+      font-size: 0.8rem; 
+      color: var(--accent-gold-strong); 
+      font-weight: 700; 
+    }
+
     /* SUMMARY BAR */
     .summary-bar {
-      background: rgba(6, 19, 13, 0.9); border-radius: 12px; padding: 0.4rem 0.7rem;
-      border: 1px solid rgba(0, 0, 0, 0.35); display: grid; grid-template-columns: minmax(0, 1fr) auto;
-      align-items: center; gap: 0.4rem; margin-bottom: 0.6rem; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px);
+      background: rgba(6, 19, 13, 0.9); 
+      border-radius: 10px; 
+      padding: 0.4rem 0.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.1); 
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem; 
+      backdrop-filter: blur(10px);
     }
-    @media (max-width: 900px) { .summary-bar { grid-template-columns: minmax(0, 1fr); } .summary-actions { justify-content: flex-start; } }
-    #total-xp { font-weight: 500; margin-right: 10px; }
-    .badge { display: inline-block; padding: 0.1rem 0.6rem; border-radius: 999px; font-size: 0.78rem; margin-left: 0.2rem; }
-    .elite { background: rgba(22, 163, 74, 0.22); color: #6ee7b7; border: 1px solid #16a34a; }
-    .strong { background: rgba(37, 99, 235, 0.18); color: #93c5fd; border: 1px solid #2563eb; }
-    .survival { background: rgba(234, 179, 8, 0.18); color: #fde68a; border: 1px solid #eab308; }
-    .red { background: rgba(248, 113, 113, 0.2); color: #fecaca; border: 1px solid #ef4444; }
-    .summary-actions { display: flex; gap: 0.4rem; }
+
+    .summary-left { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; }
+    #total-xp { font-weight: 600; }
     
-    button { background: var(--accent-gold); color: #1f2933; border: none; border-radius: 999px; padding: 0.35rem 0.9rem; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
-    button:hover { filter: brightness(1.1); transform: translateY(-1px); }
-    button.secondary { background: transparent; border: 1px solid rgba(148, 163, 184, 0.6); color: var(--text-main); }
-    button.icon-btn { padding: 0.35rem 0.5rem; min-width: 32px; }
-    button.danger { background: rgba(249, 115, 115, 0.2); color: var(--danger); border: 1px solid var(--danger); }
-    button.add-btn { width: 100%; margin-top: 0.5rem; background: rgba(255,255,255,0.1); color: var(--komorebi-mint); border: 1px dashed var(--border-subtle); }
+    .badge { display: inline-block; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; }
+    .elite { background: rgba(74, 222, 128, 0.2); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.4); }
+    .strong { background: rgba(96, 165, 250, 0.2); color: #60a5fa; border: 1px solid rgba(96, 165, 250, 0.4); }
+    .survival { background: rgba(250, 204, 21, 0.2); color: #facc15; border: 1px solid rgba(250, 204, 21, 0.4); }
+    .red { background: rgba(248, 113, 113, 0.2); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.4); }
+    
+    .summary-actions { display: flex; gap: 0.3rem; }
+    
+    button { background: var(--accent-gold); color: #0e2016; border: none; border-radius: 6px; padding: 0.3rem 0.7rem; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
+    button.secondary { background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); color: var(--text-muted); }
+    button.icon-btn { padding: 0.3rem 0.5rem; min-width: 30px; }
+    button.danger { background: rgba(249, 115, 115, 0.15); color: var(--danger); border: 1px solid var(--danger); }
+    button.add-btn { width: 100%; margin-top: 0.5rem; background: rgba(255,255,255,0.05); color: var(--komorebi-mint); border: 1px dashed var(--border-subtle); }
+    button.tiny-btn { padding: 0.2rem 0.4rem; font-size: 0.7rem; margin-left: 2px;}
 
     /* SECTIONS & CARDS */
-    .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.16em; color: rgba(245, 247, 244, 0.8); margin: 0.5rem 0 0.2rem; }
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.45rem; }
-    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.45rem; }
+    .section-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255, 255, 255, 0.5); margin: 0 0 0.3rem 0.2rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1rem; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-bottom: 1rem; }
     @media (max-width: 768px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
     
-    .card { background: var(--card); border-radius: 12px; padding: 0.6rem 0.7rem; border: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 0.3rem; position: relative; overflow: hidden; }
-    .card-header { display: flex; justify-content: space-between; align-items: center; z-index: 1; }
-    .card-title { font-size: 0.95rem; font-weight: 600; }
-    .xp-display { font-size: 0.75rem; color: var(--accent-gold-strong); font-weight: 600; }
+    .card { background: var(--card); border-radius: 10px; padding: 0.7rem; border: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 0.4rem; position: relative; overflow: hidden; }
+    .card-header { display: flex; justify-content: space-between; align-items: flex-start; z-index: 1; }
+    .card-title { font-size: 0.9rem; font-weight: 700; color: #fff; }
+    .xp-display { font-size: 0.7rem; color: var(--accent-gold); font-weight: 600; background: rgba(245, 193, 92, 0.1); padding: 2px 6px; border-radius: 4px; }
     .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(0,0,0,0.3); }
     .progress-fill { height: 100%; background: var(--komorebi-mint); width: 0%; transition: width 0.4s ease; }
     .progress-fill.maxed { background: var(--accent-gold); }
     
-    .items { display: grid; gap: 0.2rem; z-index: 1; }
-    label { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; font-size: 0.85rem; transition: color 0.2s; }
-    label:hover { color: var(--komorebi-mint-soft); }
-    input[type="checkbox"] { accent-color: var(--accent-gold); transform: scale(1.1); cursor: pointer; }
+    .items { display: grid; gap: 0.3rem; z-index: 1; }
+    label { display: flex; align-items: flex-start; gap: 0.5rem; cursor: pointer; font-size: 0.85rem; line-height: 1.3; color: var(--text-muted); transition: color 0.2s; }
+    label:hover { color: var(--text-main); }
+    input[type="checkbox"] { accent-color: var(--accent-gold); transform: scale(1.1); margin-top: 2px; cursor: pointer; }
 
     /* DETAILS DROPDOWN */
-    details.details-list { margin-top: 0.2rem; font-size: 0.8rem; color: var(--text-muted); margin-left: 1.5rem; }
-    details.details-list summary { cursor: pointer; list-style: none; outline: none; }
+    details.details-list { margin-top: 0.2rem; font-size: 0.75rem; color: var(--text-muted); margin-left: 1.5rem; }
+    details.details-list summary { cursor: pointer; list-style: none; outline: none; opacity: 0.7; }
     details.details-list summary::-webkit-details-marker { display: none; }
     details.details-list summary::before { content: "▸"; display: inline-block; margin-right: 0.3rem; font-size: 0.7rem; }
     details.details-list[open] summary::before { content: "▾"; }
-    .sub-list { margin: 0.2rem 0 0; padding-left: 0.5rem; border-left: 1px solid var(--border-subtle); }
-    .sub-list li { list-style: none; margin-bottom: 0.1rem; }
+    .sub-list { margin: 0.3rem 0 0; padding-left: 0.5rem; border-left: 1px solid var(--border-subtle); }
+    .sub-list li { list-style: none; margin-bottom: 0.2rem; }
 
-    .prompt-body { font-size: 0.9rem; color: var(--text-muted); line-height: 1.4; font-style: italic; }
-    .investor-meta { font-size: 0.75rem; background: rgba(255,255,255,0.1); padding: 0.1rem 0.4rem; border-radius: 4px; color: var(--accent-gold-strong); margin-top: 0.2rem; display: inline-block; }
+    .prompt-body { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+    .prompt-body b { color: var(--text-main); }
+    .investor-meta { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 0.1rem 0.4rem; border-radius: 4px; color: var(--accent-gold); margin-top: 0.3rem; display: inline-block; }
 
     /* MODALS */
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 50; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
     .modal-content { background: var(--card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--accent-gold); max-width: 800px; width: 95%; max-height: 90vh; overflow-y: auto; }
-    .modal-header { display: flex; justify-content: space-between; margin-bottom: 1rem; color: var(--accent-gold); font-size: 1.2rem; font-weight: bold; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; color: var(--accent-gold); font-size: 1.1rem; font-weight: 700; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.5rem; }
     
     /* EDITOR STYLES */
-    .editor-section { margin-bottom: 2rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 1rem; }
+    .editor-section { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
     .editor-row { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; align-items: center; flex-wrap: wrap;}
-    .editor-input { background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); color: var(--text-main); padding: 0.4rem; border-radius: 4px; flex: 1; min-width: 120px; font-family: inherit; font-size: 0.9rem;}
-    .editor-input-sm { width: 60px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); color: var(--text-main); padding: 0.4rem; border-radius: 4px; }
-    .editor-label { font-size: 0.8rem; color: var(--komorebi-mint); margin-bottom: 0.3rem; display: block; text-transform: uppercase; letter-spacing: 1px; }
-    .item-edit-container { margin-bottom: 0.5rem; border-left: 2px solid var(--border-subtle); padding-left: 0.5rem; }
+    .editor-input { background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); color: var(--text-main); padding: 0.5rem; border-radius: 6px; flex: 1; min-width: 120px; font-family: inherit; font-size: 0.85rem;}
+    .editor-label { font-size: 0.75rem; color: var(--komorebi-mint); margin-bottom: 0.5rem; display: block; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+    .item-edit-container { margin-bottom: 0.5rem; padding: 0.5rem; background: rgba(255,255,255,0.02); border-radius: 6px; display: flex; gap: 0.5rem; align-items: center; }
+    .item-edit-inputs { flex: 1; display: flex; flex-direction: column; gap: 0.3rem; }
+    .item-edit-actions { display: flex; flex-direction: column; gap: 0.3rem; }
 
     /* Library Styles */
-    .lib-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; overflow-x: auto; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.5rem; }
-    .lib-tab { cursor: pointer; padding: 0.3rem 0.6rem; font-size: 0.85rem; color: var(--text-muted); border-radius: 4px; white-space: nowrap; }
-    .lib-tab.active { background: var(--komorebi-mint); color: #000; font-weight: 600; }
-    .lib-item { background: rgba(255,255,255,0.03); padding: 0.6rem; border-radius: 6px; margin-bottom: 0.5rem; }
-    .lib-title { color: var(--komorebi-mint); font-weight: bold; font-size: 0.9rem; }
-    .lib-desc { color: var(--text-muted); font-size: 0.85rem; }
+    .lib-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: none; }
+    .lib-tabs::-webkit-scrollbar { display: none; }
+    .lib-tab { cursor: pointer; padding: 0.4rem 0.8rem; font-size: 0.85rem; color: var(--text-muted); border-radius: 6px; white-space: nowrap; background: rgba(255,255,255,0.05); transition: all 0.2s; }
+    .lib-tab.active { background: var(--komorebi-mint); color: #050f0a; font-weight: 700; }
+    .lib-item { background: rgba(255,255,255,0.03); padding: 0.8rem; border-radius: 8px; margin-bottom: 0.5rem; border: 1px solid transparent; transition: border-color 0.2s; }
+    .lib-title { color: var(--komorebi-mint); font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem;}
+    .lib-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.4; }
 
     /* Stats Chart */
     .chart-container { display: flex; align-items: flex-end; justify-content: space-between; height: 200px; margin-top: 1rem; padding-bottom: 5px; border-bottom: 1px solid var(--text-muted); gap: 4px; }
     .bar-group { display: flex; flex-direction: column; align-items: center; flex: 1; }
     .bar { width: 80%; background: var(--komorebi-mint); border-radius: 4px 4px 0 0; transition: height 0.5s ease; min-height: 2px; position: relative; }
+    .bar.elite { background: #4ade80; box-shadow: 0 0 10px rgba(74, 222, 128, 0.3); }
     
     /* Animation */
     .floating-xp { position: fixed; color: var(--accent-gold); font-weight: bold; font-size: 1rem; pointer-events: none; animation: floatUp 1s ease-out forwards; z-index: 9999; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
     @keyframes floatUp { 0% { opacity: 1; transform: translateY(0) } 100% { opacity: 0; transform: translateY(-40px) } }
 
-    textarea { width: 100%; height: 80px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-subtle); border-radius: 8px; color: #fff; padding: 0.5rem; }
+    textarea { width: 100%; height: 100px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-subtle); border-radius: 8px; color: #fff; padding: 0.8rem; font-family: inherit; line-height: 1.5; }
   </style>
 </head>
 <body>
@@ -142,31 +208,28 @@
   <div class="container">
     <!-- HEADER -->
     <header class="app-header">
-      <div class="app-header-top">
-        <div class="app-title-block">
-          <div class="app-title">Komorebi OS</div>
-          <div class="app-subtitle">Master Protocol</div>
-        </div>
-        <div class="header-controls">
-          <input type="date" id="date-input" />
-          <div class="xp-pill"><span id="xp-pill-value">0</span> XP</div>
-        </div>
+      <div class="app-title-block">
+        <div class="app-title">Komorebi OS</div>
+        <div class="app-subtitle">Master Protocol</div>
+      </div>
+      <div class="header-controls">
+        <div class="xp-pill"><span id="xp-pill-value">0</span> XP</div>
+        <input type="date" id="date-input" />
       </div>
     </header>
 
     <!-- SUMMARY -->
     <section class="summary-bar">
-      <div class="summary-main-top">
-        <span id="total-xp">Total: 0</span>
+      <div class="summary-left">
+        <span id="total-xp">0</span>
         <span id="day-rating" class="badge red">Red Zone</span>
       </div>
       <div class="summary-actions">
         <button id="save-day" onclick="saveDay()">Save</button>
-        <button id="editor-btn" class="secondary icon-btn" title="Customize App" onclick="openEditor()">✏️</button>
-        <button id="library-btn" class="secondary icon-btn" title="Library" onclick="openLibrary()">📖</button>
-        <button id="stats-btn" class="secondary icon-btn" title="Stats" onclick="renderStats()">📊</button>
-        <button id="settings-btn" class="secondary icon-btn" title="Data" onclick="openSettings()">⚙️</button>
-        <button id="reset-day" class="secondary icon-btn" title="Clear" onclick="resetDay()">↺</button>
+        <button class="secondary icon-btn" title="Library" onclick="openLibrary()">📖</button>
+        <button class="secondary icon-btn" title="Stats" onclick="renderStats()">📊</button>
+        <button class="secondary icon-btn" title="Customize" onclick="openEditor()">✏️</button>
+        <button class="secondary icon-btn" title="Data" onclick="openSettings()">⚙️</button>
       </div>
     </section>
 
@@ -217,11 +280,11 @@
   <!-- SETTINGS/DATA MODAL -->
   <div class="modal-overlay" id="settings-modal">
     <div class="modal-content">
-      <div class="modal-header">Data Management <span style="cursor:pointer" onclick="closeModal('settings-modal')">✕</span></div>
-      <p style="font-size:0.8rem; color:var(--text-muted)">Copy this text to backup your progress and settings.</p>
+      <div class="modal-header">Data Backup <span style="cursor:pointer" onclick="closeModal('settings-modal')">✕</span></div>
+      <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom: 0.5rem;">Copy this text to save your progress.</p>
       <textarea id="export-area"></textarea>
       <div class="modal-actions">
-        <button onclick="restoreData()">Restore from Text</button>
+        <button onclick="restoreData()">Restore</button>
       </div>
     </div>
   </div>
@@ -564,7 +627,7 @@
                         items: [ 
                             { id: "supplementStack", label: "Stack complete" } 
                         ],
-                        details: ["Electrolytes", "Alpha GPC", "Omega 3", "Bone Revolution", "Tongkat Ali"]
+                        details: ["Electrolytes", "Alpha GPC", "Omega 3", "Flexi-Calcium", "Joint Complex"]
                     },
                     {
                         id: "smoothie",
@@ -575,7 +638,7 @@
                         items: [ 
                             { id: "smoothie", label: "Smoothie complete" } 
                         ],
-                        details: ["Clean Protein 35g", "Creatine 5g", "Collagen 10g", "Greens powder", "Kale/Avo/Berries", "Turmeric/Ginger"]
+                        details: ["Clean Protein 35g", "Creatine 5g", "Greens powder", "Berries", "Turmeric/Ginger"]
                     },
                     {
                         id: "fitness",
@@ -695,7 +758,6 @@
 
     // --- INITIALIZATION ---
     function init() {
-        // Load Config: Try LocalStorage first, then fall back to Default
         const savedConfig = localStorage.getItem('komorebi_custom_config');
         if (savedConfig) {
             APP_CONFIG = JSON.parse(savedConfig);
@@ -711,13 +773,11 @@
         document.getElementById('date-input').addEventListener('change', loadDay);
     }
 
-    // --- LOGIC ENGINE ---
     // --- MAIN RENDERER ---
     function renderApp() {
         let html = '';
         const seed = document.getElementById('date-input').value;
         
-        // 1. Daily Alignment (Prompts)
         const model = getRandom(APP_CONFIG.library.mentalModels, seed + 'm');
         const prod = getRandom(APP_CONFIG.library.productivity, seed + 'p');
         const quote = getRandom(APP_CONFIG.library.quotes, seed + 'q');
@@ -731,7 +791,7 @@
             <div class="card"><div class="card-header"><div class="card-title">Productivity</div></div><div class="prompt-body"><b>${prod.name}</b><br>${prod.desc}</div></div>
             <div class="card"><div class="card-header"><div class="card-title">Wisdom</div></div><div class="prompt-body">${quote.name ? quote.desc : quote}</div></div>
             <div class="card" style="border-color:var(--komorebi-mint-soft)">
-                <div class="card-header"><div class="card-title">Investor of the Week</div><div class="xp">Weekly</div></div>
+                <div class="card-header"><div class="card-title">Investor of the Week</div><div class="xp-display">Weekly</div></div>
                 <div class="prompt-body">
                     <div style="color:var(--komorebi-mint); font-weight:700">${inv.name}</div>
                     <div style="font-style:italic">${inv.resource}</div>
@@ -741,7 +801,6 @@
           </div>
         </section>`;
 
-        // 2. Protocols
         APP_CONFIG.protocols.forEach(section => {
             html += `<section class="section-block"><h2 class="section-title">${section.title}</h2><div class="grid-${section.columns}">`;
             section.cards.forEach(card => {
@@ -758,7 +817,6 @@
                     html += `<label><input type="checkbox" data-key="${item.id}" data-card="${card.id}" data-xp="${xpVal}"> ${item.label}</label>`;
                 });
                 
-                // RENDER DETAILS DROPDOWN IF EXISTS
                 if (card.details && card.details.length > 0) {
                     html += `<details class="details-list"><summary>View Details</summary><ul class="sub-list">`;
                     card.details.forEach(d => html += `<li>${d}</li>`);
@@ -770,7 +828,7 @@
             html += `</div></section>`;
         });
 
-        // 3. Workout of the Day (Full Width)
+        // Workout of the Day
         const dateObj = new Date(seed);
         const dayIdx = dateObj.getDay();
         const w = APP_CONFIG.workouts[dayIdx] || { t: "Rest", d: "Recover" };
@@ -785,12 +843,11 @@
             </div>
         </section>`;
 
-        // 4. Daily Note
+        // Daily Note
         html += `<section class="section-block"><div class="card"><div class="card-header"><div class="card-title">Daily Journal</div></div><textarea id="daily-note-area" placeholder="Wins, lessons, or thoughts..."></textarea></div></section>`;
 
         document.getElementById('app-content').innerHTML = html;
 
-        // Re-attach listeners
         document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
             cb.addEventListener('change', (e) => {
                 updateVisuals();
@@ -844,11 +901,17 @@
             
             html += `<div class="editor-label">Existing Items (${APP_CONFIG.library[key].length})</div>`;
             APP_CONFIG.library[key].forEach((item, idx) => {
-                const val1 = item.name || item; // Handle string quotes
+                const val1 = item.name || item; 
                 const val2 = item.desc || item.resource || "";
-                html += `<div class="editor-row item-edit-container">
-                    <input class="editor-input" value="${val1}" onchange="updateLibItem('${key}', ${idx}, 'name', this.value)">
-                    ${val2 ? `<input class="editor-input" value="${val2}" onchange="updateLibItem('${key}', ${idx}, 'desc', this.value)">` : ''}
+                html += `<div class="item-edit-container">
+                    <div class="item-edit-actions">
+                        <button class="icon-btn" onclick="moveLibItem('${key}', ${idx}, -1)">↑</button>
+                        <button class="icon-btn" onclick="moveLibItem('${key}', ${idx}, 1)">↓</button>
+                    </div>
+                    <div class="item-edit-inputs">
+                        <input class="editor-input" value="${val1}" onchange="updateLibItem('${key}', ${idx}, 'name', this.value)">
+                        ${val2 || key !== 'quotes' ? `<input class="editor-input" value="${val2}" onchange="updateLibItem('${key}', ${idx}, 'desc', this.value)">` : ''}
+                    </div>
                     <button class="danger icon-btn" onclick="deleteLibItem('${key}', ${idx})">×</button>
                 </div>`;
             });
@@ -867,6 +930,15 @@
         } else {
             if(field === 'desc' && APP_CONFIG.library[key][idx].resource) field = 'resource';
             APP_CONFIG.library[key][idx][field] = value;
+        }
+    }
+    function moveLibItem(key, idx, dir) {
+        const arr = APP_CONFIG.library[key];
+        if ((dir === -1 && idx > 0) || (dir === 1 && idx < arr.length - 1)) {
+            const temp = arr[idx];
+            arr[idx] = arr[idx + dir];
+            arr[idx + dir] = temp;
+            renderEditorContent();
         }
     }
     function addProtocolItem(sIdx, cIdx) {
@@ -926,7 +998,7 @@
                 }
             });
         });
-        document.getElementById('total-xp').innerText = `Total: ${Math.round(totalXP)} / ${APP_CONFIG.maxXP}`;
+        document.getElementById('total-xp').innerText = `${Math.round(totalXP)}`;
         document.querySelector('.xp-pill span').innerText = Math.round(totalXP);
         let label = "Red Zone", cls = "red";
         if (totalXP >= APP_CONFIG.levels.elite) { label = "Elite"; cls = "elite"; }
@@ -958,7 +1030,6 @@
     function loadDay() { renderApp(); const raw = localStorage.getItem(getFormatKey()); if(raw) writeState(JSON.parse(raw)); updateVisuals(); }
     function resetDay() { writeState({}); updateVisuals(); }
     function showFloatingXP(e) { const div = document.createElement('div'); div.className = 'floating-xp'; div.innerText = `+${e.target.dataset.xp} XP`; div.style.left = e.clientX + 'px'; div.style.top = e.clientY + 'px'; document.body.appendChild(div); setTimeout(() => div.remove(), 1000); }
-    function fireConfetti() { /* Animation code */ }
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     function getRandom(arr, seed) { let hash = 0; for(let i=0; i<seed.length; i++) hash = ((hash << 5) - hash) + seed.charCodeAt(i); return arr[Math.abs(hash) % arr.length]; }
