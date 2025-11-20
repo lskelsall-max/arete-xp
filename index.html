@@ -32,8 +32,8 @@
       --success: #4ade80;
     }
 
-    /* CSS RESET */
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+    
     html, body { width: 100%; height: 100%; overflow-x: hidden; }
 
     body {
@@ -45,6 +45,22 @@
     }
 
     #confetti-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+
+    /* EMERGENCY RESET BUTTON */
+    #emergency-reset {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 99999;
+        background: red;
+        color: white;
+        border: 2px solid white;
+        padding: 10px;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
 
     /* CONTAINER */
     .container { 
@@ -70,7 +86,7 @@
     .jaguar-input { width: 100%; padding: 0.8rem 1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(14, 32, 22, 0.6); color: #fff; font-size: 0.95rem; backdrop-filter: blur(5px); transition: all 0.2s; }
     .jaguar-input:focus { outline: none; border-color: var(--accent-gold); background: rgba(14, 32, 22, 0.9); box-shadow: 0 0 15px rgba(245, 193, 92, 0.2); }
     .jaguar-input::placeholder { color: rgba(255,255,255,0.5); font-style: italic; }
-
+    
     /* SUMMARY BAR */
     .summary-bar { background: rgba(6, 19, 13, 0.8); border-radius: 12px; padding: 0.5rem 0.8rem; border: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; backdrop-filter: blur(12px); box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
     .summary-left { display: flex; align-items: center; gap: 0.8rem; font-size: 0.9rem; }
@@ -91,7 +107,7 @@
     button.add-btn { width: 100%; margin-top: 0.5rem; background: rgba(255,255,255,0.05); color: var(--komorebi-mint); border: 1px dashed var(--border-subtle); padding: 0.6rem; font-size: 0.8rem; }
     button.tiny-btn { padding: 0.2rem 0.4rem; font-size: 0.7rem; margin-left: 2px; background: rgba(255,255,255,0.1); color: #fff;}
 
-    /* SECTIONS & CARDS */
+    /* CARDS */
     .section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255, 255, 255, 0.4); margin: 0 0 0.4rem 0.2rem; font-weight: 600; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1.2rem; }
     .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; margin-bottom: 1.2rem; }
@@ -166,6 +182,9 @@
   </style>
 </head>
 <body>
+  <!-- EMERGENCY RESET BUTTON (Hidden by default if load works) -->
+  <button id="emergency-reset" onclick="manualHardReset()">⚠️ FACTORY RESET</button>
+
   <canvas id="confetti-canvas"></canvas>
 
   <div class="container">
@@ -565,8 +584,10 @@
             quotes: [
                 "“Discipline equals freedom.” — Jocko Willink",
                 "“The impediment to action advances action.” — Marcus Aurelius",
+                "“You do not rise to the level of your goals. You fall to the level of your systems.” — James Clear",
                 "“The score takes care of itself.” — Bill Walsh",
                 "“He who has a why to live can bear almost any how.” — Nietzsche",
+                "“Be the person with embarrassing goals and impressive results.” — Stephen Guise",
                 "“Action isn't just the effect of motivation; it's also the cause of it.” — Mark Manson",
                 "“Give me a lever long enough and a fulcrum on which to place it, and I shall move the world.” — Archimedes",
                 "“What you do is what matters, not what you think or say or plan.” — Jason Fried",
@@ -619,32 +640,45 @@
     let currentLibTab = 'mentalModels';
     let currentEditorTab = 'protocols';
     let currentUser = null;
-    let previousXP = 0;
     let userOpenAIKey = localStorage.getItem('komorebi_openai_key') || '';
 
     // --- INITIALIZATION ---
     async function init() {
-        // 1. Load Config
+        // 1. Load Config from LocalStorage or Default
         const savedConfig = localStorage.getItem('komorebi_custom_config');
-        if (savedConfig) {
-            APP_CONFIG = JSON.parse(savedConfig);
-            // SELF-HEALING: If config looks empty, force reset
-            if(!APP_CONFIG.protocols || APP_CONFIG.protocols.length === 0) APP_CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+        // Force reload default if structure seems broken
+        if (savedConfig && savedConfig.length > 100) {
+            try {
+                const parsed = JSON.parse(savedConfig);
+                if(!parsed.protocols || parsed.protocols.length === 0) throw new Error("Corrupt");
+                APP_CONFIG = parsed;
+            } catch(e) {
+                APP_CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+            }
         } else {
             APP_CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
         }
 
-        // 2. Setup
         document.getElementById('date-input').value = new Date().toISOString().slice(0, 10);
         document.getElementById('openai-key-input').value = userOpenAIKey;
+        
         renderApp();
         loadDay();
         
-        // 3. Listeners
         document.getElementById('date-input').addEventListener('change', loadDay);
+        
+        // HIDE EMERGENCY BUTTON IF SUCCESSFUL
+        document.getElementById('emergency-reset').style.display = 'none';
 
-        // 4. Check Auth
         if (supabaseClient) checkUser();
+    }
+
+    // --- MANUAL RESET ---
+    function manualHardReset() {
+        if(confirm("This will delete all local data and reset the app. Are you sure?")) {
+            localStorage.clear();
+            window.location.reload();
+        }
     }
     
     async function checkUser() {
@@ -652,8 +686,7 @@
         if (data.session) {
             currentUser = data.session.user;
             document.getElementById('cloud-btn').innerText = "☁️✔";
-            document.getElementById('cloud-btn').title = "Logged In";
-            await loadCloudData(); 
+            await loadCloudData();
             renderApp();
         }
     }
@@ -704,11 +737,14 @@
     async function loadCloudData() {
         if (!currentUser) return;
         const { data, error } = await supabaseClient.from('user_data').select('config, history').eq('user_id', currentUser.id).single();
+        
         if (data) {
+            // Restore Config
             if (data.config) {
                 APP_CONFIG = data.config;
                 localStorage.setItem('komorebi_custom_config', JSON.stringify(APP_CONFIG));
             }
+            // Restore History
             if (data.history) {
                 Object.keys(data.history).forEach(key => {
                     localStorage.setItem(key, JSON.stringify(data.history[key]));
@@ -738,7 +774,6 @@
                 openModal('answer-modal');
                 
                 try {
-                    // Get Embedding
                     const resp = await fetch('https://api.openai.com/v1/embeddings', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${userOpenAIKey}` },
@@ -753,7 +788,6 @@
 
                     const embedding = json.data[0].embedding;
                     
-                    // Search Database
                     const { data, error } = await supabaseClient.rpc('match_documents', {
                         query_embedding: embedding,
                         match_threshold: 0.5,
@@ -803,7 +837,7 @@
         if (vector.length > 0) {
             html += `<b>Brain Matches (PDFs):</b><br>`;
             vector.forEach(item => {
-                html += `• "${item.content.substring(0, 300)}..." <span style="color:#aaa; font-size:0.7rem">(${item.metadata?.title || 'Source'})</span><br><br>`;
+                html += `• "${item.content.substring(0, 400)}..." <span style="color:#aaa; font-size:0.7rem">(${item.metadata?.title || 'Source'})</span><br><br>`;
             });
         } else if (vector.length === 0 && local.length === 0) {
             html += "No matches found in Library or Brain.";
@@ -813,9 +847,10 @@
         openModal('answer-modal');
     }
 
-    // --- RENDER APP ---
+    // --- MAIN RENDERER ---
     function renderApp() {
         const seed = document.getElementById('date-input').value;
+        
         const model = getRandom(APP_CONFIG.library.mentalModels, seed + 'm');
         const prod = getRandom(APP_CONFIG.library.productivity, seed + 'p');
         const quote = getRandom(APP_CONFIG.library.quotes, seed + 'q');
@@ -867,7 +902,7 @@
 
         const dateObj = new Date(seed);
         const dayIdx = dateObj.getDay();
-        const w = APP_CONFIG.workouts[dayIdx] || { t: "Rest", d: "Recover" };
+        const w = APP_CONFIG.workouts && APP_CONFIG.workouts[dayIdx] ? APP_CONFIG.workouts[dayIdx] : { t: "Rest", d: "Recover" };
         html += `
         <section class="section-block">
             <div class="card">
