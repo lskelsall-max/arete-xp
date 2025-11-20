@@ -676,17 +676,21 @@
         }
     }
 
-    // --- CLOUD SYNC ---
+    // --- CLOUD SYNC (GOOGLE EDITION) ---
     async function cloudSync() {
         if (!supabaseClient) return alert("Supabase not initialized.");
         
         if (!currentUser) {
-            const email = prompt("Enter email to sync devices (Magic Link):");
-            if (!email) return;
-            const { error } = await supabaseClient.auth.signInWithOtp({ email });
-            if (error) alert("Error: " + error.message);
-            else alert("Check your email for the magic link!");
+            // Google Login Logic
+            const { data, error } = await supabaseClient.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: window.location.href // Returns to your app after login
+                }
+            });
+            if (error) alert("Login Error: " + error.message);
         } else {
+            // Already logged in? Then Sync.
             await saveToCloud();
         }
     }
