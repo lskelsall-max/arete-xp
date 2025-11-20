@@ -223,14 +223,20 @@
   </div>
 
   <script>
-    // --- SUPABASE CONFIG (Placeholders for now) ---
+    // --- SUPABASE CONFIGURATION ---
     const SUPABASE_URL = 'https://gzxnrhxswleubryhemyz.supabase.co'; 
-    const SUPABASE_KEY = 'sb_publishable_UZ5K2X_Mi51afcOHTIW_rg_6KH7fbo5';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6eG5yaHhzd2xldWJyeWhlbXl6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM2MTQ4ODQsImV4cCI6MjA3OTE5MDg4NH0.nMI1TZ1oRz_5aq_Oyp0xWxx_T8-SUWloYEaxNQagJxs';
+    
     let supabaseClient;
     
-    // Try to init Supabase if keys exist (prevents crash if they don't)
-    if (typeof supabase !== 'undefined' && SUPABASE_URL.startsWith('https')) {
-        try { supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch(e) { console.log("Supabase init skipped"); }
+    // Try to init Supabase
+    if (typeof supabase !== 'undefined') {
+        try { 
+            supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY); 
+            console.log("Supabase initialized successfully");
+        } catch(e) { 
+            console.log("Supabase init error: ", e); 
+        }
     }
 
     // --- CONFIGURATION DATA ---
