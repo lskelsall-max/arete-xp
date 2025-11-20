@@ -61,6 +61,7 @@
       padding-top: 0.8rem; padding-bottom: 1rem; margin-bottom: 0;
     }
     .app-title { font-size: 1.6rem; font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; line-height: 1; margin-bottom: 2px; color: #050f0a; text-shadow: none; }
+    .app-subtitle { font-size: 0.75rem; color: #1f352a; font-weight: 700; opacity: 0.9; }
     .header-controls { display: flex; flex-direction: column; align-items: flex-end; gap: 0.3rem; }
     #date-input { background: rgba(0, 0, 0, 0.1); border: 1px solid rgba(0,0,0,0.1); border-radius: 6px; padding: 0.2rem 0.5rem; color: #050f0a; font-weight: 600; font-family: inherit; font-size: 0.85rem; text-align: right; }
     .xp-pill { font-size: 0.9rem; color: #050f0a; font-weight: 800; }
@@ -127,7 +128,7 @@
     /* MODALS */
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 50; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
     .modal-content { background: var(--card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-subtle); box-shadow: 0 0 40px rgba(0,0,0,0.5); max-width: 800px; width: 95%; max-height: 90vh; overflow-y: auto; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; color: var(--accent-gold); font-size: 1.1rem; font-weight: 700; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.8rem; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; color: var(--accent-gold); font-size: 1.2rem; font-weight: 700; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.8rem; }
     
     /* EDITOR STYLES */
     .editor-section { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -190,7 +191,7 @@
       </div>
     </header>
 
-    <!-- JAGUAR SEARCH -->
+    <!-- JAGUAR SEARCH (Vector Brain) -->
     <div class="jaguar-search-container">
         <input type="text" id="jaguar-input" class="jaguar-input" placeholder="Ask the Jaguar Warrior King..." onkeypress="handleJaguarSearch(event)">
     </div>
@@ -510,6 +511,67 @@
                 { name: "When (Pink)", desc: "Match your chronotype to your tasks." },
                 { name: "Effortless (McKeown)", desc: "Make it easy to do what matters." }
             ],
+            investors: [
+                { name: "Stanley Druckenmiller", resource: "The Genius of Stan Druckenmiller (MOI Global)", years: "30 Years" },
+                { name: "Mark Leonard", resource: "Constellation Shareholder Letters / Q&A", years: "25 Years" },
+                { name: "Warren Buffett", resource: "Berkshire Shareholder Letters (1965-2023)", years: "55 Years" },
+                { name: "Charlie Munger", resource: "Poor Charlie's Almanack & Transcripts", years: "15+ Years" },
+                { name: "Seth Klarman", resource: "Margin of Safety & Baupost Letters", years: "25 Years" },
+                { name: "Rakesh Jhunjhunwala", resource: "The Big Bull of India (Insights & PDFs)", years: "35 Years" },
+                { name: "Peter Lynch", resource: "One Up on Wall Street", years: "15 Years" },
+                { name: "Nick Sleep", resource: "Nomad Investment Partnership Letters", years: "13 Years" },
+                { name: "Li Lu", resource: "Himalayan Capital / Modernization", years: "20+ Years" },
+                { name: "Howard Marks", resource: "The Most Important Thing / Memos", years: "25+ Years" },
+                { name: "Joel Greenblatt", resource: "The Little Book that Beats the Market / Class Notes", years: "20 Years" },
+                { name: "George Soros", resource: "The Alchemy of Finance", years: "35 Years" },
+                { name: "Benjamin Graham", resource: "The Intelligent Investor / Security Analysis", years: "25 Years" },
+                { name: "Philip Fisher", resource: "Common Stocks and Uncommon Profits", years: "70 Years" },
+                { name: "Terry Smith", resource: "Investing for Growth / Fundsmith Letters", years: "20+ Years" },
+                { name: "Bill Ackman", resource: "Pershing Square Letters & Activist Campaigns", years: "20 Years" },
+                { name: "Chuck Akre", resource: "Akre Capital Management Letters (The Three-Legged Stool)", years: "30 Years" },
+                { name: "John Templeton", resource: "Templeton Growth Fund", years: "40 Years" },
+                { name: "Walter Schloss", resource: "Factors Needed to Make Money in the Stock Market", years: "50 Years" },
+                { name: "Mohnish Pabrai", resource: "The Dhandho Investor", years: "20 Years" },
+                { name: "Michael Mauboussin", resource: "More Than You Know / Consilient Observer", years: "Strategy" },
+                { name: "Ray Dalio", resource: "Principles / Bridgewater Daily Observations", years: "40 Years" },
+                { name: "Jamie Dimon", resource: "JPMorgan Chase Shareholder Letters", years: "20 Years" },
+                { name: "Bruce Greenwald", resource: "Class Notes & Value Investing: From Graham to Buffett", years: "Academic" },
+                { name: "Jim Rogers", resource: "Investment Biker", years: "20 Years" },
+                { name: "Rick Guerin", resource: "Pacific Partners", years: "20 Years" },
+                { name: "David Tepper", resource: "Appaloosa Management", years: "20 Years" },
+                { name: "Kevin Daly", resource: "FiveT Capital", years: "15 Years" },
+                { name: "Eddie Lampert", resource: "ESL Investments", years: "20 Years" },
+                { name: "David Einhorn", resource: "Greenlight Capital / Fooling Some of the People All of the Time", years: "20 Years" },
+                { name: "Stan Perlmeter", resource: "Perlmeter Investments", years: "20 Years" },
+                { name: "Daniel Loeb", resource: "Third Point Letters", years: "20 Years" },
+                { name: "Tom Knapp", resource: "Tweedy, Browne", years: "20 Years" },
+                { name: "Shelby Davis", resource: "Davis Dynasty", years: "45 Years" },
+                { name: "Bruce Berkowitz", resource: "Fairholme Fund", years: "15 Years" },
+                { name: "Julian Robertson", resource: "Tiger Management", years: "20 Years" },
+                { name: "Lou Simpson", resource: "GEICO Investments", years: "25 Years" },
+                { name: "Prem Watsa", resource: "Fairfax Financial Letters", years: "25 Years" },
+                { name: "Robert Rodriguez", resource: "FPA Capital", years: "30 Years" },
+                { name: "John Neff", resource: "Vanguard Windsor Fund", years: "35 Years" },
+                { name: "Glenn Greenberg", resource: "Chieftain Capital", years: "25 Years" },
+                { name: "Bill Ruane", resource: "Sequoia Fund", years: "15 Years" },
+                { name: "Philip Carret", resource: "Pioneer Fund", years: "55 Years" },
+                { name: "Adam Smith", resource: "The Wealth of Nations", years: "Classic" },
+                { name: "John Brooks", resource: "Business Adventures", years: "Classic" },
+                { name: "Robert Pirsig", resource: "Zen and the Art of Motorcycle Maintenance", years: "Philosophy" },
+                { name: "Josh Waitzkin", resource: "The Art of Learning", years: "Performance" },
+                { name: "Hamilton Helmer", resource: "7 Powers", years: "Strategy" },
+                { name: "William Thorndike", resource: "The Outsiders", years: "Capital Allocation" },
+                { name: "Lawrence Cunningham", resource: "Quality Investing / Margin of Trust", years: "Analysis" },
+                { name: "Jeremy Miller", resource: "Warren Buffett's Ground Rules", years: "History" },
+                { name: "Lee Freeman-Shor", resource: "The Art of Execution", years: "Process" },
+                { name: "Brad Feld", resource: "Venture Deals", years: "VC" },
+                { name: "Tren Griffin", resource: "Charlie Munger: The Complete Investor", years: "Wisdom" },
+                { name: "William Green", resource: "Richer, Wiser, Happier", years: "Wisdom" },
+                { name: "Glen Arnold", resource: "The Deals of Warren Buffett", years: "History" },
+                { name: "Mary Buffett", resource: "Buffettology", years: "Analysis" },
+                { name: "Alice Schroeder", resource: "The Snowball", years: "Biography" },
+                { name: "Peter Kaufman", resource: "Poor Charlie's Almanack", years: "Multidisciplinary" }
+            ],
             quotes: [
                 "“Discipline equals freedom.” — Jocko Willink",
                 "“The impediment to action advances action.” — Marcus Aurelius",
@@ -580,9 +642,10 @@
         if (savedConfig && savedConfig.length > 100) {
             try {
                 const parsed = JSON.parse(savedConfig);
-                // AUTO-REPAIR: If protocols are missing, force reset
-                if(!parsed.protocols || parsed.protocols.length === 0) {
-                   console.log("Config corrupted. Auto-repairing...");
+                // AUTO-REPAIR: If specific cards are missing, reset to default
+                // AGGRESSIVE CHECK: If "Health" is missing OR protocol list is empty
+                if(!parsed.protocols || parsed.protocols.length === 0 || !parsed.protocols.some(p => p.id === "health")) {
+                   console.log("Config corrupted/empty. Auto-repairing...");
                    APP_CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
                    localStorage.setItem('komorebi_custom_config', JSON.stringify(APP_CONFIG));
                 } else {
@@ -605,6 +668,8 @@
         
         if (supabaseClient) checkUser();
     }
+
+    // --- REMAINDER OF LOGIC (Sync, Render, Editor) ---
     
     async function checkUser() {
         const { data } = await supabaseClient.auth.getSession();
@@ -616,23 +681,14 @@
         }
     }
 
-    // --- CLOUD SYNC ---
     async function cloudSync() {
         if (!supabaseClient) return alert("Supabase not initialized.");
-        
         if (!currentUser) {
-            const { data, error } = await supabaseClient.auth.signInWithOAuth({
-                provider: 'google',
-                options: { redirectTo: window.location.href }
-            });
-            if (error) alert("Login Error: " + error.message);
+            const { error } = await supabaseClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
+            if (error) alert(error.message);
         } else {
-            if(confirm("Do you want to LOGOUT? (Click Cancel to just Sync)")) {
-                await supabaseClient.auth.signOut();
-                window.location.reload();
-            } else {
-                await saveToCloud();
-            }
+            if(confirm("Log out?")) { await supabaseClient.auth.signOut(); window.location.reload(); }
+            else saveToCloud();
         }
     }
 
@@ -641,22 +697,16 @@
         const history = {};
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
-            if (key.startsWith('komorebi_')) {
-                history[key] = JSON.parse(localStorage.getItem(key));
-            }
+            if (key.startsWith('komorebi_')) history[key] = JSON.parse(localStorage.getItem(key));
         }
-        const payload = {
+        const { error } = await supabaseClient.from('user_data').upsert({
             user_id: currentUser.id,
             config: APP_CONFIG,
             history: history,
             updated_at: new Date()
-        };
-        const { error } = await supabaseClient.from('user_data').upsert(payload, { onConflict: 'user_id' });
+        }, { onConflict: 'user_id' });
         if (error) alert("Sync Failed: " + error.message);
-        else {
-            document.getElementById('cloud-btn').innerText = "☁️✔";
-            alert("Synced to Cloud ✅");
-        }
+        else { document.getElementById('cloud-btn').innerText = "☁️✔"; alert("Synced!"); }
     }
 
     async function loadCloudData() {
